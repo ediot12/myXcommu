@@ -13,5 +13,9 @@ public class PictureBoardDTO {
 	private String content;
 	private String writer;
 	private Date regdate;
+	private int	recommand_cnt;
+	private int reply_cnt;
+	private String base64_code;
+	
 
 }

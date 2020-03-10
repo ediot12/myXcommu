@@ -3,7 +3,114 @@
 <mapper namespace="org.zerock.mapper.PictureBoardMapper">
 
 	<select id="getPictureBoardList" resultType="org.zerock.domain.PictureBoardDTO">
-		select * from tbl_picture_board
+		<!-- select * from tbl_picture_board order by picture_seq desc -->
+		select
+		    b.*,
+		    nvl(a.cnt,0) as reply_cnt
+		from
+		(
+		select
+		    board_seq,
+		    count(*) as cnt
+		from    
+		    tbl_board_reply
+        where
+            board_type = 3
+		group by
+		    board_seq
+		    ) a
+		right outer join
+		(
+		    select
+		        a.*,
+		        nvl(b.cnt, 0) as recommand_cnt
+		    from    
+		        tbl_picture_board a
+		    left outer join
+		        (
+		            select
+		                board_seq,
+		                count(*) as cnt
+		            from
+		                tbl_board_recommand
+		            where
+		                board_type = 3
+		            group by
+		                board_seq
+		        ) b
+		    on 
+		        a.picture_seq = b.board_seq    
+		) b
+		on
+		    a.board_seq = b.picture_seq
 	</select>
+	
+	<select id="getPictureBoard" resultType="org.zerock.domain.PictureBoardDTO" parameterType="Integer">
+		select
+		    *
+		from
+		    (select 
+		        * 
+		    from 
+		        tbl_picture_board
+		    where
+		        picture_seq = #{seq}
+		    ),
+		    (
+		    select
+		        count(*) as recommand_cnt
+		    from
+		        tbl_board_recommand
+		    where
+		        board_type = '3'
+		        and board_seq = #{seq}
+		    )
+	
+		<!-- select * from tbl_picture_board
+			where
+				picture_seq = #{seq} -->
+	</select>
+	
+	<select id="getPictureBoardBySeq" resultType="org.zerock.domain.PictureBoardDTO" parameterType="Integer">
+		select
+		    a.*,
+		    nvl(b.cnt, 0) as recommand_cnt
+		from
+		    tbl_picture_board a
+		left outer join
+		(        
+		    select
+		        board_seq,
+		        count(*) as cnt
+		    from    
+		        tbl_board_recommand
+            where
+                board_type = '3'
+		    group by
+		        board_seq  
+		) b
+		on 
+		    a.picture_seq = b.board_seq
+		where
+			picture_seq = #{seq}
+	</select>
+	
+	<insert id="registerPictureBoard" parameterType="org.zerock.domain.PictureBoardDTO">
+		insert into tbl_picture_board 
+			( picture_seq, division, subject, content, writer, base64_code )
+			values
+			( picture_seq.nextval, #{division}, #{subject}, #{content}, #{writer}, #{base64_code} )
+	</insert>
+	
+	
+	<update id="updatePictureBoard" parameterType="java.util.HashMap">
+		update tbl_picture_board
+			set
+				division = #{division},
+				subject = #{subject},
+				content = #{content}
+		where
+			picture_seq = #{seq}
+	</update>
 
 </mapper>

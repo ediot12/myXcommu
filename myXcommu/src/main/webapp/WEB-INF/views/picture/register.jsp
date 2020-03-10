@@ -3,6 +3,8 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" language="java"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec"%>
 <head>
 
 <link rel="stylesheet" type="text/css" href="/resources/assets/js/dataTables/jquery.dataTables.css">
@@ -29,7 +31,7 @@
 			<div class="col-md-12 grid-margin stretch-card">
 				<div class="card">
 					<div class="card-body">
-						<form class="forms-sample" method="post" action="registerQuestion" enctype="multipart/form-data">
+						<form class="forms-sample" method="post" action="registerPicture" enctype="multipart/form-data">
 							<div class="form-group">
 								<label for="pictureSubject">제목</label> 
 								<input type="text" class="form-control" id="pictureSubject" name="subject" placeholder="제목을 적어주세요.">
@@ -41,20 +43,13 @@
 									<option value="p2">기타</option>
 								</select>
 							</div>
-							<!-- <div class="form-group">
-								<label>첨부파일 </label>
-								<div class="input-group col-xs-12">
-									<input type="text" class="ipt form-control file-upload-info" readonly="readonly" style="width: 200px; height: 20px;" />
-									<input type="file" name="uploadFile" id="upload" />
-								</div>
-							</div> -->
 							<div class="form-group">
 								<label for="questionArea">내용</label>
 								<textarea class="form-control" name="content" id="pictureArea" rows="2"></textarea>
 							</div>
 							<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }" />
 							<button type="submit" class="btn btn-success mr-2">등록</button>
-							<button type="button" class="btn btn-md btn-secondary" onclick="location.href='/qna/main'">목록</button>
+							<button type="button" class="btn btn-md btn-secondary" onclick="location.href='/picture/main'">목록</button>
 							
 						</form>
 					</div>
@@ -95,6 +90,8 @@
 		height : 300
 	});
 	
+	/* CKEDITOR.config.fullPage = true; */
+	
 	$("input[type='file']").change( function( e ) {
 		
 		var formData = new FormData();
@@ -113,6 +110,9 @@
 		console.log( formData );
 	
 	});
+	
+	
+	
 </script>
 </body>
 </html>

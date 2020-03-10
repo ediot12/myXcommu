@@ -33,6 +33,7 @@
 					<div class="card-body">
 						<form class="forms-sample" method="post" action="registerQuestion">
 							<div class="form-group">
+								<input type="hidden" value="${board.qna_board_seq }" id="boardSeq">
 								<h1 style="font-family: 'NanumGothic'; font-weight: bold;">
 								${board.subject }
 								</h1>
@@ -94,7 +95,7 @@
 							<div style="float : right;">
 								
 									<input type="hidden" id="writer" value="${board.writer }">
-									<button type="button" class="btn" style="color: white; font-weight : bold; background-color: green;" onclick="recommandQuestion()">
+									<button type="button" class="btn" style="color: white; font-weight : bold; background-color: green;" onclick="recommandBoard()">
 										<i class="fa fa-thumbs-up"></i>
 										추천
 										<div style="display : inline-block;">
@@ -242,7 +243,7 @@
 		$.ajax({
 			
 			method : 'POST',
-			url : 'registerReply',
+			url : '/common/view/registerReply',
 			data : {
 				'reply' : reply,
 				'boardType' : boardType,
@@ -287,10 +288,12 @@
 	function deleteQuestion(){
 		$.ajax({
 			
-			url : 'deleteQuestion',
+			url : '/common/view/deleteBoard',
 			method : 'GET',
 			data : {
-				'writer': document.getElementById("writer").value
+				'writer': document.getElementById("writer").value,
+				'boardSeq' : document.getElementById("boardSeq").value,
+				'boardType' : '2'
 			},
 			success : function ( result ){
 				alert("delete complete");
@@ -305,13 +308,15 @@
 	}
 	
 	
-	function recommandQuestion(){
+	function recommandBoard(){
 		$.ajax({
 			
-			url : 'recommandQuestion',
+			url : 'recommandBoard',
 			method : 'POST',
 			data : {
-				'writer': document.getElementById("writer").value
+				'writer': document.getElementById("writer").value,
+				'boardSeq' : document.getElementById("boardSeq").value,
+				'boardType' : '2'
 			},
 			success : function ( result ){
 				alert("recommand complete");
@@ -325,15 +330,12 @@
 		
 	}
 	
-	function empathyReply( val ){
-		
-		
-		console.log( val );
-		console.log( val.value );
+function empathyReply( val ){
 		
 		var empathy = val.value;		
 		var replySeq = $(val.closest("td")).attr("replyseq");
 		var replyer = $(val.closest("td")).attr("replyer");
+		var boardSeq = document.getElementById("boardSeq").value;
 		
 		if( empathy != 1 && empathy != 2 ){
 			alert("error occured!");
@@ -342,12 +344,14 @@
 		
 		$.ajax({
 			
-			url : 'empathyReply',
+			url : '/common/view/empathyReply',
 			method : 'POST',
 			data : {
 				'replyer' : replyer,
 				'replySeq' : replySeq,
-				'empathy' : empathy
+				'empathy' : empathy,
+				'boardSeq' : boardSeq,
+				'boardType' : '2'
 			},
 			success : function ( result ){
 				alert("empathy complete");

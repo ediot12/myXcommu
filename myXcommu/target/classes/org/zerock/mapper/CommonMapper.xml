@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.zerock.mapper.CommonMapper">
+
+
+	<select id="getRegiUserInfor" resultType="org.zerock.domain.MemberVO" parameterType="String">
+		select * from tbl_member where userid = #{userId}
+	</select>
+	
+	
+	
+	<select id="selectRecommandQuestionUserRecord" resultType="Integer" parameterType="java.util.HashMap">
+		select 
+			count(*)
+		from
+			tbl_board_recommand
+		where
+			board_type = #{type}
+			and board_seq = #{seq}
+			and recommand_user = #{user}
+	</select>
+	
+	<select id="getBoardReplyList" resultType="org.zerock.domain.BoardReplyDTO" parameterType="java.util.HashMap">
+		<!-- select 
+			*
+		from
+			tbl_board_reply
+		where
+			board_type = #{type}
+			and board_seq = #{seq}
+		order by
+    		regdate ASC -->
+    		
+    		select
+			    a.*,
+			    nvl(b.empathy_yes ,0) as empathy_yes,
+			    nvl(b.empathy_no, 0) as empathy_no
+			from
+			    tbl_board_reply a
+			left outer join
+			(
+			    select
+			            a.reply_seq,
+			            a.cnt as empathy_yes,
+			            b.cnt as empathy_no
+			        from        
+			        (
+			        select
+			            a.reply_seq,
+			            nvl(b.cnt,0) as cnt
+			        from
+			            tbl_reply_empathy a
+			        left outer join
+			        (
+			        select
+			            reply_seq,
+			            count(*) as cnt
+			        from
+			            tbl_reply_empathy
+			        where  
+			            empathy_xy = 1
+			        group by
+			            reply_seq
+			        ) b
+			        on
+			            a.reply_seq = b.reply_seq
+			        group by
+			            a.reply_seq, cnt
+			        ) a
+			        left outer join
+			        (
+			        select
+			            a.reply_seq,
+			            nvl(b.cnt,0) as cnt
+			        from
+			            tbl_reply_empathy a
+			        left outer join
+			        (
+			        select
+			            reply_seq,
+			            count(*) as cnt
+			        from
+			            tbl_reply_empathy
+			        where  
+			            empathy_xy = 2
+			        group by
+			            reply_seq
+			        ) b
+			        on
+			            a.reply_seq = b.reply_seq
+			        group by
+			            a.reply_seq, cnt
+			        ) b
+			        on
+			            a.reply_seq = b.reply_seq
+			) b
+			on
+			    a.reply_seq = b.reply_seq
+			where
+						board_type = #{type}
+						and board_seq = #{seq}
+			    
+			order by
+			    		regdate ASC
+	</select>
+	
+	
+	
+	
+	<select id="countEmpathyRecordToUser" resultType="Integer" parameterType="java.util.HashMap">
+		select 
+			count(*)
+		from
+			tbl_reply_empathy
+		where
+			reply_seq = #{reply_seq}
+			and recommand_user = #{recommand_user}
+			and board_type = #{board_type}
+	</select>
+	
+	<!-- 차후에 recommandBoard로 바꿀수도 있을꺼임 -->
+	<insert id="recommandBoard" parameterType="java.util.HashMap">
+		insert into tbl_board_recommand values
+			( #{type} , #{seq} , #{user} )
+	</insert>
+	
+	
+	
+	<insert id="registerReply" parameterType="java.util.HashMap">
+		insert into tbl_board_reply
+			( board_type, board_seq, replyer, reply, reply_seq )
+		values ( #{board_type}, #{board_seq}, #{replyer}, #{reply}, reply_seq.nextval )
+	</insert>
+	
+	
+	
+	<insert id="empathyReply" parameterType="java.util.HashMap">
+		insert into tbl_reply_empathy values
+			( #{board_type}, #{board_seq}, #{reply_seq}, #{recommand_user}, #{empathy_type} )
+	</insert>
+	 
+		
+	<delete id="deleteBoard" parameterType="java.util.HashMap">
+	
+		<if test="type eq '2'.toString()">
+			delete tbl_question_board
+				where
+					qna_board_seq = #{seq}
+		</if>
+		
+		<if test="type eq '3'.toString()">
+			delete tbl_picture_board
+				where
+					picture_seq = #{seq}
+		</if>
+		
+	</delete>
+	
+	
+	
+	<delete id="deleteBoardAllReply" parameterType="java.util.HashMap">
+			delete tbl_board_reply
+				where
+					board_type = #{type}
+					and board_seq = #{seq}
+				
+	</delete>
+	
+	<delete id="deleteBoardReplyRecord" parameterType="java.util.HashMap">
+			delete tbl_board_recommand
+				where
+					board_type = #{type}
+					and board_seq = #{seq}
+		
+	</delete>
+	
+</mapper>

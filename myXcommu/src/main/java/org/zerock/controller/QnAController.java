@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -39,6 +38,7 @@ import org.zerock.domain.CustomUser;
 import org.zerock.domain.FileInfoDTO;
 import org.zerock.domain.MemberVO;
 import org.zerock.domain.QuestionBoardDTO;
+import org.zerock.mapper.CommonMapper;
 import org.zerock.mapper.QnABoardMapper;
 import org.zerock.mapper.UploadFileMapper;
 import org.zerock.util.myXcommuUtil;
@@ -52,6 +52,9 @@ public class QnAController {
 
 	@Autowired
 	private QnABoardMapper mapper;
+	
+	@Autowired
+	private CommonMapper commonMapper;
 	
 	@Autowired
 	private UploadFileMapper fileMapper;
@@ -251,14 +254,14 @@ public class QnAController {
 		
 		QuestionBoardDTO 	dto 		= mapper.getQuestionBySeq( board_seq );
 		String 				userId 		= dto.getWriter();
-		MemberVO 			regiUser 	= mapper.getRegiUserInfor( userId );
+		MemberVO 			regiUser 	= commonMapper.getRegiUserInfor( userId );
 		Map<String,Object>	findMap		= new HashMap<String,Object>();
 		current_view_seq 				= board_seq; // 서버에서 값 저장하는거
 
 		findMap.put("type"	, "2");
 		findMap.put("seq"	, board_seq);
 		
-		ArrayList<BoardReplyDTO>	replyList = mapper.getQuestionReplyList(findMap);
+		ArrayList<BoardReplyDTO>	replyList = commonMapper.getBoardReplyList(findMap);
 		FileInfoDTO 				fileInfo  = fileMapper.findFileInformation(findMap);
 		
 		//division type check  && return kor
@@ -358,26 +361,6 @@ public class QnAController {
 	}
 	
 	
-	@Transactional
-	@RequestMapping( value="/view/registerReply", method=RequestMethod.POST )
-	public ResponseEntity<String> registerReply( HttpServletRequest request, HttpServletResponse response ) throws IOException {
-		
-		Map<String,Object>	insertMap		= new HashMap<String,Object>();
-		Authentication 		authentication 	= SecurityContextHolder.getContext().getAuthentication();
-		CustomUser 			user 			= (CustomUser) authentication.getPrincipal();
-		
-		insertMap.put( "replyer"			, user.getUsername() 	);
-		insertMap.put( "reply" 				, request.getParameter("reply") );
-		insertMap.put( "board_type"			, "2");
-		insertMap.put( "board_seq"			, Integer.parseInt( request.getParameter("boardSeq") ));
-		
-		
-		mapper.registerReply( insertMap );
-		
-		
-		return new ResponseEntity<>("success", HttpStatus.OK);
-	}
-	
 	
 	@Transactional
 	@PreAuthorize("isAuthenticated()")
@@ -405,101 +388,7 @@ public class QnAController {
 	}
 	
 	
-	@Transactional
-	@PreAuthorize("isAuthenticated()")
-	@RequestMapping( value="/view/deleteQuestion", method=RequestMethod.GET )
-	public ResponseEntity<String> deleteQuestion( HttpServletRequest request ){
-		
-		Authentication 		authentication 	= SecurityContextHolder.getContext().getAuthentication();
-		CustomUser 			currentUser		= (CustomUser) authentication.getPrincipal();
-		String				registerUser	= request.getParameter("writer");
-		int					boardSeq		= current_view_seq;
-		Map<String,Object>	insertMap		= new HashMap<String,Object>();
-		
-		if( !registerUser.equals( currentUser.getUsername() ) ) {
-			log.warn(" authorize failed!!!! ");
-			return new ResponseEntity<>("fail", HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-		
-		insertMap.put("type"	, "2");
-		insertMap.put("seq"	, boardSeq);
-		
-		mapper.deleteQuestion( boardSeq ); // 질문게시글 자체 삭제 
-		mapper.deleteQuestionAllReply( insertMap ); //  질문게시글의 댓글 삭제
-		mapper.deleteQuestionReplyRecord( insertMap ); // 질문게시글의 추천 삭제
-		
-		
-		current_view_seq 	= -1;
-		
-		log.info( "delete Question && reply complete!! ");
-		
-		return new ResponseEntity<>("success", HttpStatus.OK);
-	}
 	
-	
-	@Transactional
-	@PreAuthorize("isAuthenticated()")
-	@RequestMapping( value="/view/recommandQuestion", method=RequestMethod.POST )
-	public ResponseEntity<String> recommandQuestion( HttpServletRequest request ){
-		
-		Authentication 		authentication 	= SecurityContextHolder.getContext().getAuthentication();
-		CustomUser 			currentUser		= (CustomUser) authentication.getPrincipal();
-		String				registerUser	= request.getParameter("writer");
-		int					boardSeq		= current_view_seq;
-		Map<String,Object>	insertMap		= new HashMap<String,Object>();
-		
-
-		
-		insertMap.put("user", currentUser.getUsername() );
-		insertMap.put("seq"	, boardSeq);
-		
-		int	recommandCount = mapper.selectRecommandQuestionUserRecord( insertMap );
-		
-		if( registerUser.equals( currentUser.getUsername() ) || recommandCount != 0 ) {
-			log.warn("register user == recommand user or already recommand user");
-			log.warn("recommand count :: " + recommandCount );
-			return new ResponseEntity<>("fail", HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-		
-		
-		mapper.recommandQuestion( insertMap );
-		
-		
-		return new ResponseEntity<>("success", HttpStatus.OK );
-	}
-	
-	@Transactional
-	@PreAuthorize("isAuthenticated()")
-	@RequestMapping( value="/view/empathyReply", method=RequestMethod.POST )
-	public ResponseEntity<String> empathyReplyAction( HttpServletRequest request ){
-		Authentication 		authentication 	= SecurityContextHolder.getContext().getAuthentication();
-		CustomUser 			currentUser		= (CustomUser) authentication.getPrincipal();
-		String				replyerUser		= request.getParameter("replyer");
-		int					boardSeq		= current_view_seq;
-		int					replySeq		= Integer.parseInt( request.getParameter("replySeq") );
-		String				empathyType		= request.getParameter("empathy");
-		Map<String,Object>	insertMap		= new HashMap<String,Object>();
-		
-		insertMap.put("board_type"		, "2");
-		insertMap.put("board_seq"		, boardSeq);
-		insertMap.put("reply_seq"		, replySeq);
-		insertMap.put("recommand_user"	, currentUser.getUsername() );
-		insertMap.put("empathy_type"	, empathyType);
-		
-		int empathyRecord = mapper.countEmpathyRecordToUser( insertMap );
-		
-		if( empathyRecord != 0 || replyerUser.equals( currentUser.getUsername() ) ) {
-			log.info("count :: " + empathyRecord);
-			log.info("id equal :: " + replyerUser.equals( currentUser.getUsername() ));
-			log.info("already empathy reply recorded or empathy user is same writer" );
-			return new ResponseEntity<>("fail", HttpStatus.INTERNAL_SERVER_ERROR );
-		}
-		
-		mapper.empathyReply( insertMap );
-		log.info("empathy success!");
-		
-		return new ResponseEntity<>("success", HttpStatus.OK );
-	}
 	
 	
 	@RequestMapping(method=RequestMethod.GET, value="/view/downloadFile", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE )

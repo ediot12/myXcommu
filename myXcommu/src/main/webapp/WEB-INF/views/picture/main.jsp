@@ -22,6 +22,19 @@ body {
 table.dataTable tbody td{
 	padding-left : 20px!important;
 }
+
+table#pictureBoardTable tbody tr td{
+	cursor : pointer;
+}
+
+table#pictureBoardTable tbody tr td:hover{
+	background-color : lightgray;
+}
+
+
+	
+
+
 </style>
 
 <link rel="stylesheet" type="text/css" href="/resources/assets/js/dataTables/jquery.dataTables.css">
@@ -53,30 +66,50 @@ table.dataTable tbody td{
 					<div class="card-body">
 						<!-- <h4 class="card-title">Basic Table</h4> -->
 						<table class="table" id="pictureBoardTable">
-							<tr style="height : 150px;">
-								<td style="border : 1px solid black; width : 150px;">
-									<div style="vertical-align : top; background-color : pink; height : 75px;">썸네일 영역</div>
-									<div style="vertical-align : bottom; background-color : skyblue; height : 75px;">텍스트 영역</div>
-								</td>
-								<td style="border : 1px solid black; width : 150px;"></td>
-								<td style="border : 1px solid black; width : 150px;"></td>
-								<td style="border : 1px solid black; width : 150px;"></td>
-								<td style="border : 1px solid black; width : 150px;"></td>
-							</tr>
-							<tr style="height : 150px;">
-								<td style="border : 1px solid black; width : 150px;"></td>
-								<td style="border : 1px solid black; width : 150px;"></td>
-								<td style="border : 1px solid black; width : 150px;"></td>
-								<td style="border : 1px solid black; width : 150px;"></td>
-								<td style="border : 1px solid black; width : 150px;"></td>
-							</tr>
-							<tr style="height : 150px;">
-								<td style="border : 1px solid black; width : 150px;"></td>
-								<td style="border : 1px solid black; width : 150px;"></td>
-								<td style="border : 1px solid black; width : 150px;"></td>
-								<td style="border : 1px solid black; width : 150px;"></td>
-								<td style="border : 1px solid black; width : 150px;"></td>
-							</tr>
+							<thead>
+								<th></th>
+								<th></th>
+								<th></th>
+								<th></th>
+								<th></th>
+							</thead>
+							<tbody>
+								<c:forEach items="${pictureList}" var="pictureList" varStatus="status">
+									<fmt:formatDate value="${pictureList.regdate}" pattern="yy-MM-dd" var="regDate" />
+<%-- 									<c:if test=${status.count }>
+									
+									</c:if> --%>
+									<%-- <tr>
+										${status.count }
+										<td><img src="${pictureList.base64_code }"></td>
+									</tr> --%>
+									<c:if test="${status.count % 5 == 1 }">
+										<tr>
+										
+										
+									</c:if>
+									
+										<td style="border : 1px solid #A9D0F5; width : 175px;" onclick="location.href='view/${pictureList.picture_seq}';">
+											<div style="vertical-align : top; height : 130px; text-align: center;"><img src="${pictureList.base64_code }" style="width : 120px; height: 130px;"></div>
+											<div style="vertical-align : bottom; height : 15px; font-weight : bold;">${pictureList.subject }
+												<c:if test="${pictureList.reply_cnt != 0 }"> 
+													<div style="color : green; font-weight : bold; display : inline-block;">
+													[ ${pictureList.reply_cnt } ]
+													</div>
+												</c:if>
+											</div>
+											<div style="vertical-align : bottom; height : 15px; color : #A4A4A4;"><div style="display : inline-block;">조회 수 0</div><div style="display : inline-block; margin-left : 5px;"> || ${regDate}</div></div>
+											<div style="vertical-align : bottom; height : 15px;">${pictureList.writer }</div>
+										</td>
+									
+									<c:if test="${status.count % 5 == 0 }">
+									
+										</tr>
+									</c:if>
+									
+															
+								</c:forEach>
+							</tbody>
 						</table>
 
 						<button type="button" onclick="location.href='/picture/register'"  class="btn btn-outline-primary btn-fw" style="float: right; margin-top : 10px;">
