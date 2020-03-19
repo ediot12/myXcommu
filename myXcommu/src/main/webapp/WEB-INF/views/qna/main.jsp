@@ -24,7 +24,8 @@ table.dataTable tbody td{
 }
 </style>
 
-<link rel="stylesheet" type="text/css" href="/resources/assets/js/dataTables/jquery.dataTables.css">
+<link rel="stylesheet" type="text/css" href="/resources/assets/vendors/datatables.net-bs4/dataTables.bootstrap4.css">
+<link rel="stylesheet" href="/resources/assets/vendors/datatables.net-fixedcolumns-bs4/fixedColumns.bootstrap4.min.css">
 <title>myXcommu</title>
 <!-- plugins:css -->
 
@@ -36,22 +37,29 @@ table.dataTable tbody td{
 <!-- partial -->
 <div class="main-panel">
 	<div class="content-wrapper">
-		<!-- Page Title Header Starts-->
-		<div class="row page-title-header">
-			<div class="col-12">
-				<div class="page-header">
-					<h4 class="page-title" style="font-weight: 1000;">질문게시판</h4>
-					<div class="quick-link-wrapper w-8 d-md-flex flex-md-wrap" style="margin-left: 10px; margin-top: 5px;">궁금한것을 자유롭게 올려주세요.</div>
-				</div>
-			</div>
-
-		</div>
 		<!-- Page Title Header Ends-->
 		<div class="row">
+		
 			<div class="col-lg-12 grid-margin stretch-card">
+				
 				<div class="card">
 					<div class="card-body">
-						<h4 class="card-title">Basic Table</h4>
+					
+						
+			
+						<div class="col-12">
+							<div class="page-header">
+								<h4 class="page-title" style="font-weight: 1000;">질문게시판</h4>
+								<div class="quick-link-wrapper w-8 d-md-flex flex-md-wrap" style="margin-left: 10px; margin-top: 5px;">궁금한것을 자유롭게 올려주세요.</div>
+							</div>
+						</div>
+						
+						<div class="col-12">
+							<div class="alert alert-success" role="alert">
+								<strong>알림!</strong> 질문과 답변을 위한 게시판입니다.
+							</div>
+						</div>
+						
 						<table class="table table-hover" id="questionBoardTable">
 							<thead>
 								<tr>
@@ -61,6 +69,7 @@ table.dataTable tbody td{
 									<th>제목</th>
 									<th>글쓴이</th>
 									<th>등록일</th>
+									<th>조회</th>
 									<th>추천</th>
 								</tr>
 							</thead>
@@ -116,6 +125,7 @@ table.dataTable tbody td{
 												</c:otherwise>
 											</c:choose>
 										</td>
+										<td>${list.view_cnt }</td>
 										<td>${list.recommand_cnt }</td>
 									</tr>
 								</c:forEach>
@@ -155,8 +165,11 @@ table.dataTable tbody td{
 
 
 
-<script type="text/javascript" charset="utf8" src="/resources/assets/js/jquery-1.12.4.min.js"></script>
-<script type="text/javascript" charset="utf8" src="/resources/assets/js/dataTables/jquery.dataTables.js"></script>
+<script type="text/javascript" charset="utf8" src="/resources/assets/js/shared/jquery-1.12.4.min.js"></script>
+<script type="text/javascript" charset="utf8" src="/resources/assets/vendors/datatables.net/jquery.dataTables.js"></script>
+
+<script src="/resources/assets/vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
+<script src="/resources/assets/vendors/datatables.net-fixedcolumns/dataTables.fixedColumns.min.js"></script>
 <script>
 $(document).ready(function() {
 	$('#questionBoardTable').DataTable({

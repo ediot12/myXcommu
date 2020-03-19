@@ -1,8 +1,8 @@
 package org.zerock.controller;
 
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +25,9 @@ import org.zerock.domain.BoardAttachVO;
 import org.zerock.domain.BoardVO;
 import org.zerock.domain.Criteria;
 import org.zerock.domain.PageDTO;
+import org.zerock.domain.PictureBoardDTO;
 import org.zerock.domain.QuestionBoardDTO;
+import org.zerock.mapper.PictureBoardMapper;
 import org.zerock.mapper.QnABoardMapper;
 import org.zerock.service.BoardService;
 import org.zerock.util.myXcommuUtil;
@@ -41,6 +43,8 @@ public class BoardController {
 	
 	private BoardService service;
 	
+	@Autowired
+	private PictureBoardMapper pictureMapper;
 
 	@Autowired
 	private QnABoardMapper qnaMapper;
@@ -62,6 +66,7 @@ public class BoardController {
 	public void listTest( Criteria cri, Model model ) {
 		
 		ArrayList<QuestionBoardDTO> questionList = qnaMapper.getQuestionBoardList();
+		ArrayList<PictureBoardDTO> pictureList = pictureMapper.getPictureBoardList();
 		
 		//사실 이 부분은 애초에 db에서 제대로하던지 뭔가 다른방법을 찾던지 해야할듯 하다.
 		
@@ -72,7 +77,8 @@ public class BoardController {
 		}
 		 
 		
-		model.addAttribute( "questionList", questionList );
+		model.addAttribute( "questionList"	, questionList );
+		model.addAttribute( "pictureList"	, pictureList );
 		
 		model.addAttribute("list", service.getList( cri ) );		
 	}

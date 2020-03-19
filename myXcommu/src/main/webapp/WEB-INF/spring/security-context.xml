@@ -20,10 +20,16 @@
 	
 		<security:form-login login-page="/customLogin" authentication-success-handler-ref="customLoginSuccess" />
 		<!-- <security:form-login login-page="/customLogin"/> -->
-		<security:logout logout-url="/customLogout" logout-success-url="/customLogin" invalidate-session="true" delete-cookies="remember-me,JSESSION_ID" />
+		<security:logout logout-url="/customLogout" logout-success-url="/customLogin" invalidate-session="true" delete-cookies="remember-me,JSESSION_ID,proposal-*" />
 		
 		<security:access-denied-handler />
 		<security:remember-me data-source-ref="dataSource" token-validity-seconds="604800"/>
+		
+		<security:session-management invalid-session-url="/">
+
+       	 <security:concurrency-control max-sessions="1" expired-url="/"/>
+
+    	</security:session-management>
 	
 	</security:http>
 	

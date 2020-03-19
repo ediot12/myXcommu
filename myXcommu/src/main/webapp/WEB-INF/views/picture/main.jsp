@@ -50,20 +50,25 @@ table#pictureBoardTable tbody tr td:hover{
 <div class="main-panel">
 	<div class="content-wrapper">
 		<!-- Page Title Header Starts-->
-		<div class="row page-title-header">
-			<div class="col-12">
-				<div class="page-header">
-					<h4 class="page-title" style="font-weight: 1000;">사진게시판</h4>
-					<div class="quick-link-wrapper w-8 d-md-flex flex-md-wrap" style="margin-left: 10px; margin-top: 5px;">올리고 싶은 사진을 올려주세요.</div>
-				</div>
-			</div>
-
-		</div>
 		<!-- Page Title Header Ends-->
-		<div class="row">
+			<div class="row">
 			<div class="col-lg-12 grid-margin stretch-card">
 				<div class="card">
 					<div class="card-body">
+						
+						<div class="row">
+							<div class="col-12">
+								<div class="page-header">
+									<h4 class="page-title" style="font-weight: 1000;">사진게시판</h4>
+									<div class="quick-link-wrapper w-8 d-md-flex flex-md-wrap" style="margin-left: 10px; margin-top: 5px;">올리고 싶은 사진을 올려주세요.</div>
+								</div>
+							</div>
+						
+							<div class="col-12">
+									<div class="alert alert-success" role="alert">
+										<strong>알림!</strong> 의도와 맞지 않은 이미지는 올리지 마세요.
+									</div>
+								</div>
 						<!-- <h4 class="card-title">Basic Table</h4> -->
 						<table class="table" id="pictureBoardTable">
 							<thead>
@@ -98,7 +103,7 @@ table#pictureBoardTable tbody tr td:hover{
 													</div>
 												</c:if>
 											</div>
-											<div style="vertical-align : bottom; height : 15px; color : #A4A4A4;"><div style="display : inline-block;">조회 수 0</div><div style="display : inline-block; margin-left : 5px;"> || ${regDate}</div></div>
+											<div style="vertical-align : bottom; height : 15px; color : #A4A4A4;"><div style="display : inline-block;">조회 수  ${pictureList.view_cnt }</div><div style="display : inline-block; margin-left : 5px;"> || ${regDate}</div></div>
 											<div style="vertical-align : bottom; height : 15px;">${pictureList.writer }</div>
 										</td>
 									
@@ -123,6 +128,7 @@ table#pictureBoardTable tbody tr td:hover{
 
 
 
+		</div>
 		</div>
 	</div>
 

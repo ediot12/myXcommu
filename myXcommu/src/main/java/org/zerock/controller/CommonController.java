@@ -226,6 +226,28 @@ public class CommonController {
 		return new ResponseEntity<>("success", HttpStatus.OK );
 	}
 	
+	@Transactional
+	@PreAuthorize("isAuthenticated()")
+	@RequestMapping( value="/common/view/deleteReply", method=RequestMethod.GET )
+	public ResponseEntity<String> deleteReply( HttpServletRequest request ){
+		
+		Authentication 		authentication 	= SecurityContextHolder.getContext().getAuthentication();
+		CustomUser 			currentUser		= (CustomUser) authentication.getPrincipal();
+		String				replyerUser		= request.getParameter("replyer");
+		int					replySeq		= Integer.parseInt( request.getParameter("replySeq") );
+		
+		if( !replyerUser.equals( currentUser.getUsername() ) ) {			
+			return new ResponseEntity<>("error", HttpStatus.INTERNAL_SERVER_ERROR );
+		}
+		
+		mapper.deleteReply( replySeq );
+		mapper.deleteReplyEmpthy( replySeq );
+		
+		
+		return new ResponseEntity<>("success", HttpStatus.OK);
+				
+	}
+	
 	
 	
 	private String currentBoardType( String boardType ) {

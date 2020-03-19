@@ -16,6 +16,7 @@ public class PictureBoardDTO {
 	private int	recommand_cnt;
 	private int reply_cnt;
 	private String base64_code;
+	private int view_cnt;
 	
 
 }

@@ -139,6 +139,41 @@
 			( #{board_type}, #{board_seq}, #{reply_seq}, #{recommand_user}, #{empathy_type} )
 	</insert>
 	 
+	 <update id="updateViewCnt" parameterType="java.util.HashMap">
+	 
+		 <if test="boardType eq '2'.toString()">
+			update tbl_question_board
+				set
+					view_cnt = view_cnt + 1
+				where
+					qna_board_seq = #{boardSeq}
+		</if>
+		
+		<if test="boardType eq '3'.toString()">
+			update tbl_picture_board
+				set
+					view_cnt = view_cnt + 1
+				where
+					picture_seq = #{boardSeq}
+		</if>
+		
+		<if test="boardType eq '4'.toString()">
+			update tbl_proposal_board
+				set
+					view_cnt = view_cnt + 1
+				where
+					proposal_seq = #{boardSeq}
+		</if>
+		
+		<if test="boardType eq '5'.toString()">
+			update tbl_notice_board
+				set
+					view_cnt = view_cnt + 1
+				where
+					notice_seq = #{boardSeq}
+		</if>
+		
+	 </update>
 		
 	<delete id="deleteBoard" parameterType="java.util.HashMap">
 	
@@ -152,6 +187,18 @@
 			delete tbl_picture_board
 				where
 					picture_seq = #{seq}
+		</if>
+		
+		<if test="type eq '4'.toString()">
+			delete tbl_proposal_board
+				where
+					proposal_seq = #{seq}
+		</if>
+		
+		<if test="type eq '5'.toString()">
+			delete tbl_notice_board
+				where
+					notice_seq = #{seq}
 		</if>
 		
 	</delete>
@@ -172,6 +219,19 @@
 					board_type = #{type}
 					and board_seq = #{seq}
 		
+	</delete>
+	
+	<!-- 차후에 여기에 board_Type 명시해야할지 생각좀.. deleteReplyEmpathy도 마찬가지 -->
+	<delete id="deleteReply" parameterType="Integer">
+		delete tbl_board_reply
+			where
+				reply_seq = #{seq}
+	</delete>
+	
+	<delete id="deleteReplyEmpthy" parameterType="Integer">
+		delete tbl_reply_empathy
+			where
+				reply_seq = #{seq}
 	</delete>
 	
 </mapper>

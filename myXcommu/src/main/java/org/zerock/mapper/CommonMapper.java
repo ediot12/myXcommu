@@ -18,4 +18,7 @@ public interface CommonMapper {
 	public ArrayList<BoardReplyDTO> 	getBoardReplyList( Map<String,Object> map );
 	public int								countEmpathyRecordToUser( Map<String,Object> map );
 	public void empathyReply ( Map<String,Object> map ); 
+	public void deleteReply( int seq );
+	public void deleteReplyEmpthy( int seq );
+	public void updateViewCnt( Map<String,Object> map );
 }

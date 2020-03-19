@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -34,6 +35,7 @@ import org.zerock.domain.PictureBoardDTO;
 import org.zerock.domain.QuestionBoardDTO;
 import org.zerock.mapper.CommonMapper;
 import org.zerock.mapper.PictureBoardMapper;
+import org.zerock.util.myXcommuUtil;
 
 import lombok.extern.log4j.Log4j;
 
@@ -68,8 +70,10 @@ public class PictureBoardController {
 		return "picture/register";
 	}
 	
+	
+	@Transactional
 	@RequestMapping( value="/view/{num}", method=RequestMethod.GET )
-	public String viewPicturePage( @PathVariable("num") int board_seq, Model model ) {
+	public String viewPicturePage( @PathVariable("num") int board_seq, Model model, HttpServletRequest request, HttpServletResponse response ) {
 		
 		PictureBoardDTO 			dto 		= mapper.getPictureBoard( board_seq );
 		String 						userId 		= dto.getWriter();
@@ -80,6 +84,40 @@ public class PictureBoardController {
 
 		findMap.put("type"	, "3");
 		findMap.put("seq"	, board_seq);
+		
+		Cookie[] cookies = request.getCookies();
+		boolean existCookie = false;
+		Map<String,Object> updateMap = new HashMap<String,Object>();
+		
+		 // 쿠키가 있을 경우 >> 이부분만 따로 common할수도있을듯.. 믿에는 좀 그렇슴 
+        if (cookies != null && cookies.length > 0) {
+            for (int i = 0; i < cookies.length; i++) {
+            	
+                if ( cookies[i].getName().equals( "picture" + "-" + board_seq ) ){
+                	existCookie = true;
+                	break;
+                }
+            }
+        }
+        
+      //들어온적이 없다면 update를 시켜줘야함  + 쿠키 생성
+        if( existCookie == false ) {
+        	
+        	log.warn( "cookie create!!!! : " + board_seq );
+        	Cookie addCookie = new Cookie( "picture" + "-" + board_seq  , Integer.toString( board_seq ) );
+        	addCookie.setMaxAge( 60 );
+        	
+        	updateMap.put("boardType"	, myXcommuUtil.returnBoardType( "picture" ) );
+        	updateMap.put("boardSeq"	, board_seq );
+        	
+			commonMapper.updateViewCnt( updateMap );
+			
+			log.warn("come here?");
+        	
+        	response.addCookie( addCookie );
+        	
+        	
+        }
 		
 
 		ArrayList<BoardReplyDTO>	replyList 	= commonMapper.getBoardReplyList(findMap);
@@ -122,10 +160,6 @@ public class PictureBoardController {
 		CustomUser 			user 			= (CustomUser) authentication.getPrincipal();
 		PictureBoardDTO 	dto 			= mapper.getPictureBoardBySeq( board_seq );
 		String 				userId 			= dto.getWriter();
-		Map<String,Object>	findMap			= new HashMap<String,Object>();
-
-		findMap.put("type"	, "3");
-		findMap.put("seq"	, board_seq);
 		
 		
 		//url 조작으로 인해 권한없는 유저가 수정하려는 경우
@@ -162,8 +196,7 @@ public class PictureBoardController {
 		log.info("register user is :: " + dto.getWriter() );
 		log.info("login user == writer ?? :: " + user.getUsername().equals( dto.getWriter() ));
 		
-		
-		
+				
 		int updateCnt = mapper.updatePictureBoard(insertMap);
 
 		if (updateCnt == 0) {

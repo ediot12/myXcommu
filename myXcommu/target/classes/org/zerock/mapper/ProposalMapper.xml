@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.zerock.mapper.ProposalMapper">
+
+	<select id="getAllProposalBoard" resultType="org.zerock.domain.ProposalBoardDTO">
+		select * from tbl_proposal_board order by proposal_seq desc
+	</select>
+	
+	<select id="getProposalBoard" resultType="org.zerock.domain.ProposalBoardDTO" parameterType="Integer">
+		select * from tbl_proposal_board where proposal_seq = #{seq}
+	</select>
+
+	<insert id="registerProposalBoard" parameterType="org.zerock.domain.ProposalBoardDTO">
+		insert into tbl_proposal_board
+			( proposal_seq, division, subject, content, writer, status )
+		values
+			( proposal_seq.nextval, #{division}, #{subject}, #{content}, #{writer}, 'N' ) 
+	</insert>
+	
+	<update id="updateProposalBoard" parameterType="java.util.HashMap">
+		update tbl_proposal_board
+			set
+				subject = #{subject},
+				content = #{content},
+				division = #{division}
+			where
+				proposal_seq = #{seq}
+	</update>
+
+</mapper>

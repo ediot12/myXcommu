@@ -21,105 +21,48 @@ table thead th {
 }
 </style>
 
-<link rel="stylesheet" type="text/css" href="/resources/assets/js/dataTables/jquery.dataTables.css">
+<link rel="stylesheet" type="text/css" href="/resources/assets/vendors/datatables.net-bs4/dataTables.bootstrap4.css">
 <title>myXcommu</title>
 <!-- plugins:css -->
 
 <%@ include file="../include/header.jsp"%>
 <!-- partial -->
-<div class="main-panel">
+<div class="main-panel">	
 	<div class="content-wrapper">
-		<!-- Page Title Header Starts-->
-		<div class="row page-title-header">
-			<div class="col-12">
-				<div class="page-header">
-					<h4 class="page-title">야</h4>
-					<div class="quick-link-wrapper w-100 d-md-flex flex-md-wrap">
-						<ul class="quick-links">
-							<li><a href="#">Link 1</a></li>
-							<li><a href="#">Link 2</a></li>
-							<li><a href="#">Link 3</a></li>
-						</ul>
-						<ul class="quick-links ml-auto">
-							<li><a href="#">Link 4</a></li>
-							<li><a href="#">Link 5</a></li>
-							<li><a href="#">Link 6</a></li>
-						</ul>
-					</div>
-				</div>
-			</div>
-
-		</div>
-		<!-- Page Title Header Ends-->
-		<div class="row">
-			<div class="col-md-12 grid-margin">
-				<div class="card">
+		<div class="row grid-margin">
+			<div class="col-lg-12">
+				<div class="card px-3">
 					<div class="card-body">
-						<div class="row">
-							<div class="col-lg-3 col-md-6">
-								<div class="d-flex">
-									<div class="wrapper">
-										<h3 class="mb-0 font-weight-semibold">32,451</h3>
-										<h5 class="mb-0 font-weight-medium text-primary">방문자수</h5>
-										<p class="mb-0 text-muted">+14.00(+0.50%)</p>
-									</div>
-									<div class="wrapper my-auto ml-auto ml-lg-4">
-										<canvas height="50" width="100" id="stats-line-graph-1"></canvas>
-									</div>
-								</div>
-							</div>
-							<div class="col-lg-3 col-md-6 mt-md-0 mt-4">
-								<div class="d-flex">
-									<div class="wrapper">
-										<h3 class="mb-0 font-weight-semibold">15,236</h3>
-										<h5 class="mb-0 font-weight-medium text-primary">Impressions</h5>
-										<p class="mb-0 text-muted">+138.97(+0.54%)</p>
-									</div>
-									<div class="wrapper my-auto ml-auto ml-lg-4">
-										<canvas height="50" width="100" id="stats-line-graph-2"></canvas>
-									</div>
-								</div>
-							</div>
-							<div class="col-lg-3 col-md-6 mt-md-0 mt-4">
-								<div class="d-flex">
-									<div class="wrapper">
-										<h3 class="mb-0 font-weight-semibold">7,688</h3>
-										<h5 class="mb-0 font-weight-medium text-primary">Conversation</h5>
-										<p class="mb-0 text-muted">+57.62(+0.76%)</p>
-									</div>
-									<div class="wrapper my-auto ml-auto ml-lg-4">
-										<canvas height="50" width="100" id="stats-line-graph-3"></canvas>
-									</div>
-								</div>
-							</div>
-							<div class="col-lg-3 col-md-6 mt-md-0 mt-4">
-								<div class="d-flex">
-									<div class="wrapper">
-										<h3 class="mb-0 font-weight-semibold">1,553</h3>
-										<h5 class="mb-0 font-weight-medium text-primary">Downloads</h5>
-										<p class="mb-0 text-muted">+138.97(+0.54%)</p>
-									</div>
-									<div class="wrapper my-auto ml-auto ml-lg-4">
-										<canvas height="50" width="100" id="stats-line-graph-4"></canvas>
-									</div>
-								</div>
-							</div>
+						<i class="fa fa-camera-retro" style="color : #2196f3;"></i>
+						<h4 class="card-title" style="display : inline-block; font-weight : bold;">사진게시판</h4>
+						<div id="lightgallery-without-thumb" class="row lightGallery">
+							<c:forEach items="${pictureList}" var="pictureList" varStatus="status" begin="0" end="4">
+								<a href="/picture/view/${pictureList.picture_seq }" class="image-tile" style="max-width : 20%;"> 
+									<img src="${pictureList.base64_code }" alt="image small" style="width : 200px; height : 200px;">
+									<div style="display : inline-block; max-width : 20%; background-color: black; max-width: 100%; width: 200px; text-overflow:ellipsis; white-space: nowrap; overflow: hidden;">${pictureList.subject }</div>
+								</a> 
+							</c:forEach>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-	</div>
 
-	<div class="content-wrapper">
 		<div class="row">
 			<div class="col-md-6">
 				<div class="row">
 					<div class="col-md-12 grid-margin">
 						<div class="card">
 							<div class="card-body">
-								<div class="row">
-									<h4 class="card-title" style="font-family: 'NanumGothic sans-serif'; font-weight: bold;">(구)게시판</h4>
+								<div class="row" style="overflow-x: auto;">
+									<div style="min-width: 85%;">
+										<h4 class="card-title" style="display : inline-block; font-weight: bold;">(구)게시판</h4>
+									</div>
+									<div style="display: grid; width: 10%; margin-left : 7px;">
+										<button type="button" class="btn btn-light btn-sm" style="font-size: 5pt; height: 20px; padding-top: 5px;">
+		                            		MORE<!--  <i class="fa fa-plus text-primary"></i> -->
+	                            		</button>
+                            		</div>	
 									<table width="100%" class="table table-hover" id="mainListTable">
 										<thead>
 											<tr>
@@ -165,9 +108,17 @@ table thead th {
 					<div class="col-md-12 grid-margin">
 						<div class="card">
 							<div class="card-body">
-								<div class="row">
-									<h4 class="card-title" style="font-family: 'NanumGothic sans-serif'; font-weight: bold;">질문게시판 Top 5</h4>
-									<table class="table"> 
+								<div class="row" style="overflow-x: auto;">
+									<div style="min-width: 85%;">
+										<i class="fa fa-question-circle" style="color : #2196f3;"></i>
+										<h4 class="card-title" style="display : inline-block; font-weight: bold;">질문게시판</h4>
+									</div>
+									<div style="display: grid; width: 10%; margin-left : 7px;">
+										<button type="button" class="btn btn-light btn-sm" style="font-size: 5pt; height: 20px; padding-top: 5px;">
+		                            		MORE<!--  <i class="fa fa-plus text-primary"></i> -->
+	                            		</button>
+                            		</div>	
+									<table class="table table-hover"> 
 										<thead>
 											<th>구분</th>
 											<th>상태</th>
@@ -224,28 +175,6 @@ table thead th {
 						</div>
 					</div>
 
-
-					<div class="col-md-12 grid-margin">
-						<div class="card">
-							<div class="card-body">
-								<div class="row">
-									<h4 class="card-title" style="font-family: 'NanumGothic sans-serif'; font-weight: bold;">사진게시판 Top 5</h4>
-									<table class="table">
-										<tr>
-											<td style="border : 1px solid black;"> </td>
-											<td style="border : 1px solid black;"> </td>
-											<td style="border : 1px solid black;"> </td>
-											<td style="border : 1px solid black;"> </td>
-											<td style="border : 1px solid black;"> </td>
-											
-										</tr>
-									</table>
-								</div>
-							</div>
-						</div>
-					</div>
-
-
 				</div>
 			</div>
 		</div>
@@ -268,8 +197,13 @@ table thead th {
 
 
 
-<script type="text/javascript" charset="utf8" src="/resources/assets/js/jquery-1.12.4.min.js"></script>
-<script type="text/javascript" charset="utf8" src="/resources/assets/js/dataTables/jquery.dataTables.js"></script>
+<!-- <script type="text/javascript" charset="utf8" src="/resources/assets/js/jquery-1.12.4.min.js"></script> -->
+
+<!-- <script type="text/javascript" charset="utf8" src="/resources/assets/js/dataTables/jquery.dataTables.js"></script> -->
+<script type="text/javascript" charset="utf8" src="/resources/assets/js/shared/jquery-1.12.4.min.js"></script>
+<script type="text/javascript" charset="utf8" src="/resources/assets/vendors/datatables.net/jquery.dataTables.js"></script>
+<!-- <script src="../../../assets/vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
+    <script src="../../../assets/vendors/datatables.net-fixedcolumns/dataTables.fixedColumns.min.js"></script> -->
 <script>
 	$(document).ready(function() {
 		$('#mainListTable').DataTable({

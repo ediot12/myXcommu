@@ -69,7 +69,7 @@
 								</table>
 							</div>
 							<div class="form-group">
-								<label>첨부파일 </label> <input type="file" class="file-upload-default">
+								<label>첨부파일 </label> <input type="file" class="file-upload-default overActive">
 								<div class="input-group col-xs-12">
 									<input type="text" class="form-control file-upload-info" id="fileName" value="${fileInfo.file_name }" disabled> 
 									<span class="input-group-append">
@@ -96,7 +96,7 @@
 								
 									<input type="hidden" id="writer" value="${board.writer }">
 									<button type="button" class="btn" style="color: white; font-weight : bold; background-color: green;" onclick="recommandBoard()">
-										<i class="fa fa-thumbs-up"></i>
+										<i class="fa fa-thumbs-up overActive"></i>
 										추천
 										<div style="display : inline-block;">
 											<c:if test="${board.recommand_cnt != 0 }">
@@ -132,7 +132,17 @@
 								<c:forEach items="${replyList }" var="replyList">		
 									<fmt:formatDate value="${replyList.regdate }" pattern="yyyy-MM-dd HH:mm:ss" var="replyRegiDate"/>						
 									<tr>
-										<td><div style="font-weight : bold; display : inline-block;">${replyList.replyer }</div> ( ${replyRegiDate } )</td>
+										<td>
+											<div style="font-weight : bold; display : inline-block;">
+												${replyList.replyer }
+											</div> 
+											( ${replyRegiDate } ) 
+											<sec:authorize access="isAuthenticated()">
+												<c:if test="${pinfo.username eq replyList.replyer}">
+													<i class="fa fa-window-close-o overActive" style="color: gray; font-size: 15px; position: absolute; margin-left: 5px;" onclick="deleteReply(this)"></i>
+												</c:if>
+											</sec:authorize>
+										</td>
 										<td style="text-align : right;" replySeq="${replyList.reply_seq }" replyer="${replyList.replyer }">
 											<button class="btn btn-inverse-primary"  value="1" onclick="empathyReply(this)">	
 												공감
@@ -380,6 +390,34 @@ function empathyReply( val ){
 	function goModifyPage( pageNum ){
 		
 		location.href="/qna/modify/"+pageNum;
+	}
+	
+	function deleteReply( val ){
+		
+		// 일부러 이렇게 해봤음.
+		var replySeq = $($($(val.parentNode.parentNode)[0]).find("td")[1]).attr("replySeq");
+		var replyer = $($($(val.parentNode.parentNode)[0]).find("td")[1]).attr("replyer");
+		
+		$.ajax({
+			
+			url : '/common/view/deleteReply',
+			method : 'GET',
+			data : {
+				'replySeq' : replySeq,
+				'replyer' : replyer
+			} ,
+			success : function(e){
+				alert("reply delete complete");
+				location.reload();
+			},
+			error : function ( e ){
+				console.log( e );
+				alert("error occured");
+			}
+				
+			
+		});
+	
 	}
 	
 	

@@ -16,8 +16,10 @@ public class QuestionBoardDTO {
 	private int recommand_cnt;
 	private String file_yn;
 	private String status;
+	private int view_cnt;
 	
 	//outer join에 의해 추가함
 	private int reply_cnt;
+	
 
 }

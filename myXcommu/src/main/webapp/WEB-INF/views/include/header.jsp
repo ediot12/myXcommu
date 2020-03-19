@@ -7,32 +7,45 @@
 
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link rel="stylesheet" href="/resources/assets/vendors/iconfonts/mdi/css/materialdesignicons.min.css">
+<!-- <link rel="stylesheet" href="/resources/assets/vendors/iconfonts/mdi/css/materialdesignicons.min.css">
 <link rel="stylesheet" href="/resources/assets/vendors/iconfonts/ionicons/css/ionicons.css">
 <link rel="stylesheet" href="/resources/assets/vendors/iconfonts/typicons/src/font/typicons.css">
 <link rel="stylesheet" href="/resources/assets/vendors/iconfonts/flag-icon-css/css/flag-icon.min.css">
 <link rel="stylesheet" href="/resources/assets/vendors/css/vendor.bundle.base.css">
 <link rel="stylesheet" href="/resources/assets/vendors/css/vendor.bundle.addons.css">
-<!-- endinject -->
-<!-- plugin css for this page -->
+endinject
+plugin css for this page
 <link rel="stylesheet" href="/resources/assets/vendors/iconfonts/font-awesome/css/font-awesome.min.css" />
-<!-- End plugin css for this page -->
-<!-- inject:css -->
+End plugin css for this page
+inject:css
 <link rel="stylesheet" href="/resources/assets/css/shared/style.css">
+endinject
+Layout styles
+<link rel="stylesheet" href="/resources/assets/css/demo_1/style.css"> -->
+
+<link rel="stylesheet" href="/resources/assets/vendors/mdi/css/materialdesignicons.min.css">
+<link rel="stylesheet" href="/resources/assets/vendors/flag-icon-css/css/flag-icon.min.css">
+<link rel="stylesheet" href="/resources/assets/vendors/ti-icons/css/themify-icons.css">
+<link rel="stylesheet" href="/resources/assets/vendors/typicons/typicons.css">
+<link rel="stylesheet" href="/resources/assets/vendors/css/vendor.bundle.base.css">
 <!-- endinject -->
+<!-- Plugin css for this page -->
+<link rel="stylesheet" href="/resources/assets/vendors/jquery-bar-rating/css-stars.css">
+<!-- End Plugin css for this page -->
 <!-- Layout styles -->
-<link rel="stylesheet" href="/resources/assets/css/demo_1/style.css">
+<link rel="stylesheet" href="/resources/assets/css/demo_3/style.css">
 <!-- End Layout styles -->
 <link rel="shortcut icon" href="/resources/assets/images/favicon.png" />
+<link rel="stylesheet" href="/resources/assets/vendors/font-awesome/css/font-awesome.min.css">
 
 <style>
-@font-face {
+/* @font-face {
 	font-family: 'NanumGothic';
 	src: url('/resources/assets/fonts/nanum/NanumGothic.eot');
 	src: url('/resources/assets/fonts/nanum/NanumGothic.eot')
 		format('embedded-opentype'),
 		url('/resources/assets/fonts/nanum/NanumGothic.woff') format('woff');
-}
+} */
 
 body{
 	font-family: "NanumGothic"!important;
@@ -41,6 +54,14 @@ body{
 
 .content-wrapper {
 	padding-bottom: 0px !important;
+}
+
+i.overActive:hover{
+	cursor : pointer;
+}
+
+div.cke_contents{
+	border: 1px solid #383e5d;
 }
 
 </style>
@@ -52,11 +73,14 @@ body{
 		<!-- partial:partials/_navbar.html -->
 		<nav class="navbar default-layout col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
 			<div class="text-center navbar-brand-wrapper d-flex align-items-top justify-content-center">
-				<a class="navbar-brand brand-logo" href="index.html"> <img src="" alt="logo" />
-				</a> <a class="navbar-brand brand-logo-mini" href="index.html"> <img src="" alt="logo" />
+				<a class="navbar-brand brand-logo" href="/"> <img src="/resources/assets/images/myXcommu-logo.png" alt="logo" />
+				</a> <a class="navbar-brand brand-logo-mini" href="/"> <img src="/resources/assets/images/myXcommu-logo.png" alt="logo">
 				</a>
 			</div>
 			<div class="navbar-menu-wrapper d-flex align-items-center">
+				<button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
+		            <span class="mdi mdi-menu"></span>
+		        </button>
 				<ul class="navbar-nav">
 					<li class="nav-item font-weight-semibold d-none d-lg-block">Help : 010 6747 9197</li>
 					<li class="nav-item dropdown language-dropdown"><a class="nav-link dropdown-toggle px-2 d-flex align-items-center" id="LanguageDropdown" href="#" data-toggle="dropdown" aria-expanded="false">
@@ -86,6 +110,12 @@ body{
 							</a>
 						</div></li>
 				</ul>
+				
+				<form class="ml-auto search-form d-none d-md-block" action="#">
+		            <div class="form-group">
+		              <input type="search" class="form-control" placeholder="All Search Here">
+		            </div>
+		          </form>
 
 				<ul class="navbar-nav ml-auto">
 					<li class="nav-item dropdown"><a class="nav-link count-indicator" id="messageDropdown" href="#" data-toggle="dropdown" aria-expanded="false"> <i class="mdi mdi-bell-outline"></i> <span class="count">7</span>
@@ -97,7 +127,7 @@ body{
 							<div class="dropdown-divider"></div>
 							<a class="dropdown-item preview-item">
 								<div class="preview-thumbnail">
-									<img src="/resources/assets/images/faces/face10.jpg" alt="image" class="img-sm profile-pic">
+									<img src="/resources/assets/images/empty_face.png" alt="image" class="img-sm profile-pic">
 								</div>
 								<div class="preview-item-content flex-grow py-2">
 									<p class="preview-subject ellipsis font-weight-medium text-dark">Marian Garner</p>
@@ -153,14 +183,14 @@ body{
 							</a>
 						</div></li>
 					<li class="nav-item dropdown d-none d-xl-inline-block user-dropdown"><a class="nav-link dropdown-toggle" id="UserDropdown" href="#" data-toggle="dropdown" aria-expanded="false"> <img class="img-xs rounded-circle"
-							src="/resources/assets/images/faces-clipart/pic-1.png"
+							src="/resources/assets/images/empty_face.png"
 							alt="Profile image"
 						>
 					</a>
 						<div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
 							<div class="dropdown-header text-center">
 								<img class="img-md rounded-circle"
-									src="/resources/assets/images/faces-clipart/pic-1.png"
+									src="/resources/assets/images/empty_face.png"
 									alt="Profile image"
 								>
 								<p class="mb-1 mt-3 font-weight-semibold">${sessionScope.currentUserId}</p>
@@ -202,7 +232,7 @@ body{
 					<li class="nav-item nav-profile"><a href="#" class="nav-link">
 							<div class="profile-image">
 								<img class="img-xs rounded-circle"
-									src="/resources/assets/images/faces-clipart/pic-1.png"
+									src="/resources/assets/images/empty_face.png"
 									alt="profile image"
 								>
 								<div class="dot-indicator bg-success"></div>
@@ -213,6 +243,10 @@ body{
 							</div>
 					</a></li>
 					<li class="nav-item nav-category">Main Menu</li>
+					<li class="nav-item"><a class="nav-link" href="/notice/main"> 
+						<i class="menu-icon typcn typcn-document-text"></i> 
+						<span class="menu-title">공지사항</span>
+					</a></li>
 					<li class="nav-item"><a class="nav-link" href="/board/list_"> 
 						<i class="menu-icon typcn typcn-document-text"></i> 
 						<span class="menu-title">Home</span>
@@ -230,6 +264,10 @@ body{
 					</a></li>
 					<li class="nav-item"><a class="nav-link" href="/picture/main"> <i class="menu-icon typcn typcn-shopping-bag"></i> <span class="menu-title">사진게시판</span>
 					</a></li>
+					<li class="nav-item"><a class="nav-link" href="/picture/main"> <i class="menu-icon typcn typcn-shopping-bag"></i> <span class="menu-title">자유게시판</span>
+					</a></li>
+					<li class="nav-item"><a class="nav-link" href="/proposal/main"> <i class="menu-icon typcn typcn-shopping-bag"></i> <span class="menu-title">건의게시판</span>
+					</a></li>
 					<!-- <li class="nav-item"><a class="nav-link" data-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth"> <i class="menu-icon typcn typcn-document-add"></i> <span class="menu-title">사진게시판</span> <i class="menu-arrow"></i>
 					</a>
 						<div class="collapse" id="auth">
@@ -241,5 +279,8 @@ body{
 								<li class="nav-item"><a class="nav-link" href="pages/samples/error-500.html"> Sub 5 </a></li>
 							</ul>
 						</div></li> -->
+						
 				</ul>
+				<embed height="400" width="90%" src="http://www.gagalive.kr/livechat1.swf?chatroom=myXcommu" style="margin-left : 15px;"></embed>
 			</nav>
+			
