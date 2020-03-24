@@ -3,6 +3,8 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" language="java"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+
 <head>
 <!-- Required meta tags -->
 
@@ -57,73 +59,72 @@ table#pictureBoardTable tbody tr td:hover {
 								<form action="#">
 									<div class="form-group d-flex">
 										<input type="text" class="form-control" placeholder="Search Here" value="bootstrapdash">
-										<button type="submit" class="btn btn-primary ml-3">Search</button>
+										<button type="button" class="btn btn-primary ml-3">Search</button>
 									</div>
 								</form>
 							</div>
 							<div class="col-12 mb-5">
 								<h2>
-									Search Result For <u class="ml-2">"bootstrapdash"</u>
+									Search Result For <u class="ml-2">"${searchWord }"</u>
 								</h2>
-								<p class="text-muted">About 12,100 results (0.52 seconds)</p>
+								<p class="text-muted">About ${fn:length(searchList)} results (0.52 seconds)</p>
 							</div>
-							<div class="col-12 results">
+							<table id="searchBoardTable" class="table">
+							
+								<c:if test="${fn:length(searchList) > 0 }">
+									<c:forEach items="${searchList }" var="list">
+										<fmt:formatDate value="${list.regdate }" pattern="yyyy-MM-dd HH:mm" var="boardRegiDate"/>
+										<c:if test="${list.board_type == 5}" >
+											<c:set var="link_name" value="notice/view"/>
+											<c:set var="typeName" value="공지사항"/>
+											<c:set var="badgeClass" value="badge badge-inverse-danger ml-auto"/>
+										</c:if>
+										<c:if test="${list.board_type == 4}" >
+											<c:set var="link_name" value="proposal/view"/>
+											<c:set var="typeName" value="건의게시판"/>
+											<c:set var="badgeClass" value="badge badge-inverse-primary ml-auto"/>
+										</c:if>
+										<c:if test="${list.board_type == 3}" >
+											<c:set var="link_name" value="picture/view"/>
+											<c:set var="typeName" value="사진게시판"/>
+											<c:set var="badgeClass" value="badge badge-inverse-success ml-auto"/>
+										</c:if>
+										<c:if test="${list.board_type == 2}" >
+											<c:set var="link_name" value="qna/view"/>
+											<c:set var="typeName" value="질문게시판"/>
+											<c:set var="badgeClass" value="badge badge-inverse-warning ml-auto"/>
+										</c:if>
+										<tr>
+											<td>
+												<div class="col-12 results">
+													<div class="pt-4">
+														<a class="d-block h4 mb-0" href="/${link_name }/${list.board_seq}">${list.subject }</a> 
+														<p class="page-url text-primary">
+															<div class="${badgeClass }" style="display : inline-block;">${typeName}</div>
+															|| ${list.writer} || 조회수 ${list.view_cnt} || ${boardRegiDate }</p>
+														<p class="page-description mt-1 w-75 text-muted">
+															${list.content }
+														</p>
+													</div>
+												</div>
+											</td>									
+										</tr>
+									</c:forEach>
+								</c:if>
+								
+								<c:if test="${fn:length(searchList) == 0  }">
+									검색결과가없다.
+								</c:if>
+							
+							</table>
+							
+							<!-- <div class="col-12 results">
 								<div class="pt-4 border-bottom">
 									<a class="d-block h4 mb-0" href="#">bootstrapdash</a> <a class="page-url text-primary" href="#">https://www.bootstrapdash.com/</a>
 									<p class="page-description mt-1 w-75 text-muted">bootstrapdash gives you the most beautiful, free and premium bootstrap admin dashboard templates and control panel themes based on Bootstrap 3 and 4.</p>
 								</div>
-							</div>
-							<div class="col-12 results">
-								<div class="pt-4 border-bottom">
-									<a class="d-block h4 mb-0" href="#">bootstrapdash Team – Medium</a> <a class="page-url text-primary" href="#">https://medium.com/@bootstrapdash</a>
-									<p class="page-description mt-1 w-75 text-muted">Read writing from bootstrapdash Team on Medium. We design and develop awesome admin dashboard templates with Bootstrap, so you can kick-start and speed up your development. www.bootstrapdash.com.</p>
-								</div>
-							</div>
-							<div class="col-12 results">
-								<div class="pt-4 border-bottom">
-									<a class="d-block h4 mb-0" href="#">bootstrapdash · GitHub</a> <a class="page-url text-primary" href="#">https://github.com/bootstrapdash</a>
-									<p class="page-description mt-1 w-75 text-muted">bootstrapdash has 1 repository available. Follow their code on GitHub.</p>
-								</div>
-							</div>
-							<div class="col-12 results">
-								<div class="pt-4 border-bottom">
-									<a class="d-block h4 mb-0" href="#">bootstrapdash.com - Home | Facebook</a> <a class="page-url text-primary" href="#">https://www.facebook.com/bootstrapdash</a>
-									<p class="page-description mt-1 w-75 text-muted">bootstrapdash.com. 9 likes · 4 talking about this. Clean, customisable admin dashboard template themes / UI WebApp Kits with a huge collection of...</p>
-								</div>
-							</div>
-							<div class="col-12 results">
-								<div class="pt-4 border-bottom">
-									<a class="d-block h4 mb-0" href="#">bootstrapdash Team – Hacker Noon</a> <a class="page-url text-primary" href="#">https://hackernoon.com/@bootstrapdash</a>
-									<p class="page-description mt-1 w-75 text-muted">Oct 9, 2017 - Read writing from bootstrapdash Team in Hacker Noon. We design and develop awesome admin dashboard templates with Bootstrap, so you can kick-start and speed up your development. www.bootstrapdash.com.</p>
-								</div>
-							</div>
-							<div class="col-12 results">
-								<div class="pt-4 border-bottom">
-									<a class="d-block h4 mb-0" href="#">bootstrapdash | Crunchbase</a> <a class="page-url text-primary" href="#">https://www.crunchbase.com/organization/bootstrapdash</a>
-									<p class="page-description mt-1 w-75 text-muted">bootstrapdash creates quality admin templates that are based on Bootstrap, the most popular front end development framework.</p>
-								</div>
-							</div>
-							<div class="col-12 results">
-								<div class="pt-4 border-bottom">
-									<a class="d-block h4 mb-0" href="#">bootstrapdash.com (@bootstrapdash) | Twitter</a> <a class="page-url text-primary" href="#">https://twitter.com/@bootstrapdash</a>
-									<p class="page-description mt-1 w-75 text-muted">The latest Tweets from bootstrapdash.com (@bootstrapdash). Clean, customisable admin dashboard template themes / UI WebApp Kits with a huge collection of pre-built widgets and plugins.</p>
-								</div>
-							</div>
-							<div class="col-12 results">
-								<div class="pt-4 border-bottom">
-									<a class="d-block h4 mb-0" href="#">Bootstrap Dash on Behance</a> <a class="page-url text-primary" href="#">https://www.behance.net/bootstrapdash</a>
-									<p class="page-description mt-1 w-75 text-muted">Awesome Bootstrap Admin Dashboard Templates. For Faster, Easier Web Applications Development. Clean, customizable admin dashboard template theme / UI WebApp Kit with a huge collection of pre-built widgets and plugins. Design and build modern, robust, user-friendly web applications real fast!</p>
-								</div>
-							</div>
-							<nav class="col-12" aria-label="Page navigation">
-								<ul class="pagination mt-5">
-									<li class="page-item"><a class="page-link" href="#">Previous</a></li>
-									<li class="page-item  active"><a class="page-link" href="#">1</a></li>
-									<li class="page-item"><a class="page-link" href="#">2</a></li>
-									<li class="page-item"><a class="page-link" href="#">3</a></li>
-									<li class="page-item"><a class="page-link" href="#">Next</a></li>
-								</ul>
-							</nav>
+							</div> -->
+							
 						</div>
 					</div>
 				</div>
@@ -155,7 +156,7 @@ table#pictureBoardTable tbody tr td:hover {
 <script type="text/javascript" charset="utf8" src="/resources/assets/js/dataTables/jquery.dataTables.js"></script>
 <script>
 	$(document).ready(function() {
-		$('#questionBoardTable').DataTable({
+		$('#searchBoardTable').DataTable({
 			responsive : true,
 			searching : false,
 			ordering : false,

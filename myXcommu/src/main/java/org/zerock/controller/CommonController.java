@@ -249,7 +249,6 @@ public class CommonController {
 	}
 	
 	
-	
 	private String currentBoardType( String boardType ) {
 		
 		if( boardType.equals("qna") ) { return "2"; }

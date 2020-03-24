@@ -4,6 +4,6 @@ import org.zerock.domain.MemberVO;
 
 public interface AccountService {
 	
-	public int registerAccount( String userId, String userPw, String email );
+	public int registerAccount( String userId, String userPw, String email, String profile_image, String profile_info );
 
 }

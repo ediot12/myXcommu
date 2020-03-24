@@ -308,6 +308,7 @@ public class QnAController {
 		model.addAttribute("fileInfo"		, fileInfo );
 		model.addAttribute("contentRegiDate", regiUser.getRegDate() );
 		model.addAttribute("userConnectDate", regiUser.getUpdateDate() );
+		model.addAttribute( "writerInfo"    , regiUser );	
 		
 		
 		return "qna/view";

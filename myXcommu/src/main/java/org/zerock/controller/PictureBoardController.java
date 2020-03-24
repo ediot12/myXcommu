@@ -126,6 +126,7 @@ public class PictureBoardController {
 		model.addAttribute("replyList"		, replyList );
 		model.addAttribute("contentRegiDate", regiUser.getRegDate() );
 		model.addAttribute("userConnectDate", regiUser.getUpdateDate() );
+		model.addAttribute( "writerInfo"    , regiUser );	
 		
 		return "picture/view";
 		

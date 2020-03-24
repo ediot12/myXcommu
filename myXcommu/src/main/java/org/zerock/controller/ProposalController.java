@@ -141,6 +141,8 @@ public class ProposalController {
 		model.addAttribute( "replyList"			, replyList );
 		model.addAttribute( "contentRegiDate"	, regiUser.getRegDate() );
 		model.addAttribute( "userConnectDate"	, regiUser.getUpdateDate() );
+		model.addAttribute( "writerInfo"    	, regiUser );	
+		
 		
 		log.info("come!!?@");
 		

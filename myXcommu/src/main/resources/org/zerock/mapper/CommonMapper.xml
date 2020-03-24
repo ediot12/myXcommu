@@ -104,6 +104,52 @@
 			    		regdate ASC
 	</select>
 	
+	<select id="getAllSearchReport" resultType="org.zerock.domain.SearchBoardDTO" parameterType="String">
+		select
+	    board_seq,
+	    subject,
+	    REGEXP_REPLACE(content,
+	    	<![CDATA[
+	    		'<[^>]*>|\&([^;])*;', '')
+	    	]]> as content,
+	    writer,
+	    regdate,
+	    view_cnt,
+	    board_type
+	from
+	
+	(
+	
+	select 
+	    notice_seq as board_seq, subject, content, writer, regdate, view_cnt , '5' as board_type
+	from
+	    tbl_notice_board
+	union all
+	    select
+	        proposal_seq, subject, content, writer, regdate, view_cnt, '4'
+	    from
+	        tbl_proposal_board
+	union all
+	    select
+	        qna_board_seq, subject, content, writer, regdate ,view_cnt, '2'
+	    from
+	        tbl_question_board
+	union all
+		select
+	        picture_seq, subject, content, writer, regdate, view_cnt, '3'
+	    from
+	        tbl_picture_board
+	)
+	where
+	    subject like 
+	    	'%'||#{word}||'%'
+	    	or content like 
+	    		'%'||#{word}||'%'
+	order by 
+   		 regdate desc		
+	
+	</select>
+	
 	
 	
 	

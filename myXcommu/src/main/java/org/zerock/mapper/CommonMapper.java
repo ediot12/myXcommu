@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.zerock.domain.BoardReplyDTO;
 import org.zerock.domain.MemberVO;
+import org.zerock.domain.SearchBoardDTO;
 
 public interface CommonMapper {
 	
@@ -21,4 +22,5 @@ public interface CommonMapper {
 	public void deleteReply( int seq );
 	public void deleteReplyEmpthy( int seq );
 	public void updateViewCnt( Map<String,Object> map );
+	public ArrayList<SearchBoardDTO> getAllSearchReport( String word );
 }

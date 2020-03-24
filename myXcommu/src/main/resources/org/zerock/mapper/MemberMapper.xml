@@ -56,6 +56,14 @@
 			where
 				userid = #{userId}
 	</update>
+	
+	<update id="updateLoginCount" parameterType="String">
+		update tbl_member
+			set
+				login_count = login_count + 1
+			where
+				userid = #{userId}
+	</update>
 
 
 </mapper>

@@ -16,7 +16,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.zerock.domain.CustomUser;
+import org.zerock.domain.MemberVO;
+import org.zerock.mapper.AccountMapper;
 import org.zerock.mapper.MemberMapper;
 
 public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler{
@@ -24,6 +25,9 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler{
 
 	@Autowired
 	private MemberMapper mapper;
+	
+	@Autowired
+	private AccountMapper accountMapper;
 	
 
 	private static final Logger logger = LoggerFactory.getLogger(CustomLoginSuccessHandler.class);
@@ -48,6 +52,7 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler{
 		String recentLoginDate = mapper.recentlyLoginRecord( userId );
 		
 		mapper.updateLoginDate( userId );
+		mapper.updateLoginCount( userId );
 		
 		auth.getAuthorities().forEach( authority -> {
 			
@@ -56,7 +61,11 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler{
 		});
 		
 		logger.warn("  Role Names : " + roleNames );
+		
+		MemberVO member = accountMapper.getAccountInformation( userId );
+		
 		session.setAttribute("currentUserId", auth.getName());
+		session.setAttribute("image64", member.getProfile_image() );
 		session.setAttribute("loginTime", smf.format(date));
 		session.setAttribute("recentlyLoginDate", recentLoginDate ); 
 		

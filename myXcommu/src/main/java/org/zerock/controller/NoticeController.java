@@ -131,7 +131,7 @@ public class NoticeController {
 		model.addAttribute("board"			, dto ); 
 		model.addAttribute("contentRegiDate", regiUser.getRegDate() );
 		model.addAttribute("userConnectDate", regiUser.getUpdateDate() );
-		
+		model.addAttribute( "writerInfo"    , regiUser );
 		
 		return "notice/view";
 	}

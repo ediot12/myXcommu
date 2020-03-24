@@ -37,7 +37,7 @@ public class AccountServiceImpl implements AccountService{
 	
 	@Override
 	@Transactional
-	public int registerAccount( String userId, String userPw, String email ) {
+	public int registerAccount( String userId, String userPw, String email, String profile_image, String profile_info ) {
 		
 		
 		  String origin_pw = userPw; 
@@ -51,6 +51,8 @@ public class AccountServiceImpl implements AccountService{
 		  vo.setUserid(userId); 
 		  vo.setUserpw( origin_pw_new ); 
 		  vo.setEmail(email);
+		  vo.setProfile_image(profile_image);
+		  vo.setProfile_info(profile_info);
 		  
 		  int account = mapper.registerAccount( vo );
 		  mapper.registerAuth( userId );

@@ -3,7 +3,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" language="java"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec"%>
 <head>
 
@@ -11,6 +11,23 @@
 <!-- plugins:css -->
 
 <%@ include file="../include/header.jsp"%>
+
+<fmt:formatDate value="${board.regdate }" pattern="yy-MM-dd HH:mm" var="regiDate" />
+<fmt:formatDate value="${contentRegiDate }" pattern="yyyy-MM-dd" var="joinDate" />
+<fmt:formatDate value="${userConnectDate }" pattern="yyyy-MM-dd" var="connDate" />
+
+<style>
+span.bar{
+	line-height: 40px;
+    height: 40px;
+    color: #aaa;
+    margin: 0 10px;
+    font-size: 17px;
+}
+
+
+
+</style>
 <!-- partial -->
 <div class="main-panel">
 	<div class="content-wrapper">
@@ -33,57 +50,39 @@
 						<form class="forms-sample" method="post" action="/">
 							<div class="form-group">
 								<input type="hidden" value="${board.notice_seq }" id="boardSeq">
-								<h1 style="font-family: 'NanumGothic'; font-weight: bold;">
-								${board.subject }
-								</h1>
-								
-								<fmt:formatDate value="${board.regdate }" pattern="yyyy-MM-dd HH:mm:ss" var="regiDate"/>
-								<fmt:formatDate value="${contentRegiDate }" pattern="yyyy-MM-dd" var="joinDate"/>
-								<fmt:formatDate value="${userConnectDate }" pattern="yyyy-MM-dd" var="connDate"/>
-								<table class="table" style="border : 2px solid gray; width : 400px;">
-									<tr>
-										<th rowspan="3" style="width : 20%;"><img src="/resources/assets/images/Invulnerability_anim.gif"></th>
-										<th colspan="2" style="width : 80%;">${board.writer }에 의해 ${regiDate }에 게시됨</th>
-									</tr>
-									<tr>
-										<td>
-											
-										</td>
-										<td><%-- 구분 : ${board.division } --%></td>
-									</tr>
-									<tr>
-										<td>최근 접속 : ${connDate }</td>
-										<td>가입일 : ${joinDate } </td>
-									</tr>
-								</table>
+								<h1 style="font-family: 'NanumGothic'; font-weight: bold; display : inline-block;">${board.subject }</h1>
+								<div style="display : inline-block; float : right; padding-top : 15px; font-size : 10pt;">
+									${regiDate }
+									<span class="bar">|</span>
+									조회 ${board.view_cnt }
+								</div>
 							</div>
 							<div class="form-group">
-								<label for="questionArea">내용</label>
 								<textarea class="form-control" name="content" id="contentArea" rows="2" value="${board.content }" disabled="disabled"></textarea>
 							</div>
 							<sec:authentication property="principal" var="pinfo" />
-							
+
 							<!-- 작성자와 본인이 일치하지  않으면 수정과 삭제 버튼은 뜨지 않는다. -->
 							<sec:authorize access="isAuthenticated()">
 								<c:if test="${pinfo.username eq board.writer}">
-									<button type="button" class="btn btn-md" style="background-color: red; border-color: red; color : white;" onclick="deleteBoard()" >삭제</button>
+									<button type="button" class="btn btn-md" style="background-color: red; border-color: red; color: white;" onclick="deleteBoard()">삭제</button>
 									<button type="button" class="btn btn-info btn-md" onclick="goModifyPage(${board.notice_seq})">수정</button>
 								</c:if>
 							</sec:authorize>
-							
+
 							<button type="button" class="btn btn-md btn-secondary" onclick="location.href='/notice/main'">목록</button>
-							
+
 							<input type="hidden" id="writer" value="${board.writer }">
-							
+
 
 						</form>
 					</div>
-					
-					
+
+
 				</div>
 			</div>
 
-
+			<%@ include file="../include/viewProfile.jsp"%>
 
 
 		</div>

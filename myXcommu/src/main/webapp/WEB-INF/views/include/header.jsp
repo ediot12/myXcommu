@@ -64,6 +64,10 @@ div.cke_contents{
 	border: 1px solid #383e5d;
 }
 
+div#cke_contentArea{
+	border : 1px solid #383e5d!important;
+}
+
 </style>
 
 <title>myXcommu</title>
@@ -83,37 +87,11 @@ div.cke_contents{
 		        </button>
 				<ul class="navbar-nav">
 					<li class="nav-item font-weight-semibold d-none d-lg-block">Help : 010 6747 9197</li>
-					<li class="nav-item dropdown language-dropdown"><a class="nav-link dropdown-toggle px-2 d-flex align-items-center" id="LanguageDropdown" href="#" data-toggle="dropdown" aria-expanded="false">
-							<div class="d-inline-flex mr-0 mr-md-3">
-								<div class="flag-icon-holder">
-									<i class="flag-icon flag-icon-us"></i>
-								</div>
-							</div> <span class="profile-text font-weight-medium d-none d-md-block">한글English</span>
-					</a>
-						<div class="dropdown-menu dropdown-menu-left navbar-dropdown py-2" aria-labelledby="LanguageDropdown">
-							<a class="dropdown-item">
-								<div class="flag-icon-holder">
-									<i class="flag-icon flag-icon-us"></i>
-								</div>English
-							</a> <a class="dropdown-item">
-								<div class="flag-icon-holder">
-									<i class="flag-icon flag-icon-fr"></i>
-								</div>French
-							</a> <a class="dropdown-item">
-								<div class="flag-icon-holder">
-									<i class="flag-icon flag-icon-ae"></i>
-								</div>Arabic
-							</a> <a class="dropdown-item">
-								<div class="flag-icon-holder">
-									<i class="flag-icon flag-icon-ru"></i>
-								</div>Russian
-							</a>
-						</div></li>
 				</ul>
 				
-				<form class="ml-auto search-form d-none d-md-block" action="#">
+				<form class="ml-auto search-form d-none d-md-block" action="/allSearch">
 		            <div class="form-group">
-		              <input type="search" class="form-control" placeholder="All Search Here">
+		              <input type="search" class="form-control" name="searchWord" placeholder="All Search Here">
 		            </div>
 		          </form>
 
@@ -127,7 +105,13 @@ div.cke_contents{
 							<div class="dropdown-divider"></div>
 							<a class="dropdown-item preview-item">
 								<div class="preview-thumbnail">
-									<img src="/resources/assets/images/empty_face.png" alt="image" class="img-sm profile-pic">
+									<c:if test="${sessionScope.image64 == null }">
+										<img src="/resources/assets/images/empty_face.png" alt="image" class="img-sm profile-pic">
+									</c:if>
+									<c:if test="${sessionScope.image64 != null }">
+										<img class="img-sm profile-pic" src="${sessionScope.image64 }" alt="profile image">
+									</c:if>
+									
 								</div>
 								<div class="preview-item-content flex-grow py-2">
 									<p class="preview-subject ellipsis font-weight-medium text-dark">Marian Garner</p>
@@ -182,24 +166,28 @@ div.cke_contents{
 								</div>
 							</a>
 						</div></li>
-					<li class="nav-item dropdown d-none d-xl-inline-block user-dropdown"><a class="nav-link dropdown-toggle" id="UserDropdown" href="#" data-toggle="dropdown" aria-expanded="false"> <img class="img-xs rounded-circle"
-							src="/resources/assets/images/empty_face.png"
-							alt="Profile image"
-						>
+					<li class="nav-item dropdown d-none d-xl-inline-block user-dropdown">
+						<a class="nav-link dropdown-toggle" id="UserDropdown" href="#" data-toggle="dropdown" aria-expanded="false">
+						<c:if test="${sessionScope.image64 == null }">
+							<img src="/resources/assets/images/empty_face.png" alt="image" class="img-xs rounded-circle">
+						</c:if>
+						<c:if test="${sessionScope.image64 != null }">
+							<img class="img-xs rounded-circle" src="${sessionScope.image64 }" alt="profile image">
+						</c:if>
 					</a>
 						<div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
 							<div class="dropdown-header text-center">
-								<img class="img-md rounded-circle"
-									src="/resources/assets/images/empty_face.png"
-									alt="Profile image"
-								>
+								<c:if test="${sessionScope.image64 == null }">
+									<img src="/resources/assets/images/empty_face.png" alt="image" class="img-md rounded-circle">
+								</c:if>
+								<c:if test="${sessionScope.image64 != null }">
+									<img class="img-md rounded-circle" src="${sessionScope.image64 }" alt="profile image">
+								</c:if>
 								<p class="mb-1 mt-3 font-weight-semibold">${sessionScope.currentUserId}</p>
 								<p class="font-weight-light text-muted mb-0">User_Email_Area</p>
 							</div>
-							<a class="dropdown-item">
+							<a class="dropdown-item" href="/myProfile">
 								My Profile 
-								<span class="badge badge-pill badge-danger">1</span> 
-								<i class="dropdown-item-icon ti-dashboard"></i>
 							</a> 
 							<!-- <a class="dropdown-item">
 								Messages
@@ -215,7 +203,6 @@ div.cke_contents{
 							</a>  -->
 							<a href="/customLogout" class="dropdown-item">
 								Logout
-								<i class="dropdown-item-icon ti-power-off"></i>
 							</a>
 						</div></li>
 				</ul>
@@ -231,10 +218,12 @@ div.cke_contents{
 				<ul class="nav">
 					<li class="nav-item nav-profile"><a href="#" class="nav-link">
 							<div class="profile-image">
-								<img class="img-xs rounded-circle"
-									src="/resources/assets/images/empty_face.png"
-									alt="profile image"
-								>
+								<c:if test="${sessionScope.image64 == null }">
+									<img class="img-xs rounded-circle" src="/resources/assets/images/empty_face.png" alt="profile image">
+								</c:if>
+								<c:if test="${sessionScope.image64 != null }">
+									<img class="img-xs rounded-circle" src="${sessionScope.image64 }" alt="profile image">
+								</c:if>
 								<div class="dot-indicator bg-success"></div>
 							</div>
 							<div class="text-wrapper">

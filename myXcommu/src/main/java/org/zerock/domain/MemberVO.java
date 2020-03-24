@@ -19,4 +19,6 @@ public class MemberVO {
 	private int login_count;
 	private String email;
 	private String email_check_valid;
+	private String profile_image;
+	private String profile_info;
 }
