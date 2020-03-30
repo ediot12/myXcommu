@@ -84,13 +84,10 @@ public class NoticeController {
 	@RequestMapping( value="/view/{num}", method=RequestMethod.GET )
 	public String viewContentPage( @PathVariable("num") int board_seq, Model model, HttpServletRequest request, HttpServletResponse response ) {
 		
-		NoticeDTO 			dto 		= mapper.getNoticeBySeq( board_seq );
-		String 				userId 		= dto.getWriter();
-		MemberVO 			regiUser 	= commonMapper.getRegiUserInfor( userId );
-		Map<String,Object>	findMap		= new HashMap<String,Object>();
-
-		findMap.put("type"	, "5");
-		findMap.put("seq"	, board_seq);
+		NoticeDTO 				dto 		= mapper.getNoticeBySeq( board_seq );
+		String 					userId 		= dto.getWriter();
+		MemberVO 				regiUser 	= commonMapper.getRegiUserInfor( userId );
+		ArrayList<NoticeDTO> 	noticeList 	= mapper.getAllNoticeList();
 		
 		
 		Cookie[] 			cookies 	= request.getCookies();
@@ -132,6 +129,8 @@ public class NoticeController {
 		model.addAttribute("contentRegiDate", regiUser.getRegDate() );
 		model.addAttribute("userConnectDate", regiUser.getUpdateDate() );
 		model.addAttribute( "writerInfo"    , regiUser );
+		model.addAttribute("noticeList"		, noticeList);
+		
 		
 		return "notice/view";
 	}

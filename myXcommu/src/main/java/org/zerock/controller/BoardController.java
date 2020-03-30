@@ -24,10 +24,16 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.zerock.domain.BoardAttachVO;
 import org.zerock.domain.BoardVO;
 import org.zerock.domain.Criteria;
+import org.zerock.domain.FreeBoardDTO;
+import org.zerock.domain.NoticeDTO;
 import org.zerock.domain.PageDTO;
 import org.zerock.domain.PictureBoardDTO;
+import org.zerock.domain.ProposalBoardDTO;
 import org.zerock.domain.QuestionBoardDTO;
+import org.zerock.mapper.FreeBoardMapper;
+import org.zerock.mapper.NoticeMapper;
 import org.zerock.mapper.PictureBoardMapper;
+import org.zerock.mapper.ProposalMapper;
 import org.zerock.mapper.QnABoardMapper;
 import org.zerock.service.BoardService;
 import org.zerock.util.myXcommuUtil;
@@ -49,6 +55,15 @@ public class BoardController {
 	@Autowired
 	private QnABoardMapper qnaMapper;
 	
+	@Autowired
+	private ProposalMapper proposalMapper;
+	
+	@Autowired
+	private NoticeMapper noticeMapper;
+	
+	@Autowired
+	private FreeBoardMapper freeMapper;
+	
 	@RequestMapping( value ="/list", method=RequestMethod.GET )
 	public void list( Criteria cri, Model model ) {
 		
@@ -65,9 +80,12 @@ public class BoardController {
 	@RequestMapping( value ="/list_", method=RequestMethod.GET )
 	public void listTest( Criteria cri, Model model ) {
 		
-		ArrayList<QuestionBoardDTO> questionList = qnaMapper.getQuestionBoardList();
-		ArrayList<PictureBoardDTO> pictureList = pictureMapper.getPictureBoardList();
-		
+		ArrayList<QuestionBoardDTO> questionList 	= qnaMapper.getQuestionBoardList();
+		ArrayList<PictureBoardDTO> 	pictureList 	= pictureMapper.getPictureBoardList();
+		ArrayList<ProposalBoardDTO> proposalList 	= proposalMapper.getAllProposalBoard();
+		ArrayList<NoticeDTO>		noticeList		= noticeMapper.getAllNoticeList();
+		ArrayList<FreeBoardDTO>		freeBoardList	= freeMapper.getAllFreeBoardList();
+				
 		//사실 이 부분은 애초에 db에서 제대로하던지 뭔가 다른방법을 찾던지 해야할듯 하다.
 		
 		for (int i = 0; i < questionList.size(); i++) {
@@ -78,9 +96,12 @@ public class BoardController {
 		 
 		
 		model.addAttribute( "questionList"	, questionList );
-		model.addAttribute( "pictureList"	, pictureList );
+		model.addAttribute( "pictureList"	, pictureList  );
+		model.addAttribute( "proposalList"	, proposalList );
+		model.addAttribute( "noticeList"	, noticeList);
+		model.addAttribute( "freeBoardList" , freeBoardList);
 		
-		model.addAttribute("list", service.getList( cri ) );		
+		/* model.addAttribute("list", service.getList( cri ) ); */
 	}
 	
 	@PostMapping("/register")

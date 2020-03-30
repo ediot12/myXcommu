@@ -219,6 +219,14 @@
 					notice_seq = #{boardSeq}
 		</if>
 		
+		<if test="boardType eq '6'.toString()">
+			update tbl_free_board
+				set
+					view_cnt = view_cnt + 1
+				where
+					free_board_seq = #{boardSeq}
+		</if>
+		
 	 </update>
 		
 	<delete id="deleteBoard" parameterType="java.util.HashMap">
@@ -245,6 +253,12 @@
 			delete tbl_notice_board
 				where
 					notice_seq = #{seq}
+		</if>
+		
+		<if test="type eq '6'.toString()">
+			delete tbl_free_board
+				where
+					free_board_seq = #{seq}
 		</if>
 		
 	</delete>

@@ -79,7 +79,8 @@ public class PictureBoardController {
 		String 						userId 		= dto.getWriter();
 		MemberVO 					regiUser 	= commonMapper.getRegiUserInfor( userId );
 		Map<String,Object> 			findMap		= new HashMap<String,Object>();
-		log.info( "picture dto :: " + dto );
+		ArrayList<PictureBoardDTO>	pictureList = mapper.getPictureBoardList();
+		
 		
 
 		findMap.put("type"	, "3");
@@ -127,6 +128,7 @@ public class PictureBoardController {
 		model.addAttribute("contentRegiDate", regiUser.getRegDate() );
 		model.addAttribute("userConnectDate", regiUser.getUpdateDate() );
 		model.addAttribute( "writerInfo"    , regiUser );	
+		model.addAttribute("pictureList"	, pictureList);
 		
 		return "picture/view";
 		

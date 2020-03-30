@@ -10,30 +10,19 @@
 <!-- default header name is X-CSRF-TOKEN -->
 <meta id="_csrf_header" name="_csrf_header" content="${_csrf.headerName}"/>
 <title>myXcommu - Register</title>
-<!-- plugins:css -->
-<!-- <link rel="stylesheet" href="/resources/assets/vendors/iconfonts/mdi/css/materialdesignicons.min.css">
-
-<link rel="stylesheet" href="/resources/assets/vendors/iconfonts/typicons/src/font/typicons.css">
-
-<link rel="stylesheet" href="/resources/assets/vendors/css/vendor.bundle.base.css">
-<link rel="stylesheet" href="/resources/assets/vendors/css/vendor.bundle.addons.css"> -->
 
 <link rel="stylesheet" href="/resources/assets/vendors/mdi/css/materialdesignicons.min.css">
+<link rel="stylesheet" href="/resources/assets/vendors/flag-icon-css/css/flag-icon.min.css">
 <link rel="stylesheet" href="/resources/assets/vendors/ti-icons/css/themify-icons.css">
 <link rel="stylesheet" href="/resources/assets/vendors/typicons/typicons.css">
 <link rel="stylesheet" href="/resources/assets/vendors/css/vendor.bundle.base.css">
     
     
+<link rel="stylesheet" href="/resources/assets/vendors/font-awesome/css/font-awesome.min.css">
 <link rel="stylesheet" href="/resources/assets/dropzone/dropzone.css">
-<!-- endinject -->
-<!-- plugin css for this page -->
-<!-- End plugin css for this page -->
-<!-- inject:css -->
 <link rel="stylesheet" href="/resources/assets/css/shared/style.css">
-<!-- endinject -->
-<!-- Layout styles -->
-<link rel="stylesheet" href="/resources/assets/css/demo_3/style.css">
-<!-- End Layout styles -->
+<link rel="stylesheet" href="/resources/assets/css/demo_11/style.css">
+
 <link rel="shortcut icon" href="/resources/assets/images/favicon.png" />
 </head>
 <body>
@@ -62,6 +51,9 @@
 										</div>
 										<input type="text" class="form-control" placeholder="Username" id="userId" name="userid">
 									</div>
+									<div style="font-size: 10pt; margin-bottom: -20px; margin-top: 5px;" id="idDuplicateInfo">
+										&nbsp;<!-- <i class="fa fa-check"></i>여기는 이메일 체크 자리 -->
+									</div>
 								</div>
 								<div class="form-group">
 									<div class="input-group">
@@ -80,6 +72,9 @@
 										</div>
 										<input type="password" class="form-control" placeholder="Confirm Password" id="checkPw">
 									</div>
+									<div style="font-size: 10pt; margin-bottom: -20px; margin-top: 5px;" id="passwordSameCheck">
+										&nbsp;
+									</div>
 								</div>
 								
 								<div class="form-group">
@@ -90,6 +85,9 @@
 										</div>
 										<input type="text" class="form-control" placeholder="E-mail" id="userEmail" name="email">
 										
+									</div>									
+									<div style="font-size: 10pt; margin-bottom: -20px; margin-top: 5px;" id="emailDuplicateInfo">
+										&nbsp;<!-- <i class="fa fa-check"></i>여기는 이메일 체크 자리 -->
 									</div>
 								</div>
 								<div class="form-group">
@@ -162,8 +160,86 @@
 			var obForm = document.getElementById("registerForm");
 			alert('hihi');
 		});
+		
+		
+		$('#userId').focusout(function() {
+			checkDuplicateId();
+		});
+		
+		$('#checkPw').focusout( function (){
+			passwordSameCheck();
+		});
+		
+		$('#userEmail').focusout( function (){
+			checkDuplicateEmail();
+		});
 
 	});
+	
+	function passwordSameCheck(){
+
+		var pw_1 = document.getElementById("userPw").value;
+		var pw_2 = document.getElementById("checkPw").value;
+		
+		if( pw_1 != pw_2 ){
+			$("#passwordSameCheck").css('color','red');
+			$("#passwordSameCheck").html( '<i class="fa fa-check" style="color : red";></i> 비밀번호가 일치하지 않습니다.' );
+		} else {
+			$("#passwordSameCheck").css('color','green');
+			$("#passwordSameCheck").html( '<i class="fa fa-check" style="color : green";></i> 비밀번호가 일치합니다.' );
+		}
+		
+	}
+
+	function checkDuplicateId() {
+		
+		inputId = document.getElementById("userId").value;
+
+		$.ajax({
+			
+			method : 'get',
+			url : 'accountRegister/checkDuplicate',
+			data : {
+				'userId': inputId,
+				'checkType' : 'id'
+			},
+			success : function( result ) {
+				$("#idDuplicateInfo").css('color','green');
+				$("#idDuplicateInfo").html( '<i class="fa fa-check" style="color : green";></i> 사용 가능한 아이디 입니다.' );
+				
+			}, error : function( result ){
+				$("#idDuplicateInfo").css('color','red');
+				$("#idDuplicateInfo").html( '<i class="fa fa-check" style="color : red";></i> 사용할 수 없는 아이디 입니다.' );
+			}
+			
+		});
+		
+	}
+	
+	function checkDuplicateEmail(){
+		
+		userEmail = document.getElementById("userEmail").value;
+
+		$.ajax({
+			
+			method : 'get',
+			url : 'accountRegister/checkDuplicate',
+			data : {
+				'userEmail': userEmail,
+				'checkType' : 'email'
+			},
+			success : function( result ) {
+				$("#emailDuplicateInfo").css('color','green');
+				$("#emailDuplicateInfo").html( '<i class="fa fa-check" style="color : green";></i> 사용 가능한 이메일 입니다.' );
+				
+			}, error : function( result ){
+				$("#emailDuplicateInfo").css('color','red');
+				$("#emailDuplicateInfo").html( '<i class="fa fa-check" style="color : red";></i> 중복되는 이메일 입니다.' );
+			}
+			
+		});
+		
+	}
 
 	function accountRegister() {
 
@@ -191,42 +267,45 @@
 		return regExp.test(asValue); // 형식에 맞는 경우 true 리턴	
 
 	}
-	
-	
-	Dropzone.autoDiscover = false;
-	
-	
-	Dropzone.options.dzUpload = {
-			url : "/profileUploadCheck",
-		    thumbnailWidth: null,
-		    thumbnailHeight: null,
-		    init: function() {
-		        this.on("thumbnail", function(file, dataUrl) {
-		            $('.dz-image').last().find('img').attr({width: '100%', height: '100%'});
-		        }),
-		        this.on("success", function(file) {
-		            $('.dz-image').css({"width":"100%", "height":"auto"});
-		        })
-		    },
-		    addRemoveLinks : true,
-			maxFiles : 1,
-			acceptedFiles: ".jpeg,.jpg,.png,.JPEG,.JPG,.PNG",
-			headers: {
-		        'X-CSRF-TOKEN': $('meta[name="_csrf"]').attr('content')
-		    },
-			success : function(file, response) {
 
-				console.log(  );
-				console.log( response );
-				$('input[name=profile_image]').val( file.dataURL );
-				
-			},
-			error : function(file, response) {
-				console.log( file );
-				console.log( response );
-				
-			}
-		};
+	Dropzone.autoDiscover = false;
+
+	Dropzone.options.dzUpload = {
+		url : "/profileUploadCheck",
+		thumbnailWidth : null,
+		thumbnailHeight : null,
+		init : function() {
+			this.on("thumbnail", function(file, dataUrl) {
+				$('.dz-image').last().find('img').attr({
+					width : '100%',
+					height : '100%'
+				});
+			}), this.on("success", function(file) {
+				$('.dz-image').css({
+					"width" : "100%",
+					"height" : "auto"
+				});
+			})
+		},
+		addRemoveLinks : true,
+		maxFiles : 1,
+		acceptedFiles : ".jpeg,.jpg,.png,.JPEG,.JPG,.PNG",
+		headers : {
+			'X-CSRF-TOKEN' : $('meta[name="_csrf"]').attr('content')
+		},
+		success : function(file, response) {
+
+			console.log();
+			console.log(response);
+			$('input[name=profile_image]').val(file.dataURL);
+
+		},
+		error : function(file, response) {
+			console.log(file);
+			console.log(response);
+
+		}
+	};
 	var myDropzone = new Dropzone("div#dzUpload");
 </script>
 </html>

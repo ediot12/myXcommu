@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.zerock.mapper.FreeBoardMapper">
+
+	<select id="getAllFreeBoardList" resultType="org.zerock.domain.FreeBoardDTO">
+		select * from tbl_free_board order by free_board_seq desc
+	</select>
+	
+	<select id="getFreeBoard" resultType="org.zerock.domain.FreeBoardDTO">
+		select * from tbl_free_board where free_board_seq = #{seq}
+	</select>
+	
+	<update id="updateFreeBoard" parameterType="java.util.HashMap">
+		update tbl_free_board
+			set
+				subject = #{subject},
+				content = #{content}
+			where
+				free_board_seq = #{seq}
+	</update>
+	
+	<insert id="insertFreeBoard" parameterType="org.zerock.domain.FreeBoardDTO">
+		insert into tbl_free_board 
+			(free_board_seq, subject, content, writer)
+		values
+			( free_board_seq.nextval, #{subject}, #{content}, #{writer} )
+	</insert>
+
+
+</mapper>

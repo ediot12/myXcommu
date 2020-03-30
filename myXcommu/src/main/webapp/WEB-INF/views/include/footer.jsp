@@ -1,52 +1,33 @@
-</div>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" language="java"%>
+<!-- content-wrapper ends -->
+		<!-- partial:partials/_footer.html -->
+		<footer class="footer">
+			<div class="container clearfix">
+				<span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright © 2019 <a href="http://www.bootstrapdash.com/" target="_blank">Bootstrapdash</a>. All rights reserved.
+				</span> <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Hand-crafted & made with <i class="mdi mdi-heart text-danger"></i>
+				</span>
+			</div>
+		</footer>
+		<!-- partial -->
+		</div>
 		<!-- page-body-wrapper ends -->
 	</div>
-	<!-- container-scroller -->
-	<!-- plugins:js -->
-	<script src="/resources/assets/vendors/js/vendor.bundle.base.js"></script>
-	<script src="/resources/assets/js/shared/misc.js"></script>
-	<!-- <script src="/resources/assets/vendors/js/vendor.bundle.addons.js"></script> -->
-	<!-- endinject -->
-	<!-- Plugin js for this page-->
-	<!-- End plugin js for this page-->
-	<!-- inject:js -->
-	<!-- <script src="/resources/assets/js/shared/off-canvas.js"></script>
-	<script src="/resources/assets/js/shared/misc.js"></script> -->
-	<!-- endinject -->
-	<!-- Custom js for this page-->
-	<!-- <script src="/resources/assets/js/demo_1/dashboard.js"></script> -->
-	<!-- End custom js for this page-->
-<!-- 
-    	</div>
-    </div>
-jQuery
-    
-
-    Bootstrap Core JavaScript
-    <script src="/resources/vendor/bootstrap/js/bootstrap.min.js"></script>
-
-    Metis Menu Plugin JavaScript
-    <script src="/resources/vendor/metisMenu/metisMenu.min.js"></script>
-
-    DataTables JavaScript
-    <script src="/resources/vendor/datatables/js/jquery.dataTables.min.js"></script>
-    <script src="/resources/vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
-    <script src="/resources/vendor/datatables-responsive/dataTables.responsive.js"></script>
-
-    Custom Theme JavaScript
-    <script src="/resources/dist/js/sb-admin-2.js"></script>
-
-    Page-Level Demo Scripts - Tables - Use for reference
-    <script>
-    $(document).ready(function() {
-       /*  $('#dataTables-example').DataTable({
-            responsive: true
-        }); */
-        /* $(".sidebar-nav")
-        .attr("class","sidebar-nav navbar-collapse collapse")
-        .attr("aria-expanded", "false")
-        .attr("style","height : 1px"); */
-        
-    });
-    </script>
- -->
+</div>
+<!-- container-scroller -->
+<!-- plugins:js -->
+<script src="/resources/assets/vendors/js/vendor.bundle.base.js"></script>
+<!-- endinject -->
+<!-- Plugin js for this page -->
+<script src="/resources/assets/vendors/jquery-bar-rating/jquery.barrating.min.js"></script>
+<script src="/resources/assets/vendors/datatables.net/jquery.dataTables.js"></script>
+<script src="/resources/assets/vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
+<!-- End plugin js for this page -->
+<!-- inject:js -->
+<script src="/resources/assets/js/shared/misc.js"></script>
+<!-- endinject -->
+<!-- Custom js for this page -->
+<script src="/resources/assets/js/demo_11/script.js"></script>
+<script src="/resources/assets/js/shared/sweetalert.min.js"></script>
+<!-- End custom js for this page -->
+</body>
+</html>

@@ -253,11 +253,20 @@ public class QnAController {
 	@RequestMapping( value="/view/{num}", method=RequestMethod.GET )
 	public String viewContentPage( @PathVariable("num") int board_seq, Model model, HttpServletRequest request, HttpServletResponse response ) {
 		
-		QuestionBoardDTO 	dto 		= mapper.getQuestionBySeq( board_seq );
-		String 				userId 		= dto.getWriter();
-		MemberVO 			regiUser 	= commonMapper.getRegiUserInfor( userId );
-		Map<String,Object>	findMap		= new HashMap<String,Object>();
-		current_view_seq 				= board_seq; // 서버에서 값 저장하는거
+		QuestionBoardDTO 			dto 		= mapper.getQuestionBySeq( board_seq );
+		String 						userId 		= dto.getWriter();
+		MemberVO 					regiUser 	= commonMapper.getRegiUserInfor( userId );
+		Map<String,Object>			findMap		= new HashMap<String,Object>();
+		current_view_seq 						= board_seq; // 서버에서 값 저장하는거		
+		ArrayList<QuestionBoardDTO> boardList 	= mapper.getQuestionBoardList();
+		
+		//사실 이 부분은 애초에 db에서 제대로하던지 뭔가 다른방법을 찾던지 해야할듯 하다.
+		for( int i = 0; i <  boardList.size(); i++ ) {
+			
+			boardList.get(i).setDivision( myXcommuUtil.returnDivisionType( boardList.get(i).getDivision() ) );
+			
+		}
+		
 
 		findMap.put("type"	, "2");
 		findMap.put("seq"	, board_seq);
@@ -309,7 +318,7 @@ public class QnAController {
 		model.addAttribute("contentRegiDate", regiUser.getRegDate() );
 		model.addAttribute("userConnectDate", regiUser.getUpdateDate() );
 		model.addAttribute( "writerInfo"    , regiUser );	
-		
+		model.addAttribute( "list"			, boardList );
 		
 		return "qna/view";
 	}

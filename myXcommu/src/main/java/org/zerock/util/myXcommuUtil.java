@@ -88,6 +88,8 @@ public class myXcommuUtil {
 			return "2";
 		} else if( korBoardType.equals("notice") ) {
 			return "5";
+		} else if( korBoardType.equals("free") ) {
+			return "6";
 		}
 		
 		else {

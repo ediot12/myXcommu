@@ -5,10 +5,14 @@
 	<select id="getAccountInformation" parameterType="String" resultType="org.zerock.domain.MemberVO">
 		select * from tbl_member where userid = #{userId}
 	</select>
+	
+	<select id="getAccountInformationByEmail" parameterType="String" resultType="org.zerock.domain.MemberVO">
+		select * from tbl_member where email = #{email}
+	</select>
 
 	<insert id="registerAccount">
 		insert into tbl_member
-			( userid, userpw, email, profile_image, profile_info ) values( #{userid}, #{userpw}, #{email}, #{profile_image}, #{profile_info} )
+			( userid, userpw, email, profile_image, profile_info, email_code ) values( #{userid}, #{userpw}, #{email}, #{profile_image}, #{profile_info}, #{email_code} )
 	</insert>
 	
 	<insert id="registerAuth">
@@ -24,6 +28,15 @@
 				profile_image = #{profile_image}
 			where
 				userid = #{userid}
+	</update>
+	
+	<update id="updateEmailValid" parameterType="java.util.HashMap">
+		update tbl_member
+			set
+				email_check_valid = '2'
+			where
+				userid = #{userid}
+				and email_code = #{validCode}
 	</update>
 	
 	

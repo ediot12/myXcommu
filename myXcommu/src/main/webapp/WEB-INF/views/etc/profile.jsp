@@ -8,25 +8,6 @@
 <head>
 <!-- Required meta tags -->
 
-<style>
-@import
-	url('https://fonts.googleapis.com/css?family=Nanum+Gothic:400,700,800')
-	;
-
-.content-wrapper {
-	padding-bottom: 0px !important;
-}
-
-body {
-	font-family: 'NanumGothic';
-}
-
-table.dataTable tbody td {
-	padding-left: 20px !important;
-}
-</style>
-
-<link rel="stylesheet" type="text/css" href="/resources/assets/js/dataTables/jquery.dataTables.css">
 <title>myXcommu</title>
 <!-- plugins:css -->
 
@@ -34,7 +15,6 @@ table.dataTable tbody td {
 
 
 <!-- partial -->
-<div class="main-panel">
 
 	<div class="content-wrapper">
 		<!-- Page Title Header Starts-->
@@ -141,7 +121,7 @@ table.dataTable tbody td {
 																			<button class="btn btn-md btn-secondary" onclick="goModifyProfile()">수정</button>
 																		</c:if>
 																	</sec:authorize>
-																
+																<button class="btn btn-md btn-danger" onclick="dropOutAccount()">회원탈퇴</button>
 															</div>
 														</div>
 														<div class="tab-pane fade" id="user-profile-activity" role="tabpanel" aria-labelledby="user-profile-activity-tab">
@@ -203,21 +183,6 @@ table.dataTable tbody td {
 		</div>
 
 	</div>
-
-
-
-
-	<!-- content-wrapper ends -->
-	<!-- partial:partials/_footer.html -->
-	<footer class="footer">
-		<div class="container-fluid clearfix">
-			<span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright © 2019 <a href="http://www.bootstrapdash.com/" target="_blank">Bootstrapdash</a>. All rights reserved.
-			</span> <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Hand-crafted & made with <i class="mdi mdi-heart text-danger"></i>
-			</span>
-		</div>
-	</footer>
-	<!-- partial -->
-</div>
 <!-- main-panel ends -->
 <%@ include file="../include/footer.jsp"%>
 
@@ -230,6 +195,32 @@ table.dataTable tbody td {
 		
 		location.href="/myProfileModify";
 		
+	}
+	
+	function dropOutAccount(){
+		
+		swal({
+			  title: "회원탈퇴시 복구 불가합니다. 계속하시겠습니까?",
+			  icon: "error",
+			  buttons: true,
+			  dangerMode: true,
+			})
+			.then((willDelete) => {
+				
+				eraseCookie("JSESSION_ID");
+			  
+				swal("삭제되었습니다.", {
+				      icon: "success",
+				    });
+				    setTimeout( function(){
+				    	location.href = "/customLogout";
+				    },  3000, );
+				    
+			});
+	}
+	
+	function eraseCookie(name) {
+		document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
 	}
 
 </script>

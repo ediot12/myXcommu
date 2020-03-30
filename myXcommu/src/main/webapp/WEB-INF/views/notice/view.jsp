@@ -17,91 +17,131 @@
 <fmt:formatDate value="${userConnectDate }" pattern="yyyy-MM-dd" var="connDate" />
 
 <style>
-span.bar{
+span.bar {
 	line-height: 40px;
-    height: 40px;
-    color: #aaa;
-    margin: 0 10px;
-    font-size: 17px;
+	height: 40px;
+	color: #aaa;
+	margin: 0 10px;
+	font-size: 17px;
 }
-
-
-
 </style>
 <!-- partial -->
-<div class="main-panel">
-	<div class="content-wrapper">
-		<!-- Page Title Header Starts-->
-		<div class="row page-title-header">
-			<div class="col-12">
-				<div class="page-header">
-					<h4 class="page-title" style="font-weight: 1000;">공지사항 - 게시글</h4>
+<div class="content-wrapper">
+
+	<div class="row">
+
+		<div class="col-md-12 grid-margin stretch-card">
+			<div class="card">
+				<div class="card-body">
+					<form class="forms-sample" method="post" action="/">
+						<div class="form-group">
+							<input type="hidden" value="${board.notice_seq }" id="boardSeq">
+							<h1 style="font-family: 'NanumGothic'; font-weight: bold; display: inline-block;">${board.subject }</h1>
+							<div style="display: inline-block; float: right; padding-top: 15px; font-size: 10pt;">
+								${regiDate } <span class="bar">|</span> 조회 ${board.view_cnt }
+							</div>
+						</div>
+						<div class="form-group">
+							<textarea class="form-control" name="content" id="contentArea" rows="2" value="${board.content }" disabled="disabled"></textarea>
+						</div>
+						<sec:authentication property="principal" var="pinfo" />
+
+						<!-- 작성자와 본인이 일치하지  않으면 수정과 삭제 버튼은 뜨지 않는다. -->
+						<sec:authorize access="isAuthenticated()">
+							<c:if test="${pinfo.username eq board.writer}">
+								<button type="button" class="btn btn-md" style="background-color: red; border-color: red; color: white;" onclick="deleteBoard()">삭제</button>
+								<button type="button" class="btn btn-info btn-md" onclick="goModifyPage(${board.notice_seq})">수정</button>
+							</c:if>
+						</sec:authorize>
+
+						<button type="button" class="btn btn-md btn-secondary" onclick="location.href='/notice/main'">목록</button>
+
+						<input type="hidden" id="writer" value="${board.writer }">
+
+
+					</form>
 				</div>
+
+
 			</div>
-
 		</div>
-		<!-- Page Title Header Ends-->
+		
+		
 
-		<div class="row">
+		<%@ include file="../include/viewProfile.jsp"%>
+		
+		<div class="col-lg-12 grid-margin stretch-card">
 
-			<div class="col-md-12 grid-margin stretch-card">
-				<div class="card">
-					<div class="card-body">
-						<form class="forms-sample" method="post" action="/">
-							<div class="form-group">
-								<input type="hidden" value="${board.notice_seq }" id="boardSeq">
-								<h1 style="font-family: 'NanumGothic'; font-weight: bold; display : inline-block;">${board.subject }</h1>
-								<div style="display : inline-block; float : right; padding-top : 15px; font-size : 10pt;">
-									${regiDate }
-									<span class="bar">|</span>
-									조회 ${board.view_cnt }
-								</div>
-							</div>
-							<div class="form-group">
-								<textarea class="form-control" name="content" id="contentArea" rows="2" value="${board.content }" disabled="disabled"></textarea>
-							</div>
-							<sec:authentication property="principal" var="pinfo" />
-
-							<!-- 작성자와 본인이 일치하지  않으면 수정과 삭제 버튼은 뜨지 않는다. -->
-							<sec:authorize access="isAuthenticated()">
-								<c:if test="${pinfo.username eq board.writer}">
-									<button type="button" class="btn btn-md" style="background-color: red; border-color: red; color: white;" onclick="deleteBoard()">삭제</button>
-									<button type="button" class="btn btn-info btn-md" onclick="goModifyPage(${board.notice_seq})">수정</button>
-								</c:if>
-							</sec:authorize>
-
-							<button type="button" class="btn btn-md btn-secondary" onclick="location.href='/notice/main'">목록</button>
-
-							<input type="hidden" id="writer" value="${board.writer }">
+			<div class="card">
+				<div class="card-body">
 
 
-						</form>
+
+					<div class="col-12">
+						<div class="page-header">
+							<h4 class="page-title" style="font-weight: 1000; display : inline-block;">공지사항</h4>
+							<span class="bar" style="font-size : 17pt; color : #aaa;">|</span>
+							총 ${fn:length(noticeList)} 건의 게시글을 보관중
+						</div>
 					</div>
 
+					<table class="table table-hover" id="noticeBoardTable">
+						<thead>
+							<tr>
+								<th>번호</th>
+								<th>제목</th>
+								<th>글쓴이</th>
+								<th>등록일</th>
+								<th>조회</th>
+							</tr>
+						</thead>
+						<tbody>
+							<c:forEach items="${noticeList }" var="list">
+								<tr>
+									<td>${list.notice_seq }</td>
+									<td>
+										<a href="/notice/view/${list.notice_seq }"> <!-- <i class="fa fa-lock" style="margin-right : 5px;"></i> -->${list.subject } <%-- <c:if test="${list.reply_cnt != 0 }">
+													<div style="display:inline-block; color: green; font-weight: bold;">
+														[ ${list.reply_cnt } ]
+													</div>
+												</c:if> --%>
+										</a>
+									</td>
+									<td>${list.writer }</td>
+									<td>
+										<fmt:formatDate value="${list.regdate }" pattern="HH:mm" var="todayRegiDate" />
+										<fmt:formatDate value="${list.regdate }" pattern="MMdd" var="regiDate" />
+										<fmt:formatDate value="${list.regdate }" pattern="yy.MM.dd" var="markDate" />
+										<c:choose>
+											<c:when test="${nowDate != regiDate }">
+													${markDate }
+												</c:when>
+											<c:otherwise>
+													${todayRegiDate }
+												</c:otherwise>
+										</c:choose>
+									</td>
+									<td>${list.view_cnt }</td>
+								</tr>
+							</c:forEach>
+						</tbody>
+					</table>
+
+					<sec:authentication property="principal" var="pinfo" />
+
+					<!-- 작성자와 본인이 일치하지  않으면 수정과 삭제 버튼은 뜨지 않는다. -->
+					<sec:authorize access="hasAnyRole('ROLE_ADMIN')">
+
+						<button type="button" onclick="location.href='/notice/register'" class="btn btn-outline-primary btn-fw" style="float: right; margin-top: 10px;">글쓰기</button>
+					</sec:authorize>
 
 				</div>
 			</div>
-
-			<%@ include file="../include/viewProfile.jsp"%>
-
-
 		</div>
+
 
 	</div>
 
-
-
-
-	<!-- content-wrapper ends -->
-	<!-- partial:partials/_footer.html -->
-	<footer class="footer">
-		<div class="container-fluid clearfix">
-			<span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright © 2019 <a href="http://www.bootstrapdash.com/" target="_blank">Bootstrapdash</a>. All rights reserved.
-			</span> <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Hand-crafted & made with <i class="mdi mdi-heart text-danger"></i>
-			</span>
-		</div>
-	</footer>
-	<!-- partial -->
 </div>
 <!-- main-panel ends -->
 <%@ include file="../include/footer.jsp"%>
@@ -140,8 +180,7 @@ span.bar{
 			         // Hide the editor top bar.
 			    	  document.getElementById("cke_1_top").style.display='none';
 			      }
-			   },
-		   contentsCss : '/resources/assets/ckeditor/custom.css'
+			   }
 		
 	});	
 	
@@ -150,24 +189,44 @@ span.bar{
 	
 	/* 사실  위에 completeQuestion과 흡사하므로 하나로 합칠수 있음 .. 다만 나중에 */
 	function deleteBoard(){
-		$.ajax({
-			
-			url : '/common/view/deleteBoard',
-			method : 'GET',
-			data : {
-				'writer': document.getElementById("writer").value,
-				'boardSeq' : document.getElementById("boardSeq").value,
-				'boardType' : '5'
-			},
-			success : function ( result ){
-				alert("delete complete");
-				location.href = "/notice/main";
-			},
-			error : function ( result ){
-				alert("internal error occured!!!");	
-			}
-			
-		});
+		
+		swal({
+			  title: "해당 게시물이 삭제됩니다. 계속하시겠습니까?",
+			  icon: "error",
+			  buttons: true,
+			  dangerMode: true,
+			})
+			.then((willDelete) => {
+			  if (willDelete) {
+				 
+				  $.ajax({
+						
+						url : '/common/view/deleteBoard',
+						method : 'GET',
+						data : {
+							'writer': document.getElementById("writer").value,
+							'boardSeq' : document.getElementById("boardSeq").value,
+							'boardType' : '5'
+						},
+						success : function ( result ){
+							  
+							  
+						    swal("삭제되었습니다.", {
+						      icon: "success",
+						    });
+						    setTimeout( function(){
+						    	location.href = "/notice/main";
+						    },  3000, );
+						},
+						error : function ( result ){
+							alert("internal error occured!!!");	
+						}
+						
+					});
+				
+			  }
+			});
+		
 		
 	}
 	

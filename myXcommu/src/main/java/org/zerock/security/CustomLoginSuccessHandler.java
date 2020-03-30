@@ -62,13 +62,20 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler{
 		
 		logger.warn("  Role Names : " + roleNames );
 		
+		
+		
 		MemberVO member = accountMapper.getAccountInformation( userId );
+		
+		if( member.getEmail_check_valid().equals("1") ) {
+			response.sendRedirect("/accessError");
+			session.invalidate();
+			return;
+		}
 		
 		session.setAttribute("currentUserId", auth.getName());
 		session.setAttribute("image64", member.getProfile_image() );
 		session.setAttribute("loginTime", smf.format(date));
 		session.setAttribute("recentlyLoginDate", recentLoginDate ); 
-		
 		
 		if( roleNames.contains("ROLE_ADMIN") ) {
 			response.sendRedirect("/board/list_");
@@ -79,6 +86,7 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler{
 			response.sendRedirect("/board/list_");
 			return;
 		}
+		
 		
 		response.sendRedirect("/");
 		

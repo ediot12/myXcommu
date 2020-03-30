@@ -88,6 +88,8 @@ public class ProposalController {
 		String 						userId 		= dto.getWriter();
 		MemberVO 					regiUser 	= commonMapper.getRegiUserInfor( userId );
 		Map<String,Object>			findMap		= new HashMap<String,Object>();
+		ArrayList<ProposalBoardDTO> proposalList = mapper.getAllProposalBoard();
+		
 		
 		
 		Cookie[] cookies = request.getCookies();
@@ -142,7 +144,7 @@ public class ProposalController {
 		model.addAttribute( "contentRegiDate"	, regiUser.getRegDate() );
 		model.addAttribute( "userConnectDate"	, regiUser.getUpdateDate() );
 		model.addAttribute( "writerInfo"    	, regiUser );	
-		
+		model.addAttribute( "proposalList"		, proposalList );
 		
 		log.info("come!!?@");
 		

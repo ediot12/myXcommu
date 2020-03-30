@@ -9,28 +9,9 @@
 <!-- Required meta tags -->
 
 <style>
-@import
-	url('https://fonts.googleapis.com/css?family=Nanum+Gothic:400,700,800')
-	;
-
-.content-wrapper {
-	padding-bottom: 0px !important;
-}
-
-body {
-	font-family: 'NanumGothic';
-}
 
 table.dataTable tbody td {
 	padding-left: 20px !important;
-}
-
-table#pictureBoardTable tbody tr td {
-	cursor: pointer;
-}
-
-table#pictureBoardTable tbody tr td:hover {
-	background-color: lightgray;
 }
 </style>
 
@@ -44,8 +25,6 @@ table#pictureBoardTable tbody tr td:hover {
 
 
 <!-- partial -->
-<div class="main-panel">
-
 	<div class="content-wrapper">
 		<!-- Page Title Header Starts-->
 		<!-- Page Title Header Ends-->
@@ -69,7 +48,7 @@ table#pictureBoardTable tbody tr td:hover {
 								</h2>
 								<p class="text-muted">About ${fn:length(searchList)} results (0.52 seconds)</p>
 							</div>
-							<table id="searchBoardTable" class="table">
+							<table id="searchBoardTable" class="table" style="table-layout : fixed;">
 							
 								<c:if test="${fn:length(searchList) > 0 }">
 									<c:forEach items="${searchList }" var="list">
@@ -102,7 +81,7 @@ table#pictureBoardTable tbody tr td:hover {
 														<p class="page-url text-primary">
 															<div class="${badgeClass }" style="display : inline-block;">${typeName}</div>
 															|| ${list.writer} || 조회수 ${list.view_cnt} || ${boardRegiDate }</p>
-														<p class="page-description mt-1 w-75 text-muted">
+														<p class="page-description mt-1 text-muted" style="overflow: hidden; text-overflow: ellipsis;  white-space: nowrap;">
 															${list.content }
 														</p>
 													</div>
@@ -132,21 +111,6 @@ table#pictureBoardTable tbody tr td:hover {
 		</div>
 
 	</div>
-
-
-
-
-	<!-- content-wrapper ends -->
-	<!-- partial:partials/_footer.html -->
-	<footer class="footer">
-		<div class="container-fluid clearfix">
-			<span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright © 2019 <a href="http://www.bootstrapdash.com/" target="_blank">Bootstrapdash</a>. All rights reserved.
-			</span> <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Hand-crafted & made with <i class="mdi mdi-heart text-danger"></i>
-			</span>
-		</div>
-	</footer>
-	<!-- partial -->
-</div>
 <!-- main-panel ends -->
 <%@ include file="../include/footer.jsp"%>
 

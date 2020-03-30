@@ -11,6 +11,10 @@
 <!-- plugins:css -->
 
 <%@ include file="../include/header.jsp"%>
+
+<fmt:formatDate value="${board.regdate }" pattern="yy-MM-dd HH:mm" var="regiDate" />
+<fmt:formatDate value="${contentRegiDate }" pattern="yyyy-MM-dd" var="joinDate" />
+<fmt:formatDate value="${userConnectDate }" pattern="yyyy-MM-dd" var="connDate" />
 <!-- partial -->
 <div class="main-panel">
 	<div class="content-wrapper">
@@ -33,36 +37,14 @@
 						<form class="forms-sample" method="post" action="/">
 							<div class="form-group">
 								<input type="hidden" value="${board.proposal_seq }" id="boardSeq">
-								<h1 style="font-family: 'NanumGothic'; font-weight: bold;">${board.subject }</h1>
-
-								<fmt:formatDate value="${board.regdate }" pattern="yyyy-MM-dd HH:mm:ss" var="regiDate" />
-								<fmt:formatDate value="${contentRegiDate }" pattern="yyyy-MM-dd" var="joinDate" />
-								<fmt:formatDate value="${userConnectDate }" pattern="yyyy-MM-dd" var="connDate" />
-								<table class="table" style="border: 2px solid gray; width: 400px;">
-									<tr>
-										<th rowspan="3" style="width: 20%;"><img src="/resources/assets/images/Invulnerability_anim.gif"></th>
-										<th colspan="2" style="width: 80%;">${board.writer }에의해 ${regiDate }에 게시됨</th>
-									</tr>
-									<tr>
-										<td>
-											상태 :
-											<c:if test="${board.status == 'N' }">
-												<label class="badge badge-danger" style="font-size: 10pt;"> 건의중 </label>
-											</c:if>
-											<c:if test="${board.status == 'Y' }">
-												<label class="badge badge-success" style="font-size: 10pt;"> 처리완료 </label>
-											</c:if>
-										</td>
-										<td>구분 : ${board.division }</td>
-									</tr>
-									<tr>
-										<td>최근 접속 : ${connDate }</td>
-										<td>가입일 : ${joinDate }</td>
-									</tr>
-								</table>
+								<h1 style="font-family: 'NanumGothic'; font-weight: bold; display : inline-block;">${board.subject }</h1>
+								<div style="display : inline-block; float : right; padding-top : 15px; font-size : 10pt;">
+									${regiDate }
+									<span class="bar">|</span>
+									조회 ${board.view_cnt }
+								</div>
 							</div>
 							<div class="form-group">
-								<label for="questionArea">내용</label>
 								<textarea class="form-control" name="content" id="contentArea" rows="2" value="${board.content }" disabled="disabled"></textarea>
 							</div>
 							<sec:authentication property="principal" var="pinfo" />
@@ -166,23 +148,112 @@
 				</div>
 				
 			</div>
+			
+			<div class="col-lg-12 grid-margin stretch-card">
+				
+				<div class="card">
+					<div class="card-body">
+					
+						
+			
+						<div class="col-12">
+							<div class="page-header">
+								<h4 class="page-title" style="font-weight: 1000; display : inline-block;">건의게시판</h4>
+								<span class="bar" style="font-size : 17pt; color : #aaa;">|</span>
+								총 ${fn:length(proposalList)} 건의 게시글을 보관중
+							</div>
+						</div>
+						
+						<table class="table table-hover" id="proposalBoardTable">
+							<thead>
+								<tr>
+									<th>번호</th>
+									<th>구분</th>
+									<th>상태</th>
+									<th>제목</th>
+									<th>글쓴이</th>
+									<th>등록일</th>
+									<th>조회</th>
+								</tr>
+							</thead>
+							<tbody>
+								<c:forEach items="${proposalList }" var="list">
+									<tr>
+										<td>${list.proposal_seq }</td>
+										<td>
+											<c:if test='${list.division == "사이트기능"}'>
+												<label class="badge badge-primary">
+													${list.division}
+												</label>
+											</c:if>
+											<c:if test='${list.division == "게시판추가"}'>
+												<label class="badge badge-success">
+													${list.division}
+												</label>
+											</c:if>
+											<c:if test='${list.division == "버그발견"}'>
+												<label class="badge badge-danger">
+													${list.division}
+												</label>
+											</c:if>
+											<c:if test='${list.division == "기타"}'>
+												<label class="badge badge-warning">
+													${list.division}
+												</label>
+											</c:if>
+										</td>
+										<td>
+											<c:if test="${list.status == 'N' }">
+												<label class="badge badge-danger" style="font-size : 10pt;">
+													건의중
+												</label>
+											</c:if>
+											<c:if test="${list.status == 'Y' }">
+												<label class="badge badge-success" style="font-size : 10pt;">
+													처리완료
+												</label>
+											</c:if>
+										</td>
+										<td>
+											<a href="/proposal/view/${list.proposal_seq }">
+												<i class="fa fa-lock" style="margin-right : 5px;"></i>${list.subject }
+												<c:if test="${list.reply_cnt != 0 }">
+													<div style="display:inline-block; color: green; font-weight: bold;">
+														[ ${list.reply_cnt } ]
+													</div>
+												</c:if>
+											</a>
+										</td>
+										<td>${list.writer }</td>
+										<td>
+											<fmt:formatDate value="${list.regdate }" pattern="HH:mm" var="todayRegiDate"/>
+											<fmt:formatDate value="${list.regdate }" pattern="MMdd" var="regiDate"/>
+											<fmt:formatDate value="${list.regdate }" pattern="yy.MM.dd" var="markDate"/>
+											<c:choose>
+												<c:when test="${nowDate != regiDate }">
+													${markDate }
+												</c:when>
+												<c:otherwise>
+													${todayRegiDate }
+												</c:otherwise>
+											</c:choose>
+										</td>
+										<td>${list.view_cnt }</td>
+									</tr>
+								</c:forEach>
+							</tbody>
+						</table>
+
+						<button type="button" onclick="location.href='/proposal/register'"  class="btn btn-outline-primary btn-fw" style="float: right; margin-top : 10px;">
+							글쓰기
+						</button>
+					</div>
+				</div>
+			</div>
 
 		</div>
 
 	</div>
-
-
-
-
-	<!-- content-wrapper ends -->
-	<!-- partial:partials/_footer.html -->
-	<footer class="footer">
-		<div class="container-fluid clearfix">
-			<span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright © 2019 <a href="http://www.bootstrapdash.com/" target="_blank">Bootstrapdash</a>. All rights reserved.
-			</span> <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Hand-crafted & made with <i class="mdi mdi-heart text-danger"></i>
-			</span>
-		</div>
-	</footer>
 	<!-- partial -->
 </div>
 <!-- main-panel ends -->
@@ -231,8 +302,7 @@
 			         // Hide the editor top bar.
 			    	  document.getElementById("cke_1_top").style.display='none';
 			      }
-			   },
-		   contentsCss : '/resources/assets/ckeditor/custom.css'
+			   }
 		
 	});	
 	
@@ -291,25 +361,41 @@
 	
 	/* 사실  위에 completeQuestion과 흡사하므로 하나로 합칠수 있음 .. 다만 나중에 */
 	function deleteBoard(){
-		$.ajax({
-			
-			url : '/common/view/deleteBoard',
-			method : 'GET',
-			data : {
-				'writer': document.getElementById("writer").value,
-				'boardSeq' : document.getElementById("boardSeq").value,
-				'boardType' : '4'
-			},
-			success : function ( result ){
-				alert("delete complete");
-				location.href = "/proposal/main";
-			},
-			error : function ( result ){
-				alert("internal error occured!!!");	
-			}
-			
-		});
 		
+		swal({
+			  title: "해당 게시물이 삭제됩니다. 계속하시겠습니까?",
+			  icon: "error",
+			  buttons: true,
+			  dangerMode: true,
+			})
+			.then((willDelete) => {
+			  if (willDelete) {
+				  
+				  $.ajax({
+						
+						url : '/common/view/deleteBoard',
+						method : 'GET',
+						data : {
+							'writer': document.getElementById("writer").value,
+							'boardSeq' : document.getElementById("boardSeq").value,
+							'boardType' : '4'
+						},
+						success : function ( result ){
+							swal("삭제되었습니다.", {
+							      icon: "success",
+							    });
+							    setTimeout( function(){
+							    	location.href = "/proposal/main";
+							    },  3000, );
+						},
+						error : function ( result ){
+							alert("internal error occured!!!");	
+						}
+						
+					});
+				
+			  }
+			});
 	}
 	
 	function empathyReply( val ){

@@ -21,4 +21,5 @@ public class MemberVO {
 	private String email_check_valid;
 	private String profile_image;
 	private String profile_info;
+	private String email_code;
 }

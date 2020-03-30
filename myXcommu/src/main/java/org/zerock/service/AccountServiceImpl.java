@@ -1,5 +1,6 @@
 package org.zerock.service;
 
+import java.util.Map;
 import java.util.Random;
 
 import javax.inject.Inject;
@@ -37,7 +38,7 @@ public class AccountServiceImpl implements AccountService{
 	
 	@Override
 	@Transactional
-	public int registerAccount( String userId, String userPw, String email, String profile_image, String profile_info ) {
+	public int registerAccount( String userId, String userPw, String email, String profile_image, String profile_info, String emailCode ) {
 		
 		
 		  String origin_pw = userPw; 
@@ -53,6 +54,7 @@ public class AccountServiceImpl implements AccountService{
 		  vo.setEmail(email);
 		  vo.setProfile_image(profile_image);
 		  vo.setProfile_info(profile_info);
+		  vo.setEmail_code( emailCode );
 		  
 		  int account = mapper.registerAccount( vo );
 		  mapper.registerAuth( userId );
@@ -64,30 +66,7 @@ public class AccountServiceImpl implements AccountService{
 		
 	}
 	
-	/*
-	 * private void sendMail( String email ) {
-	 * 
-	 * 
-	 * Random r = new Random(); int dice = r.nextInt(4589362) + 49311; //이메일로 받는
-	 * 인증코드 부분 (난수)
-	 * 
-	 * String setfrom = "admin@myXcommu.com"; String tomail = email; // 받는 사람 이메일
-	 * String title = "회원가입 인증 이메일 입니다."; // 제목 String content = "This is content!"
-	 * + Integer.toString( dice );
-	 * 
-	 * 
-	 * 
-	 * try { MimeMessage message = mailSender.createMimeMessage(); MimeMessageHelper
-	 * messageHelper = new MimeMessageHelper(message, true, "UTF-8");
-	 * 
-	 * messageHelper.setFrom(setfrom); // 보내는사람 생략하면 정상작동을 안함
-	 * messageHelper.setTo(tomail); // 받는사람 이메일 messageHelper.setSubject(title); //
-	 * 메일제목은 생략이 가능하다 messageHelper.setText(content); // 메일 내용
-	 * 
-	 * mailSender.send(message); } catch (Exception e) { System.out.println(e); }
-	 * 
-	 * }
-	 */
+	
 	
 	
 
