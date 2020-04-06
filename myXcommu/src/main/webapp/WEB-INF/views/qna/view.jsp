@@ -7,7 +7,6 @@
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec"%>
 <head>
 
-<link rel="stylesheet" type="text/css" href="/resources/assets/js/dataTables/jquery.dataTables.css">
 <title>myXcommu</title>
 <!-- plugins:css -->
 
@@ -15,6 +14,7 @@
 <fmt:formatDate value="${board.regdate }" pattern="yy-MM-dd HH:mm" var="regiDate" />
 <fmt:formatDate value="${contentRegiDate }" pattern="yyyy-MM-dd" var="joinDate" />
 <fmt:formatDate value="${userConnectDate }" pattern="yyyy-MM-dd" var="connDate" />
+
 <!-- partial -->
 <div class="content-wrapper">
 	<!-- Page Title Header Starts-->
@@ -22,7 +22,7 @@
 		<div class="col-12">
 			<div class="page-header">
 				<h4 class="page-title" style="font-weight: 1000;">질문게시판 - 게시글</h4>
-			</div>
+			</div>																									
 		</div>
 
 	</div>
@@ -66,7 +66,10 @@
 						<button type="button" class="btn btn-md btn-secondary" onclick="location.href='/qna/main'">목록</button>
 						<div style="float: right;">
 
-							<input type="hidden" id="writer" value="${board.writer }">
+							<input type="hidden" id="writer" value="${board.writer }">							
+							<input type="hidden" id="reporter" value="${sessionScope.currentUserId}">
+							<input type="hidden" id="boardType" value="2">
+							<button type="button" class="btn btn-danger"  data-toggle="modal" href="#reportModal" style="color : white; font-weight : bold; font-size : 9pt;"><i class="ti-alert"></i>신고</button>
 							<button type="button" class="btn" style="color: white; font-weight: bold; background-color: green;" onclick="recommandBoard()">
 								<i class="fa fa-thumbs-up overActive"></i> 추천
 								<div style="display: inline-block;">
@@ -239,7 +242,8 @@
 
 
 
-<script type="text/javascript" charset="utf8" src="/resources/assets/js/jquery-1.12.4.min.js"></script>
+
+
 <script type="text/javascript" src="/resources/assets/ckeditor/ckeditor.js"></script>
 <script>
 
@@ -479,6 +483,8 @@ function empathyReply( val ){
 		});
 	
 	}
+	
+	
 	
 	
 </script>

@@ -8,9 +8,29 @@
 				</span>
 			</div>
 		</footer>
+		
+		
 		<!-- partial -->
 		</div>
 		<!-- page-body-wrapper ends -->
+	</div>
+</div>
+
+
+<div class="modal fade" id="reportModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-modal="true" style="top : 25%;">
+	<div class="modal-dialog modal-sm" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">신고하기</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">×</span>
+				</button>
+			</div>
+			<div class="modal-footer" style="padding: 15px 45px;">
+				<button type="button"  onclick="commonReport('porno')" class="btn btn-danger" style="width: 100px; height: 50px; padding: 0;"><i class="fa fa-times-circle"></i>음란물신고</button>
+				<button type="button"  onclick="commonReport('board')"  class="btn btn-danger" style="width: 100px; height: 50px; padding: 0;"><i class="fa fa-minus-circle"></i>게시물신고</button>
+			</div>
+		</div>
 	</div>
 </div>
 <!-- container-scroller -->

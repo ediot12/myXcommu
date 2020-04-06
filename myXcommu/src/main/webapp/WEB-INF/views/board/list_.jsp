@@ -4,12 +4,26 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <head>
+<style>
+i.customColor{
+	color : #A4A4A4;
+}
+
+
+div.innerBoard:hover{
+	cursor : pointer;
+	opacity : 0.7;
+}
+
+</style>
 <title>myXcommu</title>
 <!-- plugins:css -->
 
 <%@ include file="../include/header.jsp"%>
 <!-- partial -->
 <div class="content-wrapper">
+<jsp:useBean id="currentDate" class="java.util.Date" />
+<fmt:formatDate value="${currentDate}" pattern="MMdd" var="nowDate" />
 	<%-- <div class="row grid-margin">
 		<div class="col-lg-12">
 			<div class="card px-3">
@@ -59,16 +73,17 @@
 
 	<div class="row">
 		<c:forEach items="${pictureList}" var="pictureList" varStatus="status" begin="0" end="2">
-			<div class="col-md-4 grid-margin stretch-card">
+			<fmt:formatDate value="${pictureList.regdate }" pattern="yyyy-MM-dd HH:mm" var="regiDate"/>
+			<div class="col-md-4 grid-margin stretch-card innerBoard" onclick="location.href='/picture/view/${pictureList.picture_seq}'">
 				<div class="card">
-					<img class="card-img-top" src="${pictureList.base64_code }" alt="card images" style="width : 350px; height : 215px;">
+					<img class="card-img-top" src="${pictureList.base64_code }" alt="card images" style="width : 353px; height : 215px;">
 					<div class="card-body pb-0">
 						<p class="text-muted">${pictureList.subject }</p>
-						<h5>It’s good to start or finish the day with delicious pancakes :)</h5>
+						<h5>${pictureList.convert_content }</h5>
 						<div class="d-flex align-items-center justify-content-between text-muted border-top py-3 mt-3">
-							<p class="mb-0">Published on May 23, 2018</p>
+							<p class="mb-0">Published on ${regiDate}</p>
 							<div class="wrapper d-flex align-items-center">
-								<small class="mr-2">93</small> <i class="mdi mdi-heart-outline"></i>
+								<small class="mr-2">${pictureList.recommand_cnt }</small> <i class="mdi mdi-heart-outline"></i>
 							</div>
 						</div>
 					</div>
@@ -85,12 +100,12 @@
 						<div class="card-body">
 							<div class="row" style="overflow-x: auto;">
 								<div style="min-width: 85%;">
-									<h4 class="card-title" style="display: inline-block; font-weight: bold;">
+									<h4 class="card-title" style="display: inline-block; font-weight: bold; margin-left: 10px;">
 										<i class="fa fa-exclamation-circle" style="color: #2196f3; margin-right: 5px; font-size: 12pt;"></i>공지사항
 									</h4>
 								</div>
 								<div style="display: grid; width: 10%; margin-left: 7px;">
-									<button type="button" class="btn btn-light btn-sm" style="font-size: 5pt; height: 20px; padding-top: 5px;">
+									<button type="button" class="btn btn-light btn-sm" style="font-size: 5pt; height: 20px; padding-top: 5px;" onclick="location.href='/notice/main'">
 										MORE
 										<!--  <i class="fa fa-plus text-primary"></i> -->
 									</button>
@@ -98,15 +113,22 @@
 								<table width="100%" class="table table-hover">
 									<tbody>
 										<c:forEach items="${noticeList }" var="noticeList" begin="0" end="4">
+											<fmt:formatDate value="${noticeList.regdate }" pattern="HH:mm" var="todayRegiDate"/>
+											<fmt:formatDate value="${noticeList.regdate }" pattern="MMdd" var="regiDate"/>
+											<fmt:formatDate value="${noticeList.regdate }" pattern="MM.dd" var="markDate"/>
 											<tr>
 												<td>
-													<a class="move" href=/notice/view/<c:out value="${noticeList.notice_seq}"/>><c:out value="${noticeList.subject}" /></a>
+													<a class="move" style="color : black;" href=/notice/view/<c:out value="${noticeList.notice_seq}"/>><i class="fa fa-angle-double-right customColor" style="margin-right : 5px;"></i><c:out value="${noticeList.subject}" /></a>
 												</td>
-												<td>
-													<c:out value="${noticeList.writer }" />
-												</td>
-												<td>
-													<fmt:formatDate pattern="yyyy-MM-dd" value="${noticeList.regdate }" />
+												<td style="width : 70px;">
+													<c:choose>
+													<c:when test="${nowDate != regiDate }">
+														${markDate }
+													</c:when>
+													<c:otherwise>
+														${todayRegiDate }
+													</c:otherwise>
+												</c:choose>
 												</td>
 											</tr>
 										</c:forEach>
@@ -126,11 +148,12 @@
 						<div class="card-body">
 							<div class="row" style="overflow-x: auto;">
 								<div style="min-width: 85%;">
-									<i class="fa fa-question-circle" style="color: #2196f3;"></i>
-									<h4 class="card-title" style="display: inline-block; font-weight: bold;">질문게시판</h4>
+									<h4 class="card-title" style="display: inline-block; font-weight: bold; margin-left: 10px;">
+										<i class="fa fa-question-circle" style="color: #2196f3;"></i>
+									질문게시판</h4>
 								</div>
 								<div style="display: grid; width: 10%; margin-left: 7px;">
-									<button type="button" class="btn btn-light btn-sm" style="font-size: 5pt; height: 20px; padding-top: 5px;">
+									<button type="button" class="btn btn-light btn-sm" style="font-size: 5pt; height: 20px; padding-top: 5px;" onclick="location.href='/qna/main'">
 										MORE
 										<!--  <i class="fa fa-plus text-primary"></i> -->
 									</button>
@@ -138,31 +161,26 @@
 								<table class="table table-hover">
 									<tbody>
 										<c:forEach items="${questionList }" var="questionList" begin="0" end="4">
+											<fmt:formatDate value="${questionList.regdate }" pattern="HH:mm" var="todayRegiDate"/>
+											<fmt:formatDate value="${questionList.regdate }" pattern="MMdd" var="regiDate"/>
+											<fmt:formatDate value="${questionList.regdate }" pattern="MM.dd" var="markDate"/>
 											<tr>
 												<td>
-													<c:if test='${questionList.division == "질문유형1"}'>
-														<label class="badge badge-danger"> 질문유형 1 </label>
-													</c:if>
-													<c:if test='${questionList.division == "질문유형2"}'>
-														<label class="badge badge-success"> 질문유형 2 </label>
-													</c:if>
-												</td>
-												<td>
-													<c:if test="${questionList.status == 'N' }">
-														<label class="badge badge-danger"> 해결중 </label>
-													</c:if>
-													<c:if test="${questionList.status == 'Y' }">
-														<label class="badge badge-success"> 해결완료 </label>
-													</c:if>
-												</td>
-												<td>
-													<a href="/qna/view/${questionList.qna_board_seq }"> ${questionList.subject } <c:if test="${questionList.reply_cnt != 0 }">
+													<a style="color : black;"  href="/qna/view/${questionList.qna_board_seq }"><i class="fa fa-angle-double-right customColor" style="margin-right : 5px;"></i> ${questionList.subject } <c:if test="${questionList.reply_cnt != 0 }">
 															<div style="display: inline-block; color: green; font-weight: bold;">[ ${questionList.reply_cnt } ]</div>
 														</c:if>
 													</a>
 												</td>
-												<td>${questionList.writer }</td>
-												<td>${questionList.recommand_cnt }</td>
+												<td style="width : 70px;">
+													<c:choose>
+													<c:when test="${nowDate != regiDate }">
+														${markDate }
+													</c:when>
+													<c:otherwise>
+														${todayRegiDate }
+													</c:otherwise>
+												</c:choose>
+												</td>
 											</tr>
 										</c:forEach>
 									</tbody>
@@ -185,12 +203,12 @@
 						<div class="card-body">
 							<div class="row" style="overflow-x: auto;">
 								<div style="min-width: 85%;">
-									<h4 class="card-title" style="display: inline-block; font-weight: bold;">
+									<h4 class="card-title" style="display: inline-block; font-weight: bold; margin-left: 10px;">
 										<i class="fa fa-pencil-square-o" style="color: #2196f3; margin-right: 5px; font-size: 12pt;"></i>건의게시판
 									</h4>
 								</div>
 								<div style="display: grid; width: 10%; margin-left: 7px;">
-									<button type="button" class="btn btn-light btn-sm" style="font-size: 5pt; height: 20px; padding-top: 5px;">
+									<button type="button" class="btn btn-light btn-sm" style="font-size: 5pt; height: 20px; padding-top: 5px;" onclick="location.href='/proposal/main'">
 										MORE
 										<!--  <i class="fa fa-plus text-primary"></i> -->
 									</button>
@@ -199,15 +217,22 @@
 									<thead>
 									<tbody>
 										<c:forEach items="${proposalList }" var="proposalList" begin="0" end="4">
+											<fmt:formatDate value="${proposalList.regdate }" pattern="HH:mm" var="todayRegiDate"/>
+											<fmt:formatDate value="${proposalList.regdate }" pattern="MMdd" var="regiDate"/>
+											<fmt:formatDate value="${proposalList.regdate }" pattern="MM.dd" var="markDate"/>
 											<tr>
 												<td>
-													<a class="move" href=notice/view /<c:out value="${proposalList.proposal_seq}"/>><c:out value="${proposalList.subject}" /></a>
+													<a class="move" style="color : black;"  href=notice/view /<c:out value="${proposalList.proposal_seq}"/>><i class="fa fa-angle-double-right customColor" style="margin-right : 5px;"></i><c:out value="${proposalList.subject}" /></a>
 												</td>
-												<td>
-													<c:out value="${proposalList.writer }" />
-												</td>
-												<td>
-													<fmt:formatDate pattern="yyyy-MM-dd" value="${proposalList.regdate }" />
+												<td style="width : 70px;">
+													<c:choose>
+													<c:when test="${nowDate != regiDate }">
+														${markDate }
+													</c:when>
+													<c:otherwise>
+														${todayRegiDate }
+													</c:otherwise>
+												</c:choose>
 												</td>
 											</tr>
 										</c:forEach>
@@ -227,12 +252,12 @@
 						<div class="card-body">
 							<div class="row" style="overflow-x: auto;">
 								<div style="min-width: 85%;">
-									<h4 class="card-title" style="display: inline-block; font-weight: bold;">
+									<h4 class="card-title" style="display: inline-block; font-weight: bold; margin-left: 10px;">
 										<i class="fa fa-weixin" style="color: #2196f3; margin-right: 5px; font-size: 12pt;"></i>자유게시판
 									</h4>
 								</div>
 								<div style="display: grid; width: 10%; margin-left: 7px;">
-									<button type="button" class="btn btn-light btn-sm" style="font-size: 5pt; height: 20px; padding-top: 5px;">
+									<button type="button" class="btn btn-light btn-sm" style="font-size: 5pt; height: 20px; padding-top: 5px;"  onclick="location.href='/free/main'">
 										MORE
 										<!--  <i class="fa fa-plus text-primary"></i> -->
 									</button>
@@ -241,16 +266,26 @@
 									<tbody>
 										
 										<c:forEach items="${freeBoardList }" var="freeBoardList" begin="0" end="4">
-											
+											<fmt:formatDate value="${freeBoardList.regdate }" pattern="HH:mm" var="todayRegiDate"/>
+											<fmt:formatDate value="${freeBoardList.regdate }" pattern="MMdd" var="regiDate"/>
+											<fmt:formatDate value="${freeBoardList.regdate }" pattern="MM.dd" var="markDate"/>
 											<tr>
 												<td>
-													<a href="/free/view/${freeBoardList.free_board_seq }"> ${freeBoardList.subject } <c:if test="${freeBoardList.reply_cnt != 0 }">
+													<a style="color : black;" href="/free/view/${freeBoardList.free_board_seq }"><i class="fa fa-angle-double-right customColor" style="margin-right : 5px;"></i> ${freeBoardList.subject } <c:if test="${freeBoardList.reply_cnt != 0 }">
 															<div style="display: inline-block; color: green; font-weight: bold;">[ ${freeBoardList.reply_cnt } ]</div>
 														</c:if>
 													</a>
 												</td>
-												<td>${freeBoardList.writer }</td>
-												<td><fmt:formatDate pattern="yyyy-MM-dd" value="${freeBoardList.regdate }" /></td>
+												<td style="width : 70px;">
+													<c:choose>
+													<c:when test="${nowDate != regiDate }">
+														${markDate }
+													</c:when>
+													<c:otherwise>
+														${todayRegiDate }
+													</c:otherwise>
+												</c:choose>
+												</td>
 											</tr>
 										</c:forEach>
 									</tbody>

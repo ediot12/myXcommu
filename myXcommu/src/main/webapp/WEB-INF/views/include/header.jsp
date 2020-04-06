@@ -22,7 +22,10 @@
 <link rel="stylesheet" href="/resources/assets/css/demo_11/style.css">
 <!-- End Layout styles -->
 <link rel="shortcut icon" href="/resources/assets/images/favicon.png" />
-<link href="/resources/assets/vendors/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet"  href="/resources/assets/vendors/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet"  href="/resources/assets/vendors/simple-line-icons/css/simple-line-icons.css">
+<script type="text/javascript" charset="utf8" src="/resources/assets/js/shared/jquery-1.12.4.min.js"></script>
+<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"> -->
 
 <style>
 i.overActive:hover {
@@ -70,7 +73,62 @@ table > thead > tr > th {
     max-width: 960px;
 } */
 </style>
+<script>
+	function commonReport( text ){
+	
+	var infoTitle = '';
+	var reportType = '';
+	
+	if( text == 'porno' ){			
+		infoTitle = "음란물이 아닐 경우 처리되지 않으며, 허위신고시 차단 조치 됩니다."
+	}
+	
+	if( text == 'board' ){
+		infoTitle = "허위 신고나 신고 사유와 맞지 않는 신고는 차단 될 수 있습니다. 신고를 진행 하시겠습니까?"
+	}
+	
+	swal({
+		  title: infoTitle,
+		  icon: "error",
+		  buttons: true,
+		  dangerMode: true,
+		})
+		.then((willDelete) => {
+		  if (willDelete) {
+			  
+			  $.ajax({
+					
+					url : '/common/view/commonReport',
+					method : 'GET',
+					data : {
+						'writer': document.getElementById("writer").value,
+						'boardSeq' : document.getElementById("boardSeq").value,
+						'boardType' : document.getElementById("boardType").value,
+						'boardReporter' : document.getElementById("reporter").value,
+						'reportType' : text
+					},
+					success : function ( result ){
+						swal("신고접수 되었습니다.", {
+						      icon: "success",
+						    });
+						$('#reportModal').modal('hide');
+					},
+					error : function ( result ){
+						swal("에러가 발생했습니다.", {
+						      icon: "success",
+						    });
+						$('#reportModal').modal('hide');
+					}
+					
+				});
+			
+		  }
+		});
+	
+	
+}
 
+</script>
 <title>myXcommu</title>
 </head>
 <body>
@@ -211,25 +269,25 @@ table > thead > tr > th {
 				<div class="nav-bottom">
 					<div class="container">
 						<ul class="nav page-navigation">
-							<li class="nav-item"><a href="/" class="nav-link"> <i class="link-icon mdi mdi-airplay"></i> <span class="menu-title">Home</span>
+							<li class="nav-item"><a href="/" class="nav-link"> <i class="link-icon fa fa-home"></i> <span class="menu-title">Home</span>
 							</a></li>
-							<li class="nav-item"><a href="/notice/main" class="nav-link"> <i class="link-icon mdi mdi-apple-safari"></i> <span class="menu-title">공지사항</span>
+							<li class="nav-item"><a href="/notice/main" class="nav-link"> <i class="link-icon fa fa-info-circle"></i> <span class="menu-title">공지사항</span>
 							</a></li>
-							<li class="nav-item"><a href="/qna/main" class="nav-link"> <i class="link-icon mdi mdi-flag-outline"></i> <span class="menu-title">질문게시판</span>
+							<li class="nav-item"><a href="/qna/main" class="nav-link"> <i class="link-icon fa fa-question-circle"></i> <span class="menu-title">질문게시판</span>
 							</a>
 								</li>
 							<li class="nav-item"><a href="/free/main" class="nav-link"> <i class="link-icon ti-pencil-alt" style="font-size : 11pt;"></i> <span class="menu-title">자유게시판</span>
 							</a></li>
-							<li class="nav-item"><a href="/proposal/main" class="nav-link"> <i class="link-icon mdi mdi-chart-line"></i> <span class="menu-title">건의게시판</span>
+							<li class="nav-item"><a href="/proposal/main" class="nav-link"> <i class="link-icon fa fa-paper-plane"></i> <span class="menu-title">건의게시판</span>
 							</a></li>
-							<li class="nav-item"><a href="/picture/main" class="nav-link"> <i class="link-icon mdi mdi-cube-outline"></i> <span class="menu-title ">사진게시판</span>
+							<li class="nav-item"><a href="/picture/main" class="nav-link"> <i class="link-icon fa fa-picture-o"></i> <span class="menu-title ">사진게시판</span>
 							</a></li>
 							<li class="nav-item"><a href="#" class="nav-link"> <i class="link-icon mdi mdi-cube-outline"></i> <span class="menu-title ">기타</span> <i class="menu-arrow "></i>
 							</a>
 								<div class="submenu ">
 									<ul class="submenu-item ">
-										<li class="nav-item"><a class="nav-link " href="/report">신고</a></li>
-										<li class="nav-item"><a class="nav-link " href="/statistics">통계 및 순위</a></li>
+										<li class="nav-item"><a class="nav-link " href="/report"><i class="fa fa-exclamation-triangle"></i>신고</a></li>
+										<li class="nav-item"><a class="nav-link " href="/viewStatistics"><i class="icon-chart"></i>통계 및 순위</a></li>
 									</ul>
 							</div></li>
 						</ul>

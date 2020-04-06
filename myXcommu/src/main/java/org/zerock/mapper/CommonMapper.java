@@ -23,4 +23,8 @@ public interface CommonMapper {
 	public void deleteReplyEmpthy( int seq );
 	public void updateViewCnt( Map<String,Object> map );
 	public ArrayList<SearchBoardDTO> getAllSearchReport( String word );
+	public void insertReportBoard( Map<String,Object> map );
+	public int checkReportCount( Map<String,Object> map );
+	public void insertBoardDBLog( Map<String,Object> map );
+	public void insertReplyDBLog( Map<String,Object> map );
 }

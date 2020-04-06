@@ -6,6 +6,10 @@
 		<!-- select * from tbl_picture_board order by picture_seq desc -->
 		select
 		    b.*,
+		     REGEXP_REPLACE( content,
+	    	<![CDATA[
+	    		'<[^>]*>|\&([^;])*;', '')
+	    	]]> as convert_content,
 		    nvl(a.cnt,0) as reply_cnt
 		from
 		(
@@ -93,6 +97,11 @@
 		    a.picture_seq = b.board_seq
 		where
 			picture_seq = #{seq}
+	</select>
+	
+	
+	<select id="currSequenceVal" resultType="Integer">
+		select picture_seq.currval from dual
 	</select>
 	
 	<insert id="registerPictureBoard" parameterType="org.zerock.domain.PictureBoardDTO">

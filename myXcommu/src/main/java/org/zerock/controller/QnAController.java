@@ -335,6 +335,7 @@ public class QnAController {
 		insertMap.put( "division"	, dto.getDivision() 	);
 		insertMap.put( "content"	, dto.getContent() 		);
 		insertMap.put( "subject"	, dto.getSubject() 		);
+		insertMap.put( "board_type" , "2" 					);
 		
 		log.info("file info :: " + uploadFile);
 		
@@ -352,7 +353,12 @@ public class QnAController {
 		} // make yyyy/mm/dd folder
 		
 		mapper.registerQuestion( insertMap );
-		int currSeq = mapper.currSequenceVal();				
+		
+		int currSeq = mapper.currSequenceVal();		
+
+		insertMap.put( "seq"	, currSeq );
+		
+		commonMapper.insertBoardDBLog( insertMap );
 		
 		for( MultipartFile multipartFile : uploadFile ) {
 			

@@ -60,7 +60,9 @@
 							<button type="button" class="btn btn-md btn-secondary" onclick="location.href='/proposal/main'">목록</button>
 							<div style="float: right;">
 
-								<input type="hidden" id="writer" value="${board.writer }">
+								<input type="hidden" id="writer" value="${board.writer }">							
+								<input type="hidden" id="reporter" value="${sessionScope.currentUserId}">
+								<input type="hidden" id="boardType" value="4">
 								<sec:authorize access="isAuthenticated()">
 									<!-- 글 작성한놈이 아니면 뜨지않는다. -->
 									<c:if test="${pinfo.username eq board.writer && board.status =='N' }">

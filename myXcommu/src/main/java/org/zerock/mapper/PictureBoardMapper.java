@@ -12,5 +12,6 @@ public interface PictureBoardMapper {
 	public PictureBoardDTO getPictureBoard( int seq );
 	public PictureBoardDTO getPictureBoardBySeq( int seq );
 	public int updatePictureBoard( Map<String,Object> map );
+	public int currSequenceVal();
 	
 }

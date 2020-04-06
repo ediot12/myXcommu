@@ -60,7 +60,7 @@ table.dataTable tbody td{
 										<td>${list.free_board_seq }</td>
 										<td>
 											<a href="/free/view/${list.free_board_seq }">
-												<i class="fa fa-lock" style="margin-right : 5px;"></i>${list.subject }
+												${list.subject }
 												<c:if test="${list.reply_cnt != 0 }">
 													<div style="display:inline-block; color: green; font-weight: bold;">
 														[ ${list.reply_cnt } ]

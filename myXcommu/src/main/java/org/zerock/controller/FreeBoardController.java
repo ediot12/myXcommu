@@ -65,10 +65,22 @@ public class FreeBoardController {
 	@RequestMapping( value="/registerFreeBoard", method=RequestMethod.POST )
 	public void registerFreeBoard( FreeBoardDTO dto, HttpServletRequest request, HttpServletResponse response ) throws Exception{
 		
-		
+		Map<String,Object> insertMap = new HashMap<String,Object>();
 		log.info( "free board dto :: " + dto );
 		
 		mapper.insertFreeBoard( dto );
+		
+		
+		int seq = mapper.currSequenceVal();
+
+		insertMap.put( "writer"		, dto.getWriter() 		);
+		insertMap.put( "division"	, "board"				);
+		insertMap.put( "content"	, dto.getContent() 		);
+		insertMap.put( "subject"	, dto.getSubject() 		);
+		insertMap.put( "board_type" , "6" 					);
+		insertMap.put( "seq"		, seq 					);
+		
+		commonMapper.insertBoardDBLog( insertMap );
 		
 		response.sendRedirect("/free/main");
 	}
@@ -77,11 +89,11 @@ public class FreeBoardController {
 	@RequestMapping( value="/view/{num}", method=RequestMethod.GET )
 	public String viewFreeBoardPage( @PathVariable("num") int free_board_seq, Model model, HttpServletRequest request, HttpServletResponse response  ) {
 		
-		FreeBoardDTO 				dto 		= mapper.getFreeBoard( free_board_seq );
-		String 						userId 		= dto.getWriter();
-		MemberVO 					regiUser 	= commonMapper.getRegiUserInfor( userId );
-		Map<String,Object>			findMap		= new HashMap<String,Object>();
-		ArrayList<FreeBoardDTO> freeBoardList =  mapper.getAllFreeBoardList();
+		FreeBoardDTO 				dto 			= mapper.getFreeBoard( free_board_seq );
+		String 						userId 			= dto.getWriter();
+		MemberVO 					regiUser 		= commonMapper.getRegiUserInfor( userId );
+		Map<String,Object>			findMap			= new HashMap<String,Object>();
+		ArrayList<FreeBoardDTO> 	freeBoardList 	=  mapper.getAllFreeBoardList();
 		
 		
 		

@@ -17,6 +17,13 @@ table#pictureBoardTable tbody tr td {
 
 table#pictureBoardTable tbody tr td:hover {
 	background-color: lightgray;
+
+}
+
+
+div.innerBoard:hover{
+	cursor : pointer;
+	opacity : 0.7;
 }
 </style>
 
@@ -42,7 +49,6 @@ table#pictureBoardTable tbody tr td:hover {
 						<div class="col-12">
 							<div class="page-header">
 								<h4 class="page-title" style="font-weight: 1000;">사진게시판</h4>
-								<div class="quick-link-wrapper w-8 d-md-flex flex-md-wrap" style="margin-left: 10px; margin-top: 5px;">올리고 싶은 사진을 올려주세요.</div>
 							</div>
 						</div>
 
@@ -62,14 +68,8 @@ table#pictureBoardTable tbody tr td:hover {
 							</thead>
 							<tbody>
 								<c:forEach items="${pictureList}" var="pictureList" varStatus="status">
-									<fmt:formatDate value="${pictureList.regdate}" pattern="yy-MM-dd" var="regDate" />
-									<%-- 									<c:if test=${status.count }>
+									<%-- <fmt:formatDate value="${pictureList.regdate}" pattern="yy-MM-dd" var="regDate" />
 									
-									</c:if> --%>
-									<%-- <tr>
-										${status.count }
-										<td><img src="${pictureList.base64_code }"></td>
-									</tr> --%>
 									<c:if test="${status.count % 5 == 1 }">
 										<tr>
 									</c:if>
@@ -93,8 +93,32 @@ table#pictureBoardTable tbody tr td:hover {
 									<c:if test="${status.count % 5 == 0 }">
 
 										</tr>
+									</c:if> --%>
+									
+									<c:if test="${status.count % 3 == 1 }">
+										<tr>
 									</c:if>
+									<fmt:formatDate value="${pictureList.regdate }" pattern="yyyy-MM-dd HH:mm" var="regiDate"/>
+									<div class="col-md-4 grid-margin stretch-card innerBoard" onclick="location.href='/picture/view/${pictureList.picture_seq}'">
+										<div class="card">
+											<img class="card-img-top" src="${pictureList.base64_code }" alt="card images" style="width : 350px; height : 215px;">
+											<div class="card-body pb-0">
+												<p class="text-muted">${pictureList.subject }</p>
+												<h5>${pictureList.convert_content }</h5>
+												<div class="d-flex align-items-center justify-content-between text-muted border-top py-3 mt-3">
+													<p class="mb-0">Published on ${regiDate}</p>
+													<div class="wrapper d-flex align-items-center">
+														<small class="mr-2">${pictureList.recommand_cnt }</small> <i class="mdi mdi-heart-outline"></i>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
 
+									<c:if test="${status.count % 3 == 0 }">
+
+										</tr>
+									</c:if>
 
 								</c:forEach>
 							</tbody>

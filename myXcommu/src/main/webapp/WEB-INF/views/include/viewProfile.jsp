@@ -19,7 +19,14 @@
 						</div>
 						<div class="wrapper d-flex align-items-center font-weight-medium text-muted">
 							<i class="mdi mdi-map-marker-outline mr-2"></i>
-							<p class="mb-0 text-muted">San Francisco, California</p>
+							<p class="mb-0 text-muted">
+								<c:if test='${writerInfo.auth eq "ROLE_ADMIN" }'>
+									관리자
+								</c:if>
+								<c:if test='${writerInfo.auth eq "ROLE_USER" }'>
+									일반회원
+								</c:if>
+							</p>
 						</div>
 						<div class="wrapper d-flex align-items-start pt-3">
 							<div class="badge badge-secondary text-dark mr-2">
@@ -50,8 +57,7 @@
 				</div>
 				<div class="col-md-3">
 					<div class="wrapper d-flex justify-content-end">
-						<button type="button" class="btn btn-sm btn-inverse-primary mr-2">View</button>
-						<button type="button" class="btn btn-sm btn-danger">Report</button>
+						<button type="button" class="btn btn-sm btn-inverse-primary mr-2" onclick="location.href='/viewProfile?userId=${writerInfo.userid }'">View</button> 
 					</div>
 				</div>
 			</div>

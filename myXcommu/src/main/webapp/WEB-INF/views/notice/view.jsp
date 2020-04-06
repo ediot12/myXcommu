@@ -56,8 +56,9 @@ span.bar {
 
 						<button type="button" class="btn btn-md btn-secondary" onclick="location.href='/notice/main'">목록</button>
 
-						<input type="hidden" id="writer" value="${board.writer }">
-
+						<input type="hidden" id="writer" value="${board.writer }">							
+						<input type="hidden" id="reporter" value="${sessionScope.currentUserId}">
+						<input type="hidden" id="boardType" value="4">
 
 					</form>
 				</div>

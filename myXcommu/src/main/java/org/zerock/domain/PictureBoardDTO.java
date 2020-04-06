@@ -17,6 +17,7 @@ public class PictureBoardDTO {
 	private int reply_cnt;
 	private String base64_code;
 	private int view_cnt;
+	private String convert_content;
 	
 
 }

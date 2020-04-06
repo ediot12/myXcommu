@@ -11,6 +11,7 @@ public interface FreeBoardMapper {
 	public FreeBoardDTO getFreeBoard( int seq );
 	public void insertFreeBoard( FreeBoardDTO dto );
 	public int updateFreeBoard( Map<String,Object> map );
+	public int currSequenceVal();
 	
 
 }

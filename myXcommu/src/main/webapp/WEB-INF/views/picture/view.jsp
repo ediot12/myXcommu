@@ -60,7 +60,10 @@
 						<button type="button" class="btn btn-md btn-secondary" onclick="location.href='/picture/main'">목록</button>
 						<div style="float: right;">
 
-							<input type="hidden" id="writer" value="${pictureBoard.writer }">
+							<input type="hidden" id="writer" value="${board.writer }">							
+							<input type="hidden" id="reporter" value="${sessionScope.currentUserId}">
+							<input type="hidden" id="boardType" value="3">
+							<button type="button" class="btn btn-danger"  data-toggle="modal" href="#reportModal" style="color : white; font-weight : bold; font-size : 9pt;"><i class="ti-alert"></i>신고</button>
 							<button type="button" class="btn" style="color: white; font-weight: bold; background-color: green;" onclick="recommandBoard()">
 								<i class="fa fa-thumbs-up"></i> 추천
 								<div style="display: inline-block;">

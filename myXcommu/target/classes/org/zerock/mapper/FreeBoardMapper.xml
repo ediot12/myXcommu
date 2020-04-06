@@ -10,6 +10,10 @@
 		select * from tbl_free_board where free_board_seq = #{seq}
 	</select>
 	
+	<select id="currSequenceVal" resultType="Integer">
+		select free_board_seq.currval from dual
+	</select>
+	
 	<update id="updateFreeBoard" parameterType="java.util.HashMap">
 		update tbl_free_board
 			set

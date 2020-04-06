@@ -9,6 +9,100 @@
 	<select id="getAccountInformationByEmail" parameterType="String" resultType="org.zerock.domain.MemberVO">
 		select * from tbl_member where email = #{email}
 	</select>
+	
+	<select id="getRecentlyUserLog" parameterType="String" resultType="org.zerock.domain.UserLogDTO">
+		select
+			division,
+			writer,
+			board_type,
+			board_seq,
+			board_subject,
+			 REGEXP_REPLACE(board_content,
+	    	<![CDATA[
+	    		'<[^>]*>|\&([^;])*;', '')
+	    	]]> as board_content,
+	    	reply_seq,
+	    	reply_content,
+	    	regdate
+		from 
+			tbl_user_log 
+		where 
+			writer = #{userId}
+		order by 
+			regdate asc
+	</select>
+	
+	<select id="getBoardUserReplyCnt" resultType="org.zerock.domain.StatisticsDTO">
+		select 
+		    *
+		from 
+		    ( select count(*) as member_cnt from tbl_member ),
+		    ( select count(*) as board_cnt  from tbl_user_log where division = 'board' ),
+		    ( select count(*) as reply_cnt  from tbl_user_log where division = 'reply' )
+	</select>
+	
+	<select id="getAllMemberStats" resultType="org.zerock.domain.MemberStatsDTO">
+		select
+		    a.userid, 
+		    a.regdate, 
+		    a.updatedate, 
+		    a.user_level,
+		    a.login_count,
+		    a.email,
+		    nvl( b.board_cnt, 0 ) as board_cnt,
+		    nvl( c.reply_cnt, 0 ) as reply_cnt
+		from
+		    tbl_member a
+		left outer join
+		    ( select 
+		        writer,  count(*) as board_cnt
+		    from 
+		        tbl_user_log
+		    where
+		        division = 'board'
+		    group by
+		        writer ) b
+		on 
+		    a.userid = b.writer
+		left outer join
+		   (  select 
+		            writer,  count(*) as reply_cnt
+		        from 
+		            tbl_user_log
+		        where
+		            division = 'reply'
+		        group by
+		            writer ) c
+		on
+		    a.userid = c.writer
+	</select>
+	
+	<select id="getWriteBoardReplyCount" parameterType="String" resultType="org.zerock.domain.MemberStatsDTO">
+		select 
+		    *
+		from   
+		(
+		
+		select 
+		    count(*) as board_cnt
+		from 
+		    tbl_user_log 
+		where
+		    writer = #{userId}
+		    and division = 'board'
+		        ), 
+		        (
+		
+		select 
+		    count(*) as reply_cnt
+		from 
+		    tbl_user_log 
+		where
+		    writer = #{userId}
+		    and division = 'reply'
+		        )
+	</select>
+	
 
 	<insert id="registerAccount">
 		insert into tbl_member

@@ -134,6 +134,7 @@ public class PictureBoardController {
 		
 	}
 	
+	@Transactional
 	@RequestMapping( value="/registerPicture", method=RequestMethod.POST )
 	public void registerPicture( PictureBoardDTO dto , HttpServletRequest request, HttpServletResponse response ) throws IOException {
 		
@@ -141,6 +142,7 @@ public class PictureBoardController {
 		CustomUser 			user 			= (CustomUser) authentication.getPrincipal();
 		Document 			doc 			= Jsoup.parse( dto.getContent() );
         Elements 			img_tags 		= doc.select("img");
+        Map<String,Object>	insertMap		= new HashMap<String,Object>();
         
 		dto.setWriter( user.getUsername() );
         dto.setBase64_code( img_tags.get(0).attr("src") );
@@ -149,6 +151,14 @@ public class PictureBoardController {
         
         mapper.registerPictureBoard( dto );
 
+        insertMap.put( "writer"		, user.getUsername() );
+        insertMap.put( "content"	, dto.getContent() 	);
+        insertMap.put( "board_type"	, "3" );
+        insertMap.put( "subject"	, dto.getSubject() );
+        insertMap.put( "seq"		, mapper.currSequenceVal() );
+        
+        commonMapper.insertBoardDBLog( insertMap );
+       
 		
 		log.info( "picture dto :::: " + dto );
 		

@@ -10,4 +10,5 @@ public interface ProposalMapper {
 	public ArrayList<ProposalBoardDTO> getAllProposalBoard();
 	public ProposalBoardDTO getProposalBoard( int seq );
 	public int updateProposalBoard( Map<String,Object> map );
+	public int currSequenceVal();
 }

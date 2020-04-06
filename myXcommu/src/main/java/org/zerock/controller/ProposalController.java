@@ -66,12 +66,22 @@ public class ProposalController {
 		
 		Authentication 		authentication 	= SecurityContextHolder.getContext().getAuthentication();
 		CustomUser 			user 			= (CustomUser) authentication.getPrincipal();
+		Map<String,Object>	insertMap		= new HashMap<String,Object>();
         
 		dto.setWriter( user.getUsername() );
-		/* dto.setDivision( divisionProposal ( dto.getDivision() ) ); */
-        
-        mapper.registerProposalBoard( dto );
+		
+		mapper.registerProposalBoard( dto ); 
+		
 
+		insertMap.put("writer"		, user.getUsername() );
+		insertMap.put("board_type"	, "4" );
+		insertMap.put("seq"			, mapper.currSequenceVal() );
+		insertMap.put("subject"		, dto.getSubject() );
+		insertMap.put("content"		, dto.getContent() );
+		
+		
+		commonMapper.insertBoardDBLog( insertMap );
+		 
 		
 		log.info( "proposal dto :::: " + dto );
 		

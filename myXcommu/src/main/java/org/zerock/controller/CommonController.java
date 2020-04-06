@@ -184,7 +184,7 @@ public class CommonController {
 		
 		
 		mapper.registerReply( insertMap );
-		
+		mapper.insertReplyDBLog( insertMap );
 		
 		return new ResponseEntity<>("success", HttpStatus.OK);
 	}
@@ -246,6 +246,36 @@ public class CommonController {
 		
 		return new ResponseEntity<>("success", HttpStatus.OK);
 				
+	}
+	
+	
+	@Transactional
+	@PreAuthorize("isAuthenticated()")
+	@RequestMapping( value="/common/view/commonReport", method=RequestMethod.GET )
+	public ResponseEntity<String> commonReport( HttpServletRequest request ){
+		
+		Map<String,Object> insertMap 	= new HashMap<String,Object>();
+		String 	writer 					= request.getParameter("writer");
+		int 	boardSeq 				= Integer.parseInt( request.getParameter("boardSeq") );
+		String 	boardType 				= request.getParameter("boardType");
+		String 	boardReporter 			= request.getParameter("boardReporter");
+		String  reportType				= request.getParameter("reportType");
+
+		insertMap.put("writer"			, writer);
+		insertMap.put("boardSeq"		, boardSeq);
+		insertMap.put("boardType"		, boardType);
+		insertMap.put("boardReporter"	, boardReporter);
+		insertMap.put("reportType"		, reportType);
+		
+		int count = mapper.checkReportCount( insertMap );
+		
+		if( count != 0 ) {
+			return new ResponseEntity<>( "fail", HttpStatus.INTERNAL_SERVER_ERROR );
+		}
+		
+		mapper.insertReportBoard( insertMap );
+		
+		return new ResponseEntity<>( "success", HttpStatus.OK );
 	}
 	
 	

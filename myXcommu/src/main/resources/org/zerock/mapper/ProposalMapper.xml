@@ -9,6 +9,10 @@
 	<select id="getProposalBoard" resultType="org.zerock.domain.ProposalBoardDTO" parameterType="Integer">
 		select * from tbl_proposal_board where proposal_seq = #{seq}
 	</select>
+	
+	<select id="currSequenceVal" resultType="Integer">
+		select proposal_seq.currval from dual
+	</select>
 
 	<insert id="registerProposalBoard" parameterType="org.zerock.domain.ProposalBoardDTO">
 		insert into tbl_proposal_board

@@ -4,7 +4,18 @@
 
 
 	<select id="getRegiUserInfor" resultType="org.zerock.domain.MemberVO" parameterType="String">
-		select * from tbl_member where userid = #{userId}
+		<!-- select * from tbl_member where userid = #{userId} -->
+		select 
+		    a.*,
+		    b.auth
+		from 
+		    tbl_member a
+		inner join
+		    tbl_member_auth b
+		on
+		    a.userid = b.userid
+		where
+		    a.userid = #{userId}
 	</select>
 	
 	
@@ -164,6 +175,16 @@
 			and board_type = #{board_type}
 	</select>
 	
+	<select id="checkReportCount" parameterType="java.util.HashMap" resultType="Integer">
+		select
+			count(*)
+		from
+			tbl_board_report 
+		where
+			board_type = #{boardType} 
+			and board_seq = #{boardSeq}
+	</select>
+	
 	<!-- 차후에 recommandBoard로 바꿀수도 있을꺼임 -->
 	<insert id="recommandBoard" parameterType="java.util.HashMap">
 		insert into tbl_board_recommand values
@@ -184,7 +205,28 @@
 		insert into tbl_reply_empathy values
 			( #{board_type}, #{board_seq}, #{reply_seq}, #{recommand_user}, #{empathy_type} )
 	</insert>
-	 
+	
+	<insert id="insertReportBoard" parameterType="java.util.HashMap">
+		insert into tbl_board_report
+			( board_type, board_seq, board_writer, board_reporter, reportType )
+		 values
+			( #{boardType},  #{boardSeq}, #{writer}, #{boardReporter}, #{reportType}  )
+	</insert>
+	
+	<insert id="insertBoardDBLog" parameterType="java.util.HashMap">
+		insert into tbl_user_log
+			( division, writer, board_type, board_seq, board_subject, board_content )
+		values
+			( 'board', #{writer}, #{board_type}, #{seq}, #{subject}, #{content} )
+	</insert>
+	
+	<insert id="insertReplyDBLog" parameterType="java.util.HashMap">
+		insert into tbl_user_log
+			( division, writer, board_type, board_seq, reply_seq, reply_content )
+		values
+			( 'reply', #{replyer}, #{board_type}, #{board_seq}, reply_seq.CURRVAL, #{reply} )
+	</insert>
+ 	 
 	 <update id="updateViewCnt" parameterType="java.util.HashMap">
 	 
 		 <if test="boardType eq '2'.toString()">

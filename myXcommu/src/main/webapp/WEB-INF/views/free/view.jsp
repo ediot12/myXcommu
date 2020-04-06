@@ -45,11 +45,15 @@
 									<button type="button" class="btn btn-info btn-md" onclick="goModifyPage(${board.free_board_seq})">수정</button>
 								</c:if>
 							</sec:authorize>
-
+							
 							<button type="button" class="btn btn-md btn-secondary" onclick="location.href='/free/main'">목록</button>
 							<div style="float: right;">
 
-								<input type="hidden" id="writer" value="${board.writer }">
+							<input type="hidden" id="writer" value="${board.writer }">							
+							<input type="hidden" id="reporter" value="${sessionScope.currentUserId}">
+							<input type="hidden" id="boardType" value="6">
+							<button type="button" class="btn btn-danger"  data-toggle="modal" href="#reportModal" style="color : white; font-weight : bold; font-size : 9pt;"><i class="ti-alert"></i>신고</button>
+							<button type="button" class="btn" style="color: white; font-weight: bold; background-color: green;" onclick="recommandBoard()">
 
 							</div>
 						</form>
@@ -149,7 +153,7 @@
 										<td>${list.free_board_seq }</td>
 										<td>
 											<a href="/free/view/${list.free_board_seq }">
-												<i class="fa fa-lock" style="margin-right : 5px;"></i>${list.subject }
+												${list.subject }
 												<c:if test="${list.reply_cnt != 0 }">
 													<div style="display:inline-block; color: green; font-weight: bold;">
 														[ ${list.reply_cnt } ]
