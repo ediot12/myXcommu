@@ -47,6 +47,8 @@
 		) b
 		on
 		    a.board_seq = b.picture_seq
+		order 
+			by picture_seq desc
 	</select>
 	
 	<select id="getPictureBoard" resultType="org.zerock.domain.PictureBoardDTO" parameterType="Integer">
@@ -117,7 +119,8 @@
 			set
 				division = #{division},
 				subject = #{subject},
-				content = #{content}
+				content = #{content},
+				base64_code = #{code}
 		where
 			picture_seq = #{seq}
 	</update>

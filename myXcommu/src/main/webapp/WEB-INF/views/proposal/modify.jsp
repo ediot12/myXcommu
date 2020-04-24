@@ -27,7 +27,7 @@
 		<div class="col-md-12 grid-margin stretch-card">
 			<div class="card">
 				<div class="card-body">
-					<form class="forms-sample" method="post" action="updateProposal" enctype="multipart/form-data">
+					<form class="forms-sample" method="post" id="proposalForm" action="updateProposal" enctype="multipart/form-data">
 						<div class="form-group">
 							<label for="proposalSubject">제목</label> <input type="text" class="form-control" id="proposalSubject" name="subject" value="${proposalBoard.subject }" placeholder="제목을 적어주세요.">
 						</div>
@@ -45,8 +45,8 @@
 							<textarea class="form-control" name="content" id="proposalArea" rows="2"></textarea>
 						</div>
 						<input type="hidden" name="boardSeq" value="${proposalBoard.proposal_seq }"> <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }" />
-						<button type="submit" class="btn btn-success mr-2">등록</button>
-						<button type="button" class="btn btn-md btn-secondary" onclick="location.href='/proposal/main'">목록</button>
+						<button type="button" class="btn btn-success mr-2" onclick="registerBoard()"><i class="fa fa-pencil-square-o"></i>등록</button>
+						<button type="button" class="btn btn-md btn-secondary" onclick="location.href='/proposal/main'"><i class="fa fa-list"></i>목록</button>
 
 					</form>
 				</div>
@@ -67,9 +67,9 @@
 <script type="text/javascript" charset="utf8" src="/resources/assets/js/shared/jquery-1.12.4.min.js"></script>
 <script type="text/javascript" src="/resources/assets/ckeditor/ckeditor.js"></script>
 <script>
+
 	CKEDITOR.replace('proposalArea', {
-		height : 600,
-		contentsCss : '/resources/assets/ckeditor/custom.css'
+		height : 600
 	});
 
 	$(document).ready(function(e) {
@@ -77,6 +77,20 @@
 		CKEDITOR.instances.proposalArea.setData('${proposalBoard.content}');
 
 	});
+	
+	function registerBoard(){
+		
+		var stringCount = CKEDITOR.instances.proposalArea.getData().length;
+		
+		if( stringCount > 2000000 ){
+			alert("이미지 용량이 크거나 글이 너무 깁니다.");
+			return;
+		}
+		
+		document.getElementById("proposalForm").submit();		
+		
+	}
+	
 </script>
 </body>
 </html>

@@ -24,7 +24,7 @@
 			    a.qna_board_seq = b.board_seq
 			order by
 			    a.qna_board_seq desc -->
-		select
+		<!-- select
 		    b.*,
 		    nvl(a.cnt,0) as reply_cnt
 		from
@@ -64,7 +64,63 @@
 		on
 		    a.board_seq = b.qna_board_seq
 		order by
-            qna_board_seq desc
+            qna_board_seq desc -->
+            select
+			    b.*,
+			    nvl(a.cnt,0) as reply_cnt,
+			    nvl(c.report_cnt,0) as report_cnt
+			from
+			(
+			select
+			    board_seq,
+			    count(*) as cnt
+			from    
+			    tbl_board_reply
+			where
+			    board_type = 2
+			group by
+			    board_seq
+			    ) a
+			right outer join
+			(
+			    select
+			        a.*,
+			        nvl(b.cnt, 0) as recommand_cnt
+			    from    
+			        tbl_question_board a
+			    left outer join
+			        (
+			            select
+			                board_seq,
+			                count(*) as cnt
+			            from
+			                tbl_board_recommand
+			            where
+			                board_type = 2
+			            group by
+			                board_seq
+			        ) b
+			    on 
+			        a.qna_board_seq = b.board_seq    
+			) b
+			on
+			    a.board_seq = b.qna_board_seq
+			left outer join
+			    (
+			        select
+			            board_seq,
+			            count(*) as report_cnt
+			        from
+			            tbl_board_report
+			        where
+			            board_type = '2'
+			        group by
+			            board_seq
+			    ) c
+			on
+			    qna_board_seq = c.board_seq
+			order by
+			    qna_board_seq desc
 	</select>
 	
 	<select id="getQuestionBySeq" resultType="org.zerock.domain.QuestionBoardDTO" parameterType="Integer">

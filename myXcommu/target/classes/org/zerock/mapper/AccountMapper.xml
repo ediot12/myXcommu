@@ -3,7 +3,17 @@
 <mapper namespace="org.zerock.mapper.AccountMapper">
 
 	<select id="getAccountInformation" parameterType="String" resultType="org.zerock.domain.MemberVO">
-		select * from tbl_member where userid = #{userId}
+		select 
+		    a.*,
+		    b.auth
+		from 
+		    tbl_member a
+		left outer join
+		    tbl_member_auth b
+		on
+		    a.userid = b.userid
+		where
+		    a.userid = #{userId}
 	</select>
 	
 	<select id="getAccountInformationByEmail" parameterType="String" resultType="org.zerock.domain.MemberVO">
@@ -49,6 +59,7 @@
 		    a.user_level,
 		    a.login_count,
 		    a.email,
+		    a.report_status,
 		    nvl( b.board_cnt, 0 ) as board_cnt,
 		    nvl( c.reply_cnt, 0 ) as reply_cnt
 		from
@@ -103,6 +114,29 @@
 		        )
 	</select>
 	
+	<select id="findUserIdEmail" parameterType="String" resultType="org.zerock.domain.MemberVO">
+		select 
+			* 
+		from 
+			tbl_member 
+		where 
+			email = #{email}
+	</select>
+	
+	<select id="findPWAccount" parameterType="java.util.HashMap" resultType="org.zerock.domain.MemberVO">
+		select 
+			* 
+		from 
+			tbl_member 
+		where 
+			email = #{email}
+			and userid = #{userId}
+	</select>
+	
+	<select id="checkPwAccount" parameterType="String" resultType="String">
+		select userpw from tbl_member where userid = #{userid}
+	</select>
+	
 
 	<insert id="registerAccount">
 		insert into tbl_member
@@ -118,8 +152,10 @@
 	<update id="updateProfile" parameterType="org.zerock.domain.MemberVO">
 		update tbl_member
 			set
-				profile_info = #{profile_info},
-				profile_image = #{profile_image}
+				profile_info = #{profile_info}
+				<if test="profile_image != ''">
+				,profile_image = #{profile_image}
+ 				</if>				
 			where
 				userid = #{userid}
 	</update>
@@ -131,6 +167,14 @@
 			where
 				userid = #{userid}
 				and email_code = #{validCode}
+	</update>
+	
+	<update id="findPwTemp" parameterType="java.util.HashMap">
+		update tbl_member
+			set
+				userpw = #{userPw}
+			where
+				userid = #{userId}
 	</update>
 	
 	

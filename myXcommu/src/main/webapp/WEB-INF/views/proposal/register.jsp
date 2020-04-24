@@ -27,7 +27,7 @@
 		<div class="col-md-12 grid-margin stretch-card">
 			<div class="card">
 				<div class="card-body">
-					<form class="forms-sample" method="post" action="registerProposal" enctype="multipart/form-data">
+					<form class="forms-sample" method="post" id="proposalForm" action="registerProposal" enctype="multipart/form-data">
 						<div class="form-group">
 							<label for="questionSubject">제목</label> <input type="text" class="form-control" id="proposalSubject" name="subject" placeholder="제목을 적어주세요.">
 						</div>
@@ -45,8 +45,8 @@
 							<textarea class="form-control" name="content" id="proposalArea" rows="2"></textarea>
 						</div>
 						<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }" />
-						<button type="submit" class="btn btn-outline-success mr-2">등록</button>
-						<button type="button" class="btn btn-md btn-secondary" onclick="location.href='/proposal/main'">목록</button>
+						<button type="button" class="btn btn-outline-success mr-2" onclick="registerBoard()"><i class="fa fa-pencil-square-o"></i>등록</button>
+						<button type="button" class="btn btn-md btn-secondary" onclick="location.href='/proposal/main'"><i class="fa fa-list"></i>목록</button>
 
 					</form>
 				</div>
@@ -68,9 +68,22 @@
 <script type="text/javascript" src="/resources/assets/ckeditor/ckeditor.js"></script>
 <script>
 	CKEDITOR.replace('proposalArea', {
-		height : 600,
-		contentsCss : '/resources/assets/ckeditor/custom.css'
+		height : 600
 	});
+	
+	function registerBoard(){
+		
+		
+		var stringCount = CKEDITOR.instances.proposalArea.getData().length;
+		
+		if( stringCount > 2000000 ){
+			alert("이미지 용량이 크거나 글이 너무 깁니다.");
+			return;
+		}
+		
+		document.getElementById("proposalForm").submit();		
+		
+	}
 </script>
 </body>
 </html>

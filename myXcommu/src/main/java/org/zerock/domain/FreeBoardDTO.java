@@ -13,6 +13,8 @@ public class FreeBoardDTO {
 	private Date regdate;
 	private String writer;
 	private int view_cnt;
+	private int recommand_cnt;
+	private int report_cnt;
 	private int reply_cnt;
 
 }

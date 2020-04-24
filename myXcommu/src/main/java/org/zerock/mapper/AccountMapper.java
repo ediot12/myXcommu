@@ -20,5 +20,9 @@ public interface AccountMapper {
 	public StatisticsDTO getBoardUserReplyCnt();
 	public ArrayList<MemberStatsDTO> getAllMemberStats();
 	public MemberStatsDTO getWriteBoardReplyCount( String userId );
+	public MemberVO findUserIdEmail( String email );
+	public MemberVO findPWAccount( Map<String,Object> map );
+	public void findPwTemp( Map<String,Object> map );
+	public String checkPwAccount( String userId );
 }
  

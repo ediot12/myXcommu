@@ -16,7 +16,7 @@
 		<div class="row page-title-header">
 			<div class="col-12">
 				<div class="page-header">
-					<h4 class="page-title" style="font-weight: 1000;">사진게시판 - 게시글수정</h4>
+					
 				</div>
 			</div>
 
@@ -27,8 +27,9 @@
 
 			<div class="col-md-12 grid-margin stretch-card">
 				<div class="card">
+					<h4 class="page-title" style="font-size : 10pt; color : gray; font-weight: 1000; margin-left: 30px; margin-top: 20px; margin-bottom: -30px;">사진게시판 >> 게시글수정</h4>
 					<div class="card-body">
-						<form class="forms-sample" method="post" action="updatePictureBoard">
+						<form class="forms-sample" method="post" id="mainForm" action="updatePictureBoard">
 							<div class="form-group">
 								<input type="hidden" value="${pictureBoard.picture_seq }" name="boardSeq">
 								<label for="questionSubject">제목</label> 
@@ -46,8 +47,8 @@
 								<textarea class="form-control" name="content" id="contentArea" rows="2"></textarea>
 							</div>
 							<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }" />
-							<button type="submit" class="btn btn-success mr-2">수정</button>
-							<button type="button" class="btn btn-md btn-secondary" onclick="location.href='/picture/main'">목록</button>
+							<button type="button" class="btn btn-success mr-2" onclick="submitForm()"><i class="fa fa-pencil-square-o"></i>등록</button>
+							<button type="button" class="btn btn-md btn-secondary" onclick="location.href='/picture/main'"><i class="fa fa-list"></i>목록</button>
 							
 						</form>
 					</div>
@@ -78,6 +79,27 @@
 		CKEDITOR.instances.contentArea.setData('${pictureBoard.content}');
 		
 	});
+	
+	function submitForm(){
+		
+		var data = CKEDITOR.instances.pictureArea.getData();
+		var patt = new RegExp("data:image");
+		var stringCount = CKEDITOR.instances.pictureArea.getData().length;
+		
+		if( stringCount > 2000000 ){
+			alert("이미지 용량이 크거나 글이 너무 깁니다.");
+			return;
+		}
+		
+		if( patt.test( data ) == true ){
+			document.getElementById("mainForm").submit();	
+		} else {
+			alert("이미지를 올려라 씨발아");
+		}
+		
+		
+		
+	}
 </script>
 </body>
 </html>

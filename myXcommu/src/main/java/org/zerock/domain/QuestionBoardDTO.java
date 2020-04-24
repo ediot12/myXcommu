@@ -20,6 +20,7 @@ public class QuestionBoardDTO {
 	
 	//outer join에 의해 추가함
 	private int reply_cnt;
+	private int report_cnt;
 	
 
 }

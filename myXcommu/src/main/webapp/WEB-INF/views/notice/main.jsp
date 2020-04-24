@@ -92,7 +92,9 @@ table.dataTable tbody td {
 					<!-- 작성자와 본인이 일치하지  않으면 수정과 삭제 버튼은 뜨지 않는다. -->
 					<sec:authorize access="hasAnyRole('ROLE_ADMIN')">
 
-						<button type="button" onclick="location.href='/notice/register'" class="btn btn-outline-primary btn-fw" style="float: right; margin-top: 10px;">글쓰기</button>
+						<button type="button" onclick="location.href='/notice/register'" class="btn btn-outline-primary btn-fw" style="float: right; margin-top: 10px;">
+							<i class="fa fa-pencil"></i>글쓰기
+						</button>
 					</sec:authorize>
 
 				</div>
@@ -118,14 +120,23 @@ table.dataTable tbody td {
 
 <script src="/resources/assets/vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
 <script src="/resources/assets/vendors/datatables.net-fixedcolumns/dataTables.fixedColumns.min.js"></script>
+
+
 <script>
 	$(document).ready(function() {
 		$('#noticeBoardTable').DataTable({
 			responsive : true,
-			searching : true,
+			searching : false,
 			ordering : false,
 			bInfo : false,
-			bLengthChange : false
+			bLengthChange : false,
+			"columns": [
+			    { "width": "5%" },
+			    { "width": "80%" },
+			    { "width": "5%" },
+			    { "width": "5%" },
+			    { "width": "5%" }			    
+			  ]
 		});
 	});
 </script>

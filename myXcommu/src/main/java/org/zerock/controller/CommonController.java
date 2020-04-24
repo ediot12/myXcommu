@@ -42,20 +42,9 @@ public class CommonController {
 	}
 	
 	@RequestMapping(method=RequestMethod.GET, value="/customLogin")
-	public void loginInput( String error, String logout, Model model ) {
+	public String viewLoginPage() {
 		
-		log.info("error : " + error);
-		log.info("logout : " + logout);
-		
-		if( error != null ) {
-			model.addAttribute("error", "Login Error Check your Account");
-		}
-		
-		if( logout != null ) {
-			model.addAttribute("logout", "Logout !! ");
-			
-		}
-		
+		return "customLogin";
 		
 	}
 	
@@ -147,6 +136,8 @@ public class CommonController {
 		Map<String,Object>	insertMap		= new HashMap<String,Object>();
 		
 		if( !registerUser.equals( currentUser.getUsername() ) ) {
+			log.info("current user :: " + currentUser.getUsername() );
+			log.info("registe user :: " + registerUser );
 			log.warn(" authorize failed!!!! ");
 			return new ResponseEntity<>("fail", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
@@ -213,11 +204,12 @@ public class CommonController {
 		
 		int empathyRecord = mapper.countEmpathyRecordToUser( insertMap );
 		
-		if( empathyRecord != 0 || replyerUser.equals( currentUser.getUsername() ) ) {
-			log.info("count :: " + empathyRecord);
-			log.info("id equal :: " + replyerUser.equals( currentUser.getUsername() ));
-			log.info("already empathy reply recorded or empathy user is same writer" );
-			return new ResponseEntity<>("fail", HttpStatus.INTERNAL_SERVER_ERROR );
+		if( empathyRecord != 0 ) { // 이미 db에 기록이 있을때
+			return new ResponseEntity<>("fail_1", HttpStatus.INTERNAL_SERVER_ERROR );
+		}
+		
+		if ( replyerUser.equals( currentUser.getUsername() ) ) { // 동일인물일때
+			return new ResponseEntity<>("fail_2", HttpStatus.INTERNAL_SERVER_ERROR );
 		}
 		
 		mapper.empathyReply( insertMap );
@@ -254,6 +246,9 @@ public class CommonController {
 	@RequestMapping( value="/common/view/commonReport", method=RequestMethod.GET )
 	public ResponseEntity<String> commonReport( HttpServletRequest request ){
 		
+		Authentication 		authentication 	= SecurityContextHolder.getContext().getAuthentication();
+		CustomUser 			currentUser		= (CustomUser) authentication.getPrincipal();
+		
 		Map<String,Object> insertMap 	= new HashMap<String,Object>();
 		String 	writer 					= request.getParameter("writer");
 		int 	boardSeq 				= Integer.parseInt( request.getParameter("boardSeq") );
@@ -267,15 +262,50 @@ public class CommonController {
 		insertMap.put("boardReporter"	, boardReporter);
 		insertMap.put("reportType"		, reportType);
 		
+		if( writer.equals( currentUser.getUsername() ) ) {
+			log.info("본인의 게시물엔 신고할 수 없습니다.");
+			return new ResponseEntity<>( "fail", HttpStatus.INTERNAL_SERVER_ERROR );
+		}
+		
 		int count = mapper.checkReportCount( insertMap );
 		
 		if( count != 0 ) {
+			log.info("이미 신고 이력이 있습니다.");
 			return new ResponseEntity<>( "fail", HttpStatus.INTERNAL_SERVER_ERROR );
 		}
 		
 		mapper.insertReportBoard( insertMap );
 		
 		return new ResponseEntity<>( "success", HttpStatus.OK );
+	}
+	
+	@Transactional
+	@PreAuthorize("isAuthenticated()")
+	@RequestMapping( value="/common/view/completeQuestion", method=RequestMethod.POST )
+	public ResponseEntity<String> completeQuestion( HttpServletRequest request ){
+		
+		Authentication 		authentication 	= SecurityContextHolder.getContext().getAuthentication();
+		CustomUser 			currentUser		= (CustomUser) authentication.getPrincipal();
+		String				registerUser	= request.getParameter("writer");
+		int					boardSeq		= Integer.parseInt( request.getParameter("boardSeq") );
+		String				boardType		= request.getParameter("boardType");			
+		Map<String,Object>	updateMap		= new HashMap<String,Object>();
+		
+		if( !registerUser.equals( currentUser.getUsername() ) ) {
+			log.warn(" authorize failed!!!! ");
+			return new ResponseEntity<>("fail", HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+		updateMap.put("seq"			, boardSeq	);
+		updateMap.put("boardType"	, boardType	);
+		
+		int updateCount = mapper.updateBoardStatus( updateMap );
+
+		log.warn(" authorize comeplete!!!! ");
+		
+		
+		
+		return updateCount != 0 ? new ResponseEntity<>("success", HttpStatus.OK) : new ResponseEntity<>("fail", HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
 	

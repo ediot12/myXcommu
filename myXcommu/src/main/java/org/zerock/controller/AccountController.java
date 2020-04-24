@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -41,6 +42,9 @@ public class AccountController implements MailService {
 	@Autowired
 	private AccountMapper mapper;
 	
+	@Autowired
+	private PasswordEncoder pwencoder;
+	
 	public void setJavaMailSender(JavaMailSender javaMailSender) {
 		this.javaMailSender = javaMailSender;
 	}
@@ -58,12 +62,12 @@ public class AccountController implements MailService {
 		String profile_image = vo.getProfile_image();
 		String uuid = UUID.randomUUID().toString();
 
-		log.info("1: " + userId );
-		log.info("2: " + userPw );
-		log.info("3: " + userEmail );
-		log.info("4: " + profile_info );
-		log.info("5: " + profile_image );
-		log.info("6: " + uuid );
+		log.warn("1: " + userId );
+		log.warn("2: " + userPw );
+		log.warn("3: " + userEmail );
+		log.warn("4: " + profile_info );
+		log.warn("5: " + profile_image );
+		log.warn("6: " + uuid );
 
 		
 	  int count = service.registerAccount(userId, userPw, userEmail, profile_image,  profile_info, uuid );
@@ -141,8 +145,8 @@ public class AccountController implements MailService {
 			MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
 			helper.setSubject("안녕하세요? myXcommu 가입 인증 이메일입니다. 야발련아");
 			helper.setText( emailText , true);
-			helper.setFrom("starkcb123@gmail.com");
-			helper.setTo("starkcb123@naver.com");
+			helper.setFrom("admin@myXcommu.com");
+			helper.setTo( targetEmail );
 			javaMailSender.send(message);
 			return true;
 		} catch (MessagingException e) {
@@ -220,6 +224,81 @@ public class AccountController implements MailService {
 	public boolean send() {
 		// TODO Auto-generated method stub
 		return false;
+	}
+	
+	@RequestMapping( value="/findAccount", method=RequestMethod.GET )
+	public String viewFindAccountPage() {
+		return "/etc/findAccount";
+	}
+
+	
+	@RequestMapping( value="/findId", method=RequestMethod.POST )
+	public ResponseEntity<String> findId( HttpServletRequest request ){
+		
+		String 		userId 	= request.getParameter("findUserId");		
+		MemberVO 	vo 		= mapper.findUserIdEmail(userId); 
+		
+		if( vo == null ) {
+			return new ResponseEntity<>( "error", HttpStatus.INTERNAL_SERVER_ERROR );
+		}
+		
+		MimeMessage message = javaMailSender.createMimeMessage();
+		String emailText = "고객님의 계정명은 <font color='3'>" + vo.getUserid() +"</font> 입니다.";
+			
+		try {
+			// org.springframework.mail.javamail.MimeMessageHelper
+			MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+			helper.setSubject("안녕하세요? myXcommu 아이디 찾기 확인 이메일 입니다.");
+			helper.setText( emailText , true);
+			helper.setFrom("admin@myXcommu.com");
+			helper.setTo( vo.getEmail() );
+			javaMailSender.send(message);
+			
+		} catch (MessagingException e) {
+			e.printStackTrace();
+		}
+		
+		return new ResponseEntity<>("success", HttpStatus.OK);
+	}
+	
+	
+	
+	@RequestMapping( value="/findPW", method=RequestMethod.POST )
+	public ResponseEntity<String> findPW( HttpServletRequest request ){
+		
+		MimeMessage 		message 	= javaMailSender.createMimeMessage();
+		String 				userEmail 	= request.getParameter("findUserEmail");
+		String 				userId 		= request.getParameter("findUserId");
+		Map<String,Object> 	findMap 	= new HashMap<String,Object>();
+		
+		findMap.put("userId"	, userId);
+		findMap.put("email"		, userEmail);
+		findMap.put("userPw"	, pwencoder.encode( userId ) );
+		
+		MemberVO vo = mapper.findPWAccount(findMap);
+		
+		if( vo == null ) {
+			return new ResponseEntity<>( "error", HttpStatus.INTERNAL_SERVER_ERROR );
+		}
+		
+		mapper.findPwTemp( findMap );		
+		
+		String emailText = "myXcommu 임시 비밀번호를 발급해 드립니다.";
+			
+		try {
+			// org.springframework.mail.javamail.MimeMessageHelper
+			MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+			helper.setSubject("안녕하세요? myXcommu 비밀번호 찾기 확인 이메일 입니다.");
+			helper.setText( emailText , true);
+			helper.setFrom("admin@myXcommu.com");
+			helper.setTo( vo.getEmail() );
+			javaMailSender.send(message);
+			
+		} catch (MessagingException e) {
+			e.printStackTrace();
+		}
+		
+		return new ResponseEntity<>("success", HttpStatus.OK);
 	}
 
 }

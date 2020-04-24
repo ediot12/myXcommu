@@ -55,6 +55,7 @@ public class PictureBoardController {
 		
 		ArrayList<PictureBoardDTO> pictureList = mapper.getPictureBoardList();
 		
+		
 		log.info("pictureList ::: " +  pictureList.size() );
 		
 		model.addAttribute("pictureList", pictureList);
@@ -198,16 +199,18 @@ public class PictureBoardController {
 		CustomUser 			user 			= (CustomUser) authentication.getPrincipal();
 		Map<String,Object> 	insertMap 		= new HashMap<String,Object>();
 		int					boardSeq		= Integer.parseInt( request.getParameter("boardSeq") );
+		Document 			doc 			= Jsoup.parse( dto.getContent() );
+        Elements 			img_tags 		= doc.select("img");
+        
+        
 		insertMap.put( "type"		, "3");
 		insertMap.put( "seq"		, boardSeq );
 		insertMap.put( "division"	, dto.getDivision() 	);
 		insertMap.put( "content"	, dto.getContent() 		);
 		insertMap.put( "subject"	, dto.getSubject() 		);
+		insertMap.put( "code" 		, img_tags.get(0).attr("src") );
 		
-		log.info("update dto :: " + dto );
-		log.info("current login user :: " + user.getUsername() );
-		log.info("register user is :: " + dto.getWriter() );
-		log.info("login user == writer ?? :: " + user.getUsername().equals( dto.getWriter() ));
+		log.info("code :: " + img_tags.get(0).attr("src") );
 		
 				
 		int updateCnt = mapper.updatePictureBoard(insertMap);

@@ -183,6 +183,7 @@
 		where
 			board_type = #{boardType} 
 			and board_seq = #{boardSeq}
+			and board_reporter = #{boardReporter}
 	</select>
 	
 	<!-- 차후에 recommandBoard로 바꿀수도 있을꺼임 -->
@@ -270,6 +271,24 @@
 		</if>
 		
 	 </update>
+	 
+	 <update id="updateBoardStatus" parameterType="java.util.HashMap">
+	 	<if test="boardType eq '2'.toString()">
+			update tbl_question_board
+				set
+					status = 'Y'
+				where
+					qna_board_seq = #{seq}
+		</if>
+		
+	 	<if test="boardType eq '4'.toString()">
+			update tbl_proposal_board
+				set
+					status = 'Y'
+				where
+					proposal_seq = #{seq}
+		</if>
+	</update>
 		
 	<delete id="deleteBoard" parameterType="java.util.HashMap">
 	

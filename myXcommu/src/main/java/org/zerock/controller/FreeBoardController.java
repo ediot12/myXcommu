@@ -49,7 +49,6 @@ public class FreeBoardController {
 		
 		model.addAttribute("freeBoardList", freeBoardList);
 		
-		log.info("loading dto :: " + freeBoardList);
 		
 		return "free/main";
 	}
@@ -68,19 +67,19 @@ public class FreeBoardController {
 		Map<String,Object> insertMap = new HashMap<String,Object>();
 		log.info( "free board dto :: " + dto );
 		
-		mapper.insertFreeBoard( dto );
-		
-		
-		int seq = mapper.currSequenceVal();
-
-		insertMap.put( "writer"		, dto.getWriter() 		);
-		insertMap.put( "division"	, "board"				);
-		insertMap.put( "content"	, dto.getContent() 		);
-		insertMap.put( "subject"	, dto.getSubject() 		);
-		insertMap.put( "board_type" , "6" 					);
-		insertMap.put( "seq"		, seq 					);
-		
-		commonMapper.insertBoardDBLog( insertMap );
+		/*
+		 * mapper.insertFreeBoard( dto );
+		 * 
+		 * 
+		 * int seq = mapper.currSequenceVal();
+		 * 
+		 * insertMap.put( "writer" , dto.getWriter() ); insertMap.put( "division" ,
+		 * "board" ); insertMap.put( "content" , dto.getContent() ); insertMap.put(
+		 * "subject" , dto.getSubject() ); insertMap.put( "board_type" , "6" );
+		 * insertMap.put( "seq" , seq );
+		 * 
+		 * commonMapper.insertBoardDBLog( insertMap );
+		 */
 		
 		response.sendRedirect("/free/main");
 	}

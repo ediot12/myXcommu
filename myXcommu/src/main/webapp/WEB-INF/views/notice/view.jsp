@@ -49,12 +49,12 @@ span.bar {
 						<!-- 작성자와 본인이 일치하지  않으면 수정과 삭제 버튼은 뜨지 않는다. -->
 						<sec:authorize access="isAuthenticated()">
 							<c:if test="${pinfo.username eq board.writer}">
-								<button type="button" class="btn btn-md" style="background-color: red; border-color: red; color: white;" onclick="deleteBoard()">삭제</button>
-								<button type="button" class="btn btn-info btn-md" onclick="goModifyPage(${board.notice_seq})">수정</button>
+								<button type="button" class="btn btn-md" style="background-color: red; border-color: red; color: white;" onclick="deleteBoard()"><i class="fa fa-recycle"></i>삭제</button>
+								<button type="button" class="btn btn-info btn-md" onclick="goModifyPage(${board.notice_seq})"><i class="fa fa-edit"></i>수정</button>
 							</c:if>
 						</sec:authorize>
 
-						<button type="button" class="btn btn-md btn-secondary" onclick="location.href='/notice/main'">목록</button>
+						<button type="button" class="btn btn-md btn-secondary" onclick="location.href='/notice/main'"><i class="fa fa-list"></i>목록</button>
 
 						<input type="hidden" id="writer" value="${board.writer }">							
 						<input type="hidden" id="reporter" value="${sessionScope.currentUserId}">
@@ -217,7 +217,7 @@ span.bar {
 						    });
 						    setTimeout( function(){
 						    	location.href = "/notice/main";
-						    },  3000, );
+						    },  1000, );
 						},
 						error : function ( result ){
 							alert("internal error occured!!!");	

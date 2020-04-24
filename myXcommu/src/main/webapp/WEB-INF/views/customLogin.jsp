@@ -66,19 +66,14 @@
 										<label class="form-check-label"> <input type="checkbox" class="form-check-input" name="remember-me"> Keep me signed in
 										</label>
 									</div>
-									<a href="#" class="text-small forgot-password text-black">Forgot Password</a>
+									<a href="/findAccount" class="text-small forgot-password text-black">Forgot Password</a>
 								</div>
 								<div class="text-block text-center my-3">
 									<span class="text-small font-weight-semibold">Not a member ?</span> <a href="/accountRegister" class="text-black text-small">Create new account</a>
 								</div>
 							</form>
 						</div>
-						<ul class="auth-footer">
-							<li><a href="#">Conditions</a></li>
-							<li><a href="#">Help</a></li>
-							<li><a href="#">Terms</a></li>
-						</ul>
-						<p class="footer-text text-center">copyright © 2020 myXcommu. All rights reserved.</p>
+						<p style="margin-top : 10px;" class="footer-text text-center">copyright © 2020 myXcommu. All rights reserved.</p>
 					</div>
 				</div>
 			</div>

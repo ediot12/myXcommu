@@ -412,31 +412,33 @@ public class QnAController {
 	}
 	
 	
-	
-	@Transactional
-	@PreAuthorize("isAuthenticated()")
-	@RequestMapping( value="/view/completeQuestion", method=RequestMethod.POST )
-	public ResponseEntity<String> completeQuestion( HttpServletRequest request ){
-		
-		Authentication 		authentication 	= SecurityContextHolder.getContext().getAuthentication();
-		CustomUser 			currentUser		= (CustomUser) authentication.getPrincipal();
-		String				registerUser	= request.getParameter("writer");
-		int					boardSeq		= current_view_seq;
-		
-		if( !registerUser.equals( currentUser.getUsername() ) ) {
-			log.warn(" authorize failed!!!! ");
-			return new ResponseEntity<>("fail", HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-		
-		int updateCount 	= mapper.updateQuestionStatus( boardSeq );
-		current_view_seq 	= -1;
-
-		log.warn(" authorize comeplete!!!! ");
-		
-		
-		
-		return updateCount != 0 ? new ResponseEntity<>("success", HttpStatus.OK) : new ResponseEntity<>("fail", HttpStatus.INTERNAL_SERVER_ERROR);
-	}
+	/*
+	 * @Transactional
+	 * 
+	 * @PreAuthorize("isAuthenticated()")
+	 * 
+	 * @RequestMapping( value="/view/completeQuestion", method=RequestMethod.POST )
+	 * public ResponseEntity<String> completeQuestion( HttpServletRequest request ){
+	 * 
+	 * Authentication authentication =
+	 * SecurityContextHolder.getContext().getAuthentication(); CustomUser
+	 * currentUser = (CustomUser) authentication.getPrincipal(); String registerUser
+	 * = request.getParameter("writer"); int boardSeq = current_view_seq;
+	 * 
+	 * if( !registerUser.equals( currentUser.getUsername() ) ) {
+	 * log.warn(" authorize failed!!!! "); return new ResponseEntity<>("fail",
+	 * HttpStatus.INTERNAL_SERVER_ERROR); }
+	 * 
+	 * int updateCount = mapper.updateQuestionStatus( boardSeq ); current_view_seq =
+	 * -1;
+	 * 
+	 * log.warn(" authorize comeplete!!!! ");
+	 * 
+	 * 
+	 * 
+	 * return updateCount != 0 ? new ResponseEntity<>("success", HttpStatus.OK) :
+	 * new ResponseEntity<>("fail", HttpStatus.INTERNAL_SERVER_ERROR); }
+	 */
 	
 	
 	

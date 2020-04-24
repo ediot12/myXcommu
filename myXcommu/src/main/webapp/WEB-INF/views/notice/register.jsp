@@ -27,7 +27,7 @@
 			<div class="col-md-12 grid-margin stretch-card">
 				<div class="card">
 					<div class="card-body">
-						<form class="forms-sample" method="post" action="registerNotice" enctype="multipart/form-data">
+						<form class="forms-sample" method="post" id="noticeForm" action="registerNotice" enctype="multipart/form-data">
 							<div class="form-group">
 								<label for="noticeSubject">제목</label> 
 								<input type="text" class="form-control" id="noticeSubject" name="subject" placeholder="제목을 적어주세요.">
@@ -37,8 +37,8 @@
 								<textarea class="form-control" name="content" id="noticeArea" rows="2"></textarea>
 							</div>
 							<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }" />
-							<button type="submit" class="btn btn-outline-success mr-2">등록</button>
-							<button type="button" class="btn btn-md btn-secondary" onclick="location.href='/notice/main'">목록</button>
+							<button type="button" class="btn btn-outline-success mr-2" onclick="registerBoard()"><i class="fa fa-pencil-square-o"></i>등록</button>
+							<button type="button" class="btn btn-md btn-secondary" onclick="location.href='/notice/main'"><i class="fa fa-list"></i>목록</button>
 							
 						</form>
 					</div>
@@ -61,9 +61,35 @@
 <script>
 
 	CKEDITOR.replace('noticeArea', {
-		height : 600,
-		contentsCss : '/resources/assets/ckeditor/custom.css'
+		height : 600
 	});
+	
+	$(document).ready( function(e) {
+		
+		$('#noticeSubject').keyup(function (e){
+		    var content = $(this).val();
+		    
+
+		    if (content.length > 50){
+		        alert("최대 50자까지 입력 가능합니다.");
+		        $(this).val(content.substring(0, 200));
+		    }
+		});
+		
+	});
+	
+	function registerBoard(){
+		
+		var stringCount = CKEDITOR.instances.noticeArea.getData().length;
+		
+		if( stringCount > 2000000 ){
+			alert("이미지 용량이 크거나 글이 너무 깁니다.");
+			return;
+		}
+		
+		document.getElementById("noticeForm").submit();		
+		
+	}
 	
 </script>
 </body>

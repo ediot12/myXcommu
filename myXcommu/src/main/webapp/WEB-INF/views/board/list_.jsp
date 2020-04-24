@@ -81,9 +81,10 @@ div.innerBoard:hover{
 						<p class="text-muted">${pictureList.subject }</p>
 						<h5>${pictureList.convert_content }</h5>
 						<div class="d-flex align-items-center justify-content-between text-muted border-top py-3 mt-3">
-							<p class="mb-0">Published on ${regiDate}</p>
+							<div style="margin-bottom: 0 !important; font-family: 'roboto', 'sans-serif'; font-size: 0.875rem; width: 45%; ">${pictureList.writer }</div>
+							<div style="margin-bottom: 0 !important; font-family: 'roboto', 'sans-serif'; font-size: 0.875rem; width: 45%; text-align: right; margin-right: 5px;">${regiDate}</div>
 							<div class="wrapper d-flex align-items-center">
-								<small class="mr-2">${pictureList.recommand_cnt }</small> <i class="mdi mdi-heart-outline"></i>
+								<i class="mdi mdi-heart-outline"></i><small class="mr-2" style="margin-left : 5px;">${pictureList.recommand_cnt }</small> 
 							</div>
 						</div>
 					</div>
@@ -105,12 +106,12 @@ div.innerBoard:hover{
 									</h4>
 								</div>
 								<div style="display: grid; width: 10%; margin-left: 7px;">
-									<button type="button" class="btn btn-light btn-sm" style="font-size: 5pt; height: 20px; padding-top: 5px;" onclick="location.href='/notice/main'">
+									<button type="button" class="btn btn-dark btn-sm" style="font-size: 5pt; height: 20px; padding-top: 5px;" onclick="location.href='/notice/main'">
 										MORE
 										<!--  <i class="fa fa-plus text-primary"></i> -->
 									</button>
 								</div>
-								<table width="100%" class="table table-hover">
+								<table width="100%" class="table table-hover" style="table-layout: fixed;">
 									<tbody>
 										<c:forEach items="${noticeList }" var="noticeList" begin="0" end="4">
 											<fmt:formatDate value="${noticeList.regdate }" pattern="HH:mm" var="todayRegiDate"/>
@@ -153,12 +154,12 @@ div.innerBoard:hover{
 									질문게시판</h4>
 								</div>
 								<div style="display: grid; width: 10%; margin-left: 7px;">
-									<button type="button" class="btn btn-light btn-sm" style="font-size: 5pt; height: 20px; padding-top: 5px;" onclick="location.href='/qna/main'">
+									<button type="button" class="btn btn-dark btn-sm" style="font-size: 5pt; height: 20px; padding-top: 5px;" onclick="location.href='/qna/main'">
 										MORE
 										<!--  <i class="fa fa-plus text-primary"></i> -->
 									</button>
 								</div>
-								<table class="table table-hover">
+								<table class="table table-hover" style="table-layout: fixed;">
 									<tbody>
 										<c:forEach items="${questionList }" var="questionList" begin="0" end="4">
 											<fmt:formatDate value="${questionList.regdate }" pattern="HH:mm" var="todayRegiDate"/>
@@ -208,12 +209,12 @@ div.innerBoard:hover{
 									</h4>
 								</div>
 								<div style="display: grid; width: 10%; margin-left: 7px;">
-									<button type="button" class="btn btn-light btn-sm" style="font-size: 5pt; height: 20px; padding-top: 5px;" onclick="location.href='/proposal/main'">
+									<button type="button" class="btn btn-dark btn-sm" style="font-size: 5pt; height: 20px; padding-top: 5px;" onclick="location.href='/proposal/main'">
 										MORE
 										<!--  <i class="fa fa-plus text-primary"></i> -->
 									</button>
 								</div>
-								<table width="100%" class="table table-hover" id="mainListTable">
+								<table width="100%" class="table table-hover" id="mainListTable" style="table-layout: fixed;">
 									<thead>
 									<tbody>
 										<c:forEach items="${proposalList }" var="proposalList" begin="0" end="4">
@@ -257,12 +258,12 @@ div.innerBoard:hover{
 									</h4>
 								</div>
 								<div style="display: grid; width: 10%; margin-left: 7px;">
-									<button type="button" class="btn btn-light btn-sm" style="font-size: 5pt; height: 20px; padding-top: 5px;"  onclick="location.href='/free/main'">
+									<button type="button" class="btn btn-dark btn-sm" style="font-size: 5pt; height: 20px; padding-top: 5px;"  onclick="location.href='/free/main'">
 										MORE
 										<!--  <i class="fa fa-plus text-primary"></i> -->
 									</button>
 								</div>
-								<table class="table table-hover">
+								<table class="table table-hover" style="table-layout: fixed;">
 									<tbody>
 										
 										<c:forEach items="${freeBoardList }" var="freeBoardList" begin="0" end="4">

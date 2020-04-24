@@ -23,4 +23,5 @@ public class MemberVO {
 	private String profile_info;
 	private String email_code;
 	private String auth;
+	private String report_status;
 }

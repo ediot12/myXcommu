@@ -76,6 +76,10 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler{
 		session.setAttribute("image64", member.getProfile_image() );
 		session.setAttribute("loginTime", smf.format(date));
 		session.setAttribute("recentlyLoginDate", recentLoginDate ); 
+		session.setAttribute("auth", member.getAuth() );
+		session.setAttribute("emailInfo", member.getEmail());
+		
+		logger.warn( "current member :: " + member );
 		
 		if( roleNames.contains("ROLE_ADMIN") ) {
 			response.sendRedirect("/board/list_");

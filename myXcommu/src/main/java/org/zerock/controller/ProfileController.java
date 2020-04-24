@@ -1,14 +1,20 @@
 package org.zerock.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -29,13 +35,14 @@ public class ProfileController {
 	@Autowired
 	private AccountMapper mapper;
 	
+	
 	@RequestMapping( value="/myProfile", method=RequestMethod.GET )
 	public String viewProfilePage( Model model, HttpSession session ) {
 		
 		String currentLoginId = (String) session.getAttribute("currentUserId");
 		
-		MemberVO 				member 	= mapper.getAccountInformation(currentLoginId);
-		ArrayList<UserLogDTO> 	userLog = mapper.getRecentlyUserLog(currentLoginId);
+		MemberVO 				member 		= mapper.getAccountInformation(currentLoginId);
+		ArrayList<UserLogDTO> 	userLog 	= mapper.getRecentlyUserLog(currentLoginId);
 		MemberStatsDTO 			writerCount = mapper.getWriteBoardReplyCount( currentLoginId );
 		
 		model.addAttribute("member"		, member );
@@ -52,9 +59,15 @@ public class ProfileController {
 		
 		String currentLoginId = (String) session.getAttribute("currentUserId");
 		
-		MemberVO member = mapper.getAccountInformation(currentLoginId);
 		
-		model.addAttribute("member", member);
+		MemberVO 		member 			= mapper.getAccountInformation(currentLoginId);
+		MemberStatsDTO 	writerCount 	= mapper.getWriteBoardReplyCount( currentLoginId );
+		
+		model.addAttribute("member"		, member);
+		model.addAttribute("writerCnt"	, writerCount);
+		
+		log.info( "my user Log :: " + member ); 
+		
 		return "etc/profileModify";
 	}
 	
@@ -63,11 +76,8 @@ public class ProfileController {
 	public void updateProfile( MemberVO vo,  HttpServletRequest request, HttpServletResponse response, HttpSession session ) throws Exception {
 		
 		Authentication 		authentication 	= SecurityContextHolder.getContext().getAuthentication();
-		CustomUser 			user 			= (CustomUser) authentication.getPrincipal();
-		
-		String profile_info 	= vo.getProfile_info();
-		String profile_image 	= vo.getProfile_image();
-		String userId 			= request.getParameter("userid");
+		CustomUser 			user 			= (CustomUser) authentication.getPrincipal();		
+		String 				userId 			= request.getParameter("userid");
 		
 		
 		log.info("memverVo is ::: " + vo );
@@ -83,8 +93,10 @@ public class ProfileController {
 		
 		mapper.updateProfile(vo);
 		
-		session.removeAttribute("image64");
-		session.setAttribute("image64", vo.getProfile_image() );
+		if( !vo.getProfile_image().equals("") ) {
+			session.removeAttribute("image64");
+			session.setAttribute("image64", vo.getProfile_image() );
+		}
 		
 		response.sendRedirect("myProfile");
 	}
@@ -105,6 +117,44 @@ public class ProfileController {
 		log.info("userLog :: " + userLog);
 		
 		return "etc/profile";
+	}
+	
+	@RequestMapping( value="/changePwPage", method=RequestMethod.GET )
+	public String viewChangePwPage( HttpServletRequest request, Model model, HttpSession session ) {
+		
+		String 					currentLoginId 	= (String) session.getAttribute("currentUserId");
+		MemberVO 				member 			= mapper.getAccountInformation( currentLoginId );
+		
+		model.addAttribute("member"		, member);
+		
+		return "etc/changePw";
+	}
+	
+	@RequestMapping( value="checkPwAccount", method=RequestMethod.POST ) 
+	public ResponseEntity<String> checkPwAccount( HttpServletRequest request, HttpSession session  ){
+		
+		String 					currentLoginId 	= (String) session.getAttribute("currentUserId");
+		PasswordEncoder 		pwencoder 		= new BCryptPasswordEncoder();
+		String 					checkPw 		= mapper.checkPwAccount( currentLoginId );
+		String					originPw		= request.getParameter("originPw");
+		String					newPw			= request.getParameter("newPw");
+		boolean 				pwCompare 		= pwencoder.matches( originPw, checkPw );
+		Map<String,Object>		updateMap		= new HashMap<String,Object>();
+	
+		
+		if( pwCompare ) {
+			
+			updateMap.put("userId", currentLoginId);
+			updateMap.put("userPw", pwencoder.encode( newPw ) );
+			
+			mapper.findPwTemp(updateMap); // sql이 같아서 그냥 갖다씀
+			
+			return new ResponseEntity<>("success", HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>("error"	, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		
 	}
 
 }

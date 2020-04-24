@@ -128,7 +128,7 @@ table.dataTable tbody td{
 						</table>
 
 						<button type="button" onclick="location.href='/proposal/register'"  class="btn btn-outline-primary btn-fw" style="float: right; margin-top : 10px;">
-							글쓰기
+							<i class="fa fa-pencil"></i>글쓰기
 						</button>
 					</div>
 				</div>
@@ -152,9 +152,19 @@ $(document).ready(function() {
 		searching: true,
 		ordering : false,
 		bInfo : false,
-		bLengthChange : false
+		bLengthChange : false,
+		"columns": [
+		    { "width": "5%" },
+		    { "width": "5%" },
+		    { "width": "5%" },
+		    { "width": "70%" },
+		    { "width": "5%" },
+		    { "width": "5%" },
+		    { "width": "5%" }
+		    
+		  ]
 	});
 });
 </script>
 </body>
-</html>
+ </html>

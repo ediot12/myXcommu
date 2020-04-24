@@ -48,6 +48,7 @@
 <!-- Custom js for this page -->
 <script src="/resources/assets/js/demo_11/script.js"></script>
 <script src="/resources/assets/js/shared/sweetalert.min.js"></script>
+<script src="/resources/assets/vendors/jquery-toast-plugin/jquery.toast.min.js"></script>
 <!-- End custom js for this page -->
 </body>
 </html>

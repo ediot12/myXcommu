@@ -27,7 +27,9 @@ div.innerBoard:hover{
 }
 </style>
 
-<link rel="stylesheet" type="text/css" href="/resources/assets/js/dataTables/jquery.dataTables.css">
+
+<link rel="stylesheet" type="text/css" href="/resources/assets/vendors/datatables.net-bs4/dataTables.bootstrap4.css">
+<link rel="stylesheet" href="/resources/assets/vendors/datatables.net-fixedcolumns-bs4/fixedColumns.bootstrap4.min.css">
 <title>myXcommu</title>
 <!-- plugins:css -->
 
@@ -58,57 +60,28 @@ div.innerBoard:hover{
 							</div>
 						</div>
 						<!-- <h4 class="card-title">Basic Table</h4> -->
-						<table class="table" id="pictureBoardTable">
-							<thead>
-								<th></th>
-								<th></th>
-								<th></th>
-								<th></th>
-								<th></th>
-							</thead>
-							<tbody>
-								<c:forEach items="${pictureList}" var="pictureList" varStatus="status">
-									<%-- <fmt:formatDate value="${pictureList.regdate}" pattern="yy-MM-dd" var="regDate" />
-									
-									<c:if test="${status.count % 5 == 1 }">
-										<tr>
-									</c:if>
-
-									<td style="border: 1px solid #A9D0F5; width: 175px;" onclick="location.href='view/${pictureList.picture_seq}';">
-										<div style="vertical-align: top; height: 130px; text-align: center;">
-											<img src="${pictureList.base64_code }" style="width: 120px; height: 130px;">
-										</div>
-										<div style="vertical-align: bottom; height: 15px; font-weight: bold;">${pictureList.subject }
-											<c:if test="${pictureList.reply_cnt != 0 }">
-												<div style="color: green; font-weight: bold; display: inline-block;">[ ${pictureList.reply_cnt } ]</div>
-											</c:if>
-										</div>
-										<div style="vertical-align: bottom; height: 15px; color: #A4A4A4;">
-											<div style="display: inline-block;">조회 수 ${pictureList.view_cnt }</div>
-											<div style="display: inline-block; margin-left: 5px;">|| ${regDate}</div>
-										</div>
-										<div style="vertical-align: bottom; height: 15px;">${pictureList.writer }</div>
-									</td>
-
-									<c:if test="${status.count % 5 == 0 }">
-
-										</tr>
-									</c:if> --%>
-									
+						
+								<c:forEach items="${pictureList}" var="pictureList" varStatus="status">																		
 									<c:if test="${status.count % 3 == 1 }">
-										<tr>
+									
 									</c:if>
 									<fmt:formatDate value="${pictureList.regdate }" pattern="yyyy-MM-dd HH:mm" var="regiDate"/>
 									<div class="col-md-4 grid-margin stretch-card innerBoard" onclick="location.href='/picture/view/${pictureList.picture_seq}'">
 										<div class="card">
 											<img class="card-img-top" src="${pictureList.base64_code }" alt="card images" style="width : 350px; height : 215px;">
 											<div class="card-body pb-0">
-												<p class="text-muted">${pictureList.subject }</p>
+												<p class="text-muted" style="display : inline-block; margin-right: 5px;">
+													${pictureList.subject }
+													<c:if test="${pictureList.reply_cnt != 0 }">
+														<div style="display: inline-block; color: green; font-weight: bold; font-size : 10pt;">[ ${pictureList.reply_cnt } ]</div>
+													</c:if>
+												</p>
 												<h5>${pictureList.convert_content }</h5>
 												<div class="d-flex align-items-center justify-content-between text-muted border-top py-3 mt-3">
-													<p class="mb-0">Published on ${regiDate}</p>
+													<div style="margin-bottom: 0 !important; font-family: 'roboto', 'sans-serif'; font-size: 0.875rem; width: 45%; ">${pictureList.writer }</div>
+													<div style="margin-bottom: 0 !important; font-family: 'roboto', 'sans-serif'; font-size: 0.875rem; width: 45%; text-align: right; margin-right: 5px;">${regiDate}</div>
 													<div class="wrapper d-flex align-items-center">
-														<small class="mr-2">${pictureList.recommand_cnt }</small> <i class="mdi mdi-heart-outline"></i>
+														<i class="mdi mdi-heart-outline" style="color : red;"></i><small class="mr-2" style="margin-left : 5px;">${pictureList.recommand_cnt }</small> 
 													</div>
 												</div>
 											</div>
@@ -117,14 +90,13 @@ div.innerBoard:hover{
 
 									<c:if test="${status.count % 3 == 0 }">
 
-										</tr>
 									</c:if>
 
 								</c:forEach>
-							</tbody>
-						</table>
-
-						<button type="button" onclick="location.href='/picture/register'" class="btn btn-outline-primary btn-fw" style="float: right; margin-top: 10px;">글쓰기</button>
+					</div>
+					
+					<div class="row">
+						<button type="button" onclick="location.href='/picture/register'" class="btn btn-outline-primary btn-fw" style="float: right; margin-top: 10px;"><i class="fa fa-pencil"></i>글쓰기</button>
 					</div>
 				</div>
 			</div>
@@ -141,17 +113,31 @@ div.innerBoard:hover{
 
 
 
-<script type="text/javascript" charset="utf8" src="/resources/assets/js/jquery-1.12.4.min.js"></script>
-<script type="text/javascript" charset="utf8" src="/resources/assets/js/dataTables/jquery.dataTables.js"></script>
+<script type="text/javascript" charset="utf8" src="/resources/assets/js/shared/jquery-1.12.4.min.js"></script>
+<script type="text/javascript" charset="utf8" src="/resources/assets/vendors/datatables.net/jquery.dataTables.js"></script>
+
+<script src="/resources/assets/vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
+<script src="/resources/assets/vendors/datatables.net-fixedcolumns/dataTables.fixedColumns.min.js"></script>
 <script>
 	$(document).ready(function() {
-		$('#questionBoardTable').DataTable({
+		
+		
+		setTimeout(function() {
+			  
+			
+			
+			
+			}, 3000);
+		
+		/* $('#pictureBoardTable').DataTable({
 			responsive : true,
 			searching : false,
 			ordering : false,
 			bInfo : false,
 			bLengthChange : false
-		});
+		}); */
+		
+		
 	});
 </script>
 </body>

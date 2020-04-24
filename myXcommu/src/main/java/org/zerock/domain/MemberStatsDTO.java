@@ -15,5 +15,6 @@ public class MemberStatsDTO {
 	private String email;
 	private int board_cnt;
 	private int reply_cnt;
+	private String report_status;
 
 }

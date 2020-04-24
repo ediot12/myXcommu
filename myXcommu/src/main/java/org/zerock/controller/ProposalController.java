@@ -90,7 +90,10 @@ public class ProposalController {
 	}
 	
 	@Transactional
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	/*
+	 * @PreAuthorize("(( #user.name == principal.username ) or hasRole('ROLE_ADMIN'))"
+	 * ) writer 파라미터를 가져올 방법이 없음..
+	 */
 	@RequestMapping(value="/view/{num}", method=RequestMethod.GET)
 	public String viewProposalPage( @PathVariable("num") int proposal_seq, Model model, HttpServletRequest request, HttpServletResponse response ) {
 		

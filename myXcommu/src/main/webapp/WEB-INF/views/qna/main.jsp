@@ -69,10 +69,10 @@ table.dataTable tbody td {
 									<td>${list.qna_board_seq }</td>
 									<td>
 										<c:if test='${list.division == "질문유형1"}'>
-											<label class="badge badge-danger"> 질문유형 1 </label>
+											<label class="badge badge-primary"> 질문유형 1 </label>
 										</c:if>
 										<c:if test='${list.division == "질문유형2"}'>
-											<label class="badge badge-success"> 질문유형 2 </label>
+											<label class="badge badge-info"> 질문유형 2 </label>
 										</c:if>
 									</td>
 									<td>
@@ -84,10 +84,40 @@ table.dataTable tbody td {
 										</c:if>
 									</td>
 									<td>
-										<a href="/qna/view/${list.qna_board_seq }"> ${list.subject } <c:if test="${list.reply_cnt != 0 }">
-												<div style="display: inline-block; color: green; font-weight: bold;">[ ${list.reply_cnt } ]</div>
-											</c:if>
-										</a>
+										<c:if test="${list.status == 'N' }">
+											<c:choose>
+												<c:when test="${list.report_cnt > 2 }">
+													<a href="/qna/view/${list.qna_board_seq }">
+													<i class="fa fa-exclamation-circle" style=" color: red;"></i>
+												</c:when>
+												<c:otherwise>
+													<a href="/qna/view/${list.qna_board_seq }">
+												</c:otherwise>
+											</c:choose>	
+												${list.subject } 
+												<c:if test="${list.reply_cnt != 0 }">
+													<div style="display: inline-block; color: green; font-weight: bold;">[ ${list.reply_cnt } ]</div>
+												</c:if>
+											</a>
+										</c:if>
+										<c:if test="${list.status == 'Y' }">
+											<c:choose>
+												<c:when test="${list.report_cnt > 2 }">
+													<a href="/qna/view/${list.qna_board_seq }" style="color : gray; text-decoration: line-through;">
+													<i class="fa fa-exclamation-circle" style=" color: red;"></i>
+												</c:when>
+												<c:otherwise>
+													<a href="/qna/view/${list.qna_board_seq }"  style="color : gray; text-decoration: line-through;">
+												</c:otherwise>
+											</c:choose>	
+											
+												${list.subject } 
+												<c:if test="${list.reply_cnt != 0 }">
+													<div style="display: inline-block; color: green; font-weight: bold;">[ ${list.reply_cnt } ]</div>
+												</c:if>
+											</a>
+										</c:if>
+										
 									</td>
 									<td>${list.writer }</td>
 									<td>
@@ -110,7 +140,7 @@ table.dataTable tbody td {
 						</tbody>
 					</table>
 
-					<button type="button" onclick="location.href='/qna/register'" class="btn btn-outline-primary btn-fw" style="float: right; margin-top: 10px;">글쓰기</button>
+					<button type="button" onclick="location.href='/qna/register'" class="btn btn-outline-primary btn-fw" style="float: right; margin-top: 10px;"><i class="fa fa-pencil"></i>글쓰기</button>
 				</div>
 			</div>
 		</div>
@@ -130,10 +160,20 @@ table.dataTable tbody td {
 	$(document).ready(function() {
 		$('#questionBoardTable').DataTable({
 			responsive : true,
-			searching : false,
+			searching : true,
 			ordering : false,
 			bInfo : false,
-			bLengthChange : false
+			bLengthChange : false,
+			"columns": [
+			    { "width": "5%" },
+			    { "width": "5%" },
+			    { "width": "5%" },
+			    { "width": "65%" },
+			    { "width": "5%" },
+			    { "width": "5%" },
+			    { "width": "5%" },
+			    { "width": "5%" }			    
+			  ]
 		});
 	});
 </script>

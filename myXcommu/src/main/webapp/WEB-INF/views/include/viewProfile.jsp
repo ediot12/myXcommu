@@ -57,7 +57,7 @@
 				</div>
 				<div class="col-md-3">
 					<div class="wrapper d-flex justify-content-end">
-						<button type="button" class="btn btn-sm btn-inverse-primary mr-2" onclick="location.href='/viewProfile?userId=${writerInfo.userid }'">View</button> 
+						<button type="button" class="btn btn-sm btn-inverse-primary mr-2" onclick="location.href='/viewProfile?userId=${writerInfo.userid }'"><i class="fa fa-vcard-o"></i>프로필 보기</button> 
 					</div>
 				</div>
 			</div>

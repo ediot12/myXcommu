@@ -16,7 +16,7 @@
 	<div class="row page-title-header">
 		<div class="col-12">
 			<div class="page-header">
-				<h4 class="page-title" style="font-weight: 1000;">질문게시판 - 게시글수정</h4>
+				
 			</div>
 		</div>
 
@@ -27,10 +27,11 @@
 
 		<div class="col-md-12 grid-margin stretch-card">
 			<div class="card">
+				<h4 class="page-title" style="font-size : 10pt; color : gray; font-weight: 1000; margin-left: 30px; margin-top: 20px; margin-bottom: -30px;">질문게시판 >> 게시글수정</h4>
 				<div class="card-body">
-					<form class="forms-sample" method="post" action="updateQuestion" enctype="multipart/form-data">
+					<form class="forms-sample" method="post" id="questionForm" action="updateQuestion" enctype="multipart/form-data">
 						<div class="form-group">
-							<label for="questionSubject">제목</label> <input type="text" class="form-control" id="questionSubject" name="subject" value="${board.subject }" placeholder="제목을 적어주세요.">
+							<label for="questionSubject" style="margin-top : 20px;">제목</label> <input type="text" class="form-control" id="questionSubject" name="subject" value="${board.subject }" placeholder="제목을 적어주세요.">
 						</div>
 						<div class="form-group">
 							<label for="questionDivision">구분</label>
@@ -43,7 +44,7 @@
 							<label>첨부파일 </label>
 							<!-- <input type="file" name="uploadFile" class="file-upload-default"> -->
 							<div class="input-group col-xs-12">
-								<input type="text" class="form-control" value="${fileInfo.file_name }" id="fileName" readonly="readonly" style="width: 200px; height: 20px;" /> <i class="fa fa-times-circle" onclick="fileDelete()"></i> <input type="file" name="uploadFile" id="upload" />
+								<input type="text" class="form-control" value="${fileInfo.file_name }" id="fileName" readonly="readonly" style="width: 200px; height: 30px;" /> <i class="fa fa-times-circle" onclick="fileDelete()"></i> <input type="file" name="uploadFile" id="upload" />
 							</div>
 						</div>
 						<div class="form-group">
@@ -51,8 +52,8 @@
 							<textarea class="form-control" name="content" id="questionArea" rows="2"></textarea>
 						</div>
 						<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }" /> <input type="hidden" id="fileDeleteYN" name="fileDeleteYN" value="N"> <input type="hidden" id="fileChangeYN" name="fileChangeYN" value="N">
-						<button type="submit" class="btn btn-success mr-2">등록</button>
-						<button type="button" class="btn btn-md btn-secondary" onclick="location.href='/qna/main'">목록</button>
+						<button type="button" class="btn btn-success mr-2" onclick="registerBoard()"><i class="fa fa-pencil-square-o"></i>등록</button>
+						<button type="button" class="btn btn-md btn-secondary" onclick="location.href='/qna/main'"><i class="fa fa-list"></i>목록</button>
 
 					</form>
 				</div>
@@ -74,7 +75,7 @@
 <script type="text/javascript" src="/resources/assets/ckeditor/ckeditor.js"></script>
 <script>
 	CKEDITOR.replace('questionArea', {
-		height : 300
+		height : 600
 	});
 
 	$("input[type='file']").change(function(e) {
@@ -98,6 +99,20 @@
 			return;
 		}
 
+	}
+	
+	function registerBoard(){
+		
+		
+		var stringCount = CKEDITOR.instances.questionArea.getData().length;
+		
+		if( stringCount > 2000000 ){
+			alert("이미지 용량이 크거나 글이 너무 깁니다.");
+			return;
+		}
+		
+		document.getElementById("questionForm").submit();		
+		
 	}
 </script>
 </body>

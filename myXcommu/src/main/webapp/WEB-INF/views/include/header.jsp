@@ -20,10 +20,12 @@
 <!-- Layout styles -->
 <link rel="stylesheet" href="/resources/assets/css/shared/style.css">
 <link rel="stylesheet" href="/resources/assets/css/demo_11/style.css">
+<link rel="stylesheet" href="/resources/assets/nanumgothic.css">
 <!-- End Layout styles -->
 <link rel="shortcut icon" href="/resources/assets/images/favicon.png" />
 <link rel="stylesheet"  href="/resources/assets/vendors/font-awesome/css/font-awesome.min.css">
 <link rel="stylesheet"  href="/resources/assets/vendors/simple-line-icons/css/simple-line-icons.css">
+<link rel="stylesheet" href="/resources/assets/vendors/jquery-toast-plugin/jquery.toast.min.css">
 <script type="text/javascript" charset="utf8" src="/resources/assets/js/shared/jquery-1.12.4.min.js"></script>
 <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"> -->
 
@@ -53,25 +55,28 @@ div#cke_contentArea {
 	flex-grow: 1;
 	margin: 0 auto;
 	/* max-width: 960px; */
-	max-width : 1115px;
+	max-width: 1115px;
 }
 
-table > thead > tr > th {
-	font-weight : bold!important;
+table>thead>tr>th {
+	font-weight: bold !important;
 }
 
-.swal-title, .swal-text{ /* sweetalert의 내용 글자 크기 */
-	font-size : 15pt;
-	font-weight : bold;
+.swal-title, .swal-text { /* sweetalert의 내용 글자 크기 */
+	font-size: 15pt;
+	font-weight: bold;
 }
 
-.navbar.horizontal-layout .nav-bottom .page-navigation > .nav-item{
-	width : 14.28%;
+.navbar.horizontal-layout .nav-bottom .page-navigation>.nav-item {
+	width: 14.28%;
 }
 
 /* .container {
     max-width: 960px;
 } */
+body {
+	font-family: 'NanumGothic', 'serif';
+}
 </style>
 <script>
 	function commonReport( text ){
@@ -153,74 +158,17 @@ table > thead > tr > th {
 								<input type="text" class="form-control" name="searchWord" placeholder="Type to search…"> <i class="mdi mdi mdi-close search-close"></i>
 							</div>
 						</form>
-						<ul class="navbar-nav ml-auto">
-							<li class="nav-item dropdown"><a class="nav-link count-indicator dropdown-toggle" id="messageDropdown" href="#" data-toggle="dropdown" aria-expanded="false"> <i class="mdi mdi-file-outline"></i> <span class="count">7</span>
-							</a>
-								<div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list pb-0" aria-labelledby="messageDropdown">
-									<a class="dropdown-item py-3">
-										<p class="mb-0 font-weight-medium float-left">You have 7 unread mails</p> <span class="badge badge-pill badge-primary float-right">View all</span>
-									</a>
-									<div class="dropdown-divider"></div>
-									<a class="dropdown-item preview-item">
-										<div class="preview-thumbnail">
-											<img src="/resources/assets/images/faces/face10.jpg" alt="image" class="img-sm profile-pic">
-										</div>
-										<div class="preview-item-content flex-grow py-2">
-											<p class="preview-subject ellipsis font-weight-medium text-dark">Marian Garner</p>
-											<p class="font-weight-light small-text">The meeting is cancelled</p>
-										</div>
-									</a> <a class="dropdown-item preview-item">
-										<div class="preview-thumbnail">
-											<img src="/resources/assets/images/faces/face12.jpg" alt="image" class="img-sm profile-pic">
-										</div>
-										<div class="preview-item-content flex-grow py-2">
-											<p class="preview-subject ellipsis font-weight-medium text-dark">David Grey</p>
-											<p class="font-weight-light small-text">The meeting is cancelled</p>
-										</div>
-									</a> <a class="dropdown-item preview-item">
-										<div class="preview-thumbnail">
-											<img src="/resources/assets/images/faces/face1.jpg" alt="image" class="img-sm profile-pic">
-										</div>
-										<div class="preview-item-content flex-grow py-2">
-											<p class="preview-subject ellipsis font-weight-medium text-dark">Travis Jenkins</p>
-											<p class="font-weight-light small-text">The meeting is cancelled</p>
-										</div>
-									</a>
-								</div></li>
-							<li class="nav-item dropdown ml-4"><a class="nav-link count-indicator dropdown-toggle" id="notificationDropdown" href="#" data-toggle="dropdown"> <i class="mdi mdi-bell-outline"></i> <span class="count bg-success">4</span>
-							</a>
-								<div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list pb-0" aria-labelledby="notificationDropdown">
-									<a class="dropdown-item py-3 border-bottom">
-										<p class="mb-0 font-weight-medium float-left">You have 4 new notifications</p> <span class="badge badge-pill badge-primary float-right">View all</span>
-									</a> <a class="dropdown-item preview-item py-3">
-										<div class="preview-thumbnail">
-											<i class="mdi mdi-alert m-auto text-primary"></i>
-										</div>
-										<div class="preview-item-content">
-											<h6 class="preview-subject font-weight-normal text-dark mb-1">Application Error</h6>
-											<p class="font-weight-light small-text mb-0">Just now</p>
-										</div>
-									</a> <a class="dropdown-item preview-item py-3">
-										<div class="preview-thumbnail">
-											<i class="mdi mdi-settings m-auto text-primary"></i>
-										</div>
-										<div class="preview-item-content">
-											<h6 class="preview-subject font-weight-normal text-dark mb-1">Settings</h6>
-											<p class="font-weight-light small-text mb-0">Private message</p>
-										</div>
-									</a> <a class="dropdown-item preview-item py-3">
-										<div class="preview-thumbnail">
-											<i class="mdi mdi-airballoon m-auto text-primary"></i>
-										</div>
-										<div class="preview-item-content">
-											<h6 class="preview-subject font-weight-normal text-dark mb-1">New user registration</h6>
-											<p class="font-weight-light small-text mb-0">2 days ago</p>
-										</div>
-									</a>
-								</div></li>
+						<ul class="navbar-nav ml-auto">							
 							<li class="nav-item dropdown d-none d-xl-inline-block user-dropdown"><a class="nav-link dropdown-toggle" id="UserDropdown" href="#" data-toggle="dropdown" aria-expanded="false">
 									<div class="wrapper d-flex flex-column">
-										<span class="profile-text">${sessionScope.currentUserId}</span> <span class="user-designation">Administrator</span>
+										<span class="profile-text">${sessionScope.currentUserId}</span> <span class="user-designation">
+											<c:if test="${sessionScope.auth == 'ROLE_ADMIN'}">
+												관리자
+											</c:if>
+											<c:if test="${sessionScope.auth == 'ROLE_USER'}">
+												일반회원
+											</c:if>
+										</span>
 									</div> <!-- <div class="display-avatar bg-inverse-primary text-primary">AS</div> --> <c:if test="${sessionScope.image64 == null }">
 										<img src="/resources/assets/images/empty_face.png" alt="image" class="display-avatar bg-inverse-primary text-primary">
 									</c:if> <c:if test="${sessionScope.image64 != null }">
@@ -236,12 +184,11 @@ table > thead > tr > th {
 											<img class="img-md rounded-circle" src="${sessionScope.image64 }" alt="profile image">
 										</c:if>
 										<p class="mb-1 mt-3 font-weight-semibold">${sessionScope.currentUserId}</p>
-										<p class="font-weight-light text-muted mb-0">adamsmith@gmail.com</p>
+										<p class="font-weight-light text-muted mb-0">${sessionScope.emailInfo }</p>
 									</div>
 									<a class="dropdown-item" href="/myProfile">
 										<i class="dropdown-item-icon mdi mdi-account-outline text-primary"></i>
-										 My Profile 
-										 <span class="badge badge-pill badge-danger">1</span>
+										 My Profile
 									</a> 
 									<!-- <a class="dropdown-item">
 										<i class="dropdown-item-icon mdi mdi-message-text-outline text-primary"></i> 

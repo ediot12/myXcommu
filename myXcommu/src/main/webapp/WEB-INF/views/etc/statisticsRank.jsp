@@ -8,13 +8,13 @@
 <head>
 
 <link rel="stylesheet" type="text/css" href="/resources/assets/vendors/datatables.net-bs4/dataTables.bootstrap4.css">
-<link rel="stylesheet" type="text/css" href="/resources/assets/vendors/datatables.net-fixedcolumns-bs4/fixedColumns.bootstrap4.min.css">
+<link rel="stylesheet"  href="/resources/assets/vendors/datatables.net-fixedcolumns-bs4/fixedColumns.bootstrap4.min.css">
 <title>myXcommu</title>
 <!-- plugins:css -->
 
 <%@ include file="../include/header.jsp"%>
 <jsp:useBean id="currentDate" class="java.util.Date" />
-<fmt:formatDate value="${currentDate}" pattern="MMdd" var="nowDate" />
+<fmt:formatDate value="${currentDate}" pattern="yyyyMMdd" var="nowDate" />
 
 
 <!-- partial -->
@@ -30,7 +30,7 @@
 								<div class="wrapper text-center text-sm-left">
 									<p class="card-text mb-0">가입자 수</p>
 									<div class="fluid-container">
-										<h3 class="mb-0 font-weight-medium">${stats.member_cnt }</h3>
+										<h3 class="mb-0 font-weight-medium" style="text-align : right;">${stats.member_cnt }</h3>
 									</div>
 								</div>
 							</div>
@@ -44,7 +44,7 @@
 								<div class="wrapper text-center text-sm-left">
 									<p class="card-text mb-0">게시물 수</p>
 									<div class="fluid-container">
-										<h3 class="mb-0 font-weight-medium">${stats.board_cnt }</h3>
+										<h3 class="mb-0 font-weight-medium" style="text-align : right;">${stats.board_cnt }</h3>
 									</div>
 								</div>
 							</div>
@@ -58,7 +58,7 @@
 								<div class="wrapper text-center text-sm-left">
 									<p class="card-text mb-0">댓글 수</p>
 									<div class="fluid-container">
-										<h3 class="mb-0 font-weight-medium">${stats.reply_cnt }</h3>
+										<h3 class="mb-0 font-weight-medium" style="text-align : right;">${stats.reply_cnt }</h3>
 									</div>
 								</div>
 							</div>
@@ -71,7 +71,7 @@
 								<div class="wrapper text-center text-sm-left">
 									<p class="card-text mb-0">Total Sales</p>
 									<div class="fluid-container">
-										<h3 class="mb-0 font-weight-medium">61,119</h3>
+										<h3 class="mb-0 font-weight-medium" style="text-align : right;">61,119</h3>
 									</div>
 								</div>
 							</div>
@@ -79,74 +79,20 @@
 					</div>
 				</div>
 			</div>
-		</div>
-		<div class="col-12 col-sm-6 col-md-3 grid-margin stretch-card">
-			<div class="card">
-				<div class="card-body">
-					<div class="d-flex justify-content-center">
-						<i class="mdi mdi-clock icon-lg text-primary d-flex align-items-center"></i>
-						<div class="d-flex flex-column ml-4">
-							<span class="d-flex flex-column">
-								<p class="mb-0">Bounce rate</p>
-								<h4 class="font-weight-bold">32.16%</h4>
-							</span> <small class="text-muted">65.45% on average time</small>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="col-12 col-sm-6 col-md-3 grid-margin stretch-card">
-			<div class="card">
-				<div class="card-body">
-					<div class="d-flex justify-content-center">
-						<i class="mdi mdi-cart-outline icon-lg text-success d-flex align-items-center"></i>
-						<div class="d-flex flex-column ml-4">
-							<span class="d-flex flex-column">
-								<p class="mb-0">Today sales</p>
-								<h4 class="font-weight-bold">$489,271</h4>
-							</span> <small class="text-muted">$489,271 before tax</small>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="col-12 col-sm-6 col-md-3 grid-margin stretch-card">
-			<div class="card">
-				<div class="card-body">
-					<div class="d-flex justify-content-center">
-						<i class="mdi mdi-laptop icon-lg text-warning d-flex align-items-center"></i>
-						<div class="d-flex flex-column ml-4">
-							<span class="d-flex flex-column">
-								<p class="mb-0">Unique visits</p>
-								<h4 class="font-weight-bold">74.50%</h4>
-							</span> <small class="text-muted">80% average duration</small>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="col-12 col-sm-6 col-md-3 grid-margin stretch-card">
-			<div class="card">
-				<div class="card-body">
-					<div class="d-flex justify-content-center">
-						<i class="mdi mdi-earth icon-lg text-danger d-flex align-items-center"></i>
-						<div class="d-flex flex-column ml-4">
-							<span class="d-flex flex-column">
-								<p class="mb-0">Today's visits</p>
-								<h4 class="font-weight-bold">6,775,440</h4>
-							</span> <small class="text-muted">45% higher yesterday</small>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>		
+		</div>			
 	</div>
 
 	<div>
 		<div class="col-lg-12 stretch-card">
 			<div class="card">
 				<div class="card-body">
-					<h4 class="card-title">Table with contextual classes</h4>
+					<h4 class="card-title" style="font-weight : bold;">회원목록</h4>
+					
+					<div class="col-12" style="padding-right : 0px; padding-left : 0px;">
+						<div class="alert alert-primary" role="alert">
+							<strong>알림!</strong> <br/>빨간줄은 정지된 계정, 녹색줄은 휴면 계정 입니다.
+						</div>
+					</div>
 					 
 					<div class="table-responsive">
 						<table class="table table-bordered" id="userStatsTable">
@@ -155,7 +101,7 @@
 									<th>아이디명</th>
 									<th>회원가입일</th>
 									<th>최근 로그인</th>
-									<th>레벨</th>
+									<!-- <th>레벨</th> -->
 									<th>로그인 횟수</th>
 									<th>이메일</th>
 									<th>전체 게시글 수</th>
@@ -201,11 +147,22 @@
 								<c:forEach items="${memberStats }" var="memberStats">
 									<fmt:formatDate value="${memberStats.regdate }" pattern="yyyy-MM-dd HH:mm:ss" var="regdate"/>
 									<fmt:formatDate value="${memberStats.updatedate }" pattern="yyyy-MM-dd HH:mm:ss" var="updatedate"/>
-									<tr>
+									<fmt:formatDate value="${memberStats.updatedate }" pattern="yyyyMMdd" var="logindate"/>
+									<c:choose>
+										<c:when test="${memberStats.report_status eq 'Y' && nowDate-logindate > 30 }">
+											<tr class="table-danger">
+										</c:when>
+										<c:when test="${memberStats.report_status eq 'N' && nowDate-logindate > 30 }">
+											<tr class="table-success">
+										</c:when>
+										<c:otherwise>
+											<tr>	
+										</c:otherwise>									
+									</c:choose>
 										<td><a href="/viewProfile?userId=${memberStats.userid }">${memberStats.userid }</a></td>
 										<td>${regdate }</td>
 										<td>${updatedate }</td>
-										<td>${memberStats.user_level }</td>
+										<%-- <td>${memberStats.user_level }</td> --%>
 										<td>${memberStats.login_count }</td>
 										<td>${memberStats.email }</td>
 										<td>${memberStats.board_cnt }</td>
@@ -228,8 +185,8 @@
 <script type="text/javascript" charset="utf8" src="/resources/assets/js/shared/jquery-1.12.4.min.js"></script>
 <script type="text/javascript" charset="utf8" src="/resources/assets/vendors/datatables.net/jquery.dataTables.js"></script>
 
-<!-- <script src="/resources/assets/vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script> -->
-<!-- <script src="/resources/assets/vendors/datatables.net-fixedcolumns/dataTables.fixedColumns.min.js"></script> -->
+<script src="/resources/assets/vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
+<script src="/resources/assets/vendors/datatables.net-fixedcolumns/dataTables.fixedColumns.min.js"></script>
 <script>
 
 

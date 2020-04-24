@@ -27,4 +27,5 @@ public interface CommonMapper {
 	public int checkReportCount( Map<String,Object> map );
 	public void insertBoardDBLog( Map<String,Object> map );
 	public void insertReplyDBLog( Map<String,Object> map );
+	public int updateBoardStatus( Map<String,Object> map );
 }

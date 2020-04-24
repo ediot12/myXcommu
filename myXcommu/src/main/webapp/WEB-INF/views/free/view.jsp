@@ -22,6 +22,7 @@
 
 			<div class="col-md-12 grid-margin stretch-card">
 				<div class="card">
+					<h4 class="page-title" style="font-size : 10pt; color : gray; font-weight: 1000; margin-left: 30px; margin-top: 20px; margin-bottom: -30px;">자유게시판 >> 게시글</h4>
 					<div class="card-body">
 						<form class="forms-sample" method="post" action="/">
 							<div class="form-group">
@@ -41,19 +42,22 @@
 							<!-- 작성자와 본인이 일치하지  않으면 수정과 삭제 버튼은 뜨지 않는다. -->
 							<sec:authorize access="isAuthenticated()">
 								<c:if test="${pinfo.username eq board.writer}">
-									<button type="button" class="btn btn-md" style="background-color: red; border-color: red; color: white;" onclick="deleteBoard()">삭제</button>
-									<button type="button" class="btn btn-info btn-md" onclick="goModifyPage(${board.free_board_seq})">수정</button>
+									<button type="button" class="btn btn-md" style="background-color: red; border-color: red; color: white;" onclick="deleteBoard()"><i class="fa fa-recycle"></i>삭제</button>
+									<button type="button" class="btn btn-info btn-md" onclick="goModifyPage(${board.free_board_seq})"><i class="fa fa-edit"></i>수정</button>
 								</c:if>
 							</sec:authorize>
 							
-							<button type="button" class="btn btn-md btn-secondary" onclick="location.href='/free/main'">목록</button>
+							<button type="button" class="btn btn-md btn-secondary" onclick="location.href='/free/main'"><i class="fa fa-list"></i>목록</button>
 							<div style="float: right;">
 
 							<input type="hidden" id="writer" value="${board.writer }">							
 							<input type="hidden" id="reporter" value="${sessionScope.currentUserId}">
 							<input type="hidden" id="boardType" value="6">
-							<button type="button" class="btn btn-danger"  data-toggle="modal" href="#reportModal" style="color : white; font-weight : bold; font-size : 9pt;"><i class="ti-alert"></i>신고</button>
-							<button type="button" class="btn" style="color: white; font-weight: bold; background-color: green;" onclick="recommandBoard()">
+							<sec:authorize access="isAuthenticated()">
+								<c:if test="${pinfo.username ne board.writer}">
+									<button type="button" class="btn btn-danger"  data-toggle="modal" href="#reportModal" style="color : white; font-weight : bold; font-size : 9pt;"><i class="ti-alert"></i>신고</button>
+								</c:if>
+							</sec:authorize>
 
 							</div>
 						</form>
@@ -66,20 +70,21 @@
 
 
 			<div class="col-md-12 grid-margin stretch-card">
-				<div class="card">
-					<div class="card-body">
-						<label for="exampleTextarea1" style="display: block; font-size: 14px; margin-top: 10px;">댓글쓰기</label>
-							<div id="countArea">0 / 500 자</div>
-							<div class="form-group" style="margin-top: 10px;">
-								<!--  -->
-								<textarea class="form-control" id="replyArea" rows="4" style="width: 79%;"></textarea>
-								<button type="button" class="btn btn-warning btn-fw" style="width: 20%; height: 89px; margin-top: -81px;" onclick="registerReply()">댓글달기</button>
-							</div>
-							
-							
-						<div class="card-body">
-
-						<c:if test="${fn:length(replyList) > 0}">
+			<div class="card">
+				<div>
+					<div id="replyCount" style="text-align : left; padding-left: 30px; padding-top: 20px; display : inline-block;">댓글 ( )</div>
+					<div id="countArea" style="text-align : right; padding-right: 45px; padding-top: 20px; display : inline-block; float : right;">0 / 500 자</div>
+				</div>
+				<div class="card-body" style="padding-top : 0px;">
+					<div class="form-group" style="margin-top: 10px; width : 100%;">
+						<!--  -->
+						<textarea class="form-control" id="replyArea" rows="4" style="width: 88%;"></textarea>
+						<button type="button" class="btn btn-warning btn-fw" style="width: 10%; height: 89px; display: inline-block; margin-top: -82px;" onclick="registerReply()">
+							<i class="fa fa-comment-o"></i>댓글달기
+						</button>
+					</div>
+					
+					<c:if test="${fn:length(replyList) > 0}">
 							<table class="table">
 								<c:forEach items="${replyList }" var="replyList">
 									<fmt:formatDate value="${replyList.regdate }" pattern="yyyy-MM-dd HH:mm:ss" var="replyRegiDate" />
@@ -95,13 +100,13 @@
 										</td>
 										<td style="text-align: right;" replySeq="${replyList.reply_seq }" replyer="${replyList.replyer }">
 											<button class="btn btn-inverse-primary" value="1" onclick="empathyReply(this)">
-												공감
+												<i class="fa fa-thumbs-o-up"></i>공감
 												<c:if test="${ replyList.empathy_yes != 0 }">
 													<div style="display: inline-block;">${ replyList.empathy_yes }</div>
 												</c:if>
 											</button>
 											<button class="btn btn-inverse-danger" value="2" onclick="empathyReply(this)">
-												비공감
+												<i class="fa fa-thumbs-o-down"></i>비공감
 												<c:if test="${ replyList.empathy_no != 0 }">
 													<div style="display: inline-block;">${ replyList.empathy_no }</div>
 												</c:if>
@@ -115,14 +120,11 @@
 								</c:forEach>
 							</table>
 						</c:if>
-
-
-					</div>
-					</div>
-					
 				</div>
-				
+
 			</div>
+
+		</div>
 			
 			
 			<div class="col-lg-12 grid-margin stretch-card">
@@ -199,7 +201,7 @@
 
 
 
-<script type="text/javascript" charset="utf8" src="/resources/assets/js/shared/jquery-1.12.4.min.js"></script>
+<!-- <script type="text/javascript" charset="utf8" src="/resources/assets/js/shared/jquery-1.12.4.min.js"></script> -->
 <script type="text/javascript" src="/resources/assets/ckeditor/ckeditor.js"></script>
 <script>
 
@@ -229,6 +231,8 @@
 		    }
 		});
 		
+		document.getElementById("replyCount").innerHTML = "댓글 ( ${fn:length(replyList)} )";
+		
 	});
 
 	CKEDITOR.replace('contentArea', {
@@ -244,7 +248,8 @@
 		
 	});	
 	
-	CKEDITOR.instances.contentArea.setData( '${board.content }' )
+	CKEDITOR.instances.contentArea.setData( '${board.content }' );
+	CKEDITOR.instances.contentArea.config.readOnly = true;
 	
 	function registerReply(){
 		
@@ -267,8 +272,18 @@
 				console.log( result );
 				
 				if( result == "success" ){
-					alert("댓글달기 성공!");
-					location.reload();
+					
+					$.toast({
+				      text: '댓글이 등록되었습니다.',
+				      showHideTransition: 'slide',
+				      icon: 'info',
+				      loaderBg: '#f96868',
+				      position: 'bottom-left'
+				    });
+					
+				    setTimeout( function(){
+				    	location.reload();
+				    },  1000, );
 				}
 				
 			}	
@@ -287,11 +302,21 @@
 				'writer': document.getElementById("writer").value
 			},
 			success : function ( result ){
-				alert("complete");
-				location.href = "/free/main";
+				swal("질문이 종료되었습니다.", {
+				      icon: "success",
+				    });
+				
+			    setTimeout( function(){
+			    	location.href = "/free/main";
+			    },  1000, );
+			    
+			    
 			},
 			error : function ( result ){
-				alert("internal error occured!!!");	
+				swal("에러가 발생했습니다.", {
+				      icon: "error",
+			    });
+				console.log( result );
 			}
 			
 		});
@@ -324,7 +349,7 @@
 							    });
 							    setTimeout( function(){
 							    	location.href = "/free/main";
-							    },  3000, );
+							    },  1000, );
 						},
 						error : function ( result ){
 							alert("internal error occured!!!");	
@@ -360,10 +385,24 @@
 				'boardType' : '6'
 			},
 			success : function ( result ){
-				alert("empathy complete");
+				swal("공감하였습니다.", {
+				      icon: "success",
+			    });
 			},
 			error : function ( result ){
-				alert("internal error occured!!!");	
+
+				if( result.responseText == 'fail_1' ){
+					swal("이미 공감을 누르셨습니다.", {
+					      icon: "error",
+				    });
+				}
+				if( result.responseText == 'fail_2' ){
+					swal("본인 글에는 공감 할 수 없습니다.", {
+					      icon: "error",
+				    });
+				}
+				
+				console.log( result );	
 			}
 			
 		});
@@ -376,32 +415,49 @@
 		location.href="/free/modify/"+pageNum;
 	}
 	
-	function deleteReply( val ){
+function deleteReply( val ){
 		
 		// 일부러 이렇게 해봤음.
 		var replySeq = $($($(val.parentNode.parentNode)[0]).find("td")[1]).attr("replySeq");
 		var replyer = $($($(val.parentNode.parentNode)[0]).find("td")[1]).attr("replyer");
 		
-		$.ajax({
-			
-			url : '/common/view/deleteReply',
-			method : 'GET',
-			data : {
-				'replySeq' : replySeq,
-				'replyer' : replyer
-			} ,
-			success : function(e){
-				alert("reply delete complete");
-				location.reload();
-			},
-			error : function ( e ){
-				console.log( e );
-				alert("error occured");
-			}
+		swal({
+			  title: "댓글이 삭제됩니다. 계속하시겠습니까?",
+			  icon: "error",
+			  buttons: true,
+			  dangerMode: true,
+			})
+			.then((willDelete) => {
+			  if (willDelete) {
+				  
+				  $.ajax({
+						
+						url : '/common/view/deleteReply',
+						method : 'GET',
+						data : {
+							'replySeq' : replySeq,
+							'replyer' : replyer
+						} ,
+						success : function(e){
+							swal("삭제되었습니다.", {
+							      icon: "success",
+						    });
+						    setTimeout( function(){
+						    	location.reload();
+						    },  1000, );
+							
+						},
+						error : function ( e ){
+							console.log( e );
+							swal("에러가 발생했습니다.", {
+							      icon: "error",
+						    });
+						}
+						
+					});
 				
-			
-		});
-	
+			  }
+			});
 	}
 	
 	

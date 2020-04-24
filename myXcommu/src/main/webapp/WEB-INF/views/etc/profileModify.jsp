@@ -50,33 +50,41 @@ table.dataTable tbody td {
 												<c:if test="${member.profile_image != null }">
 													<img class="rounded-circle img-lg mb-3 mb-sm-0" src="${member.profile_image }" alt="profile image" style="width: 150px; height: 150px;">
 												</c:if>
+												
 												<div class="wrapper pl-sm-4">
-													<p class="profile-user-name text-center text-sm-left" style="color: white;">Richard V.Welsh (UI/UX Designer)</p>
+													<p class="profile-user-name text-center text-sm-left" style="color: white;">${member.userid }</p>
 													<div class="wrapper d-flex align-items-center justify-content-center flex-wrap">
-														<p class="profile-user-designation text-center text-md-left my-2 my-md-0" style="color: white;">User Experience Specialist</p>
-														<div class="br-wrapper br-theme-css-stars">
-															<select id="example-css" name="rating" autocomplete="off" style="display: none;">
-																<option value="1">1</option>
-																<option value="2">2</option>
-																<option value="3">3</option>
-																<option value="4">4</option>
-																<option value="5">5</option>
-															</select>
-															<div class="br-widget">
-																<a href="#" data-rating-value="1" data-rating-text="1" class="br-selected br-current"></a><a href="#" data-rating-value="2" data-rating-text="2"></a><a href="#" data-rating-value="3" data-rating-text="3"></a><a href="#" data-rating-value="4" data-rating-text="4"></a><a href="#" data-rating-value="5" data-rating-text="5"></a>
-															</div>
-														</div>
+														<p class="profile-user-designation text-center text-md-left my-2 my-md-0" style="color: white;">
+															<c:choose>
+																<c:when test="${member.auth eq 'ROLE_ADMIN'}">
+																<div>관리자</div>
+																</c:when>
+																<c:otherwise>
+																<div>일반회원</div>
+																</c:otherwise>
+															</c:choose>							
+														</p>
+														<fmt:formatDate value="${member.updateDate }" pattern="yyyyMMdd" var="logindate"/>
+														<c:choose>
+															<c:when test="${member.report_status eq  'Y'}">
+																<div class="badge badge-danger" style="margin-left : 10px;">정지계정</div>
+															</c:when>
+															<c:when test="${member.report_status eq  'N' && nowDate-logindate > 30 }">
+																<div class="badge badge-success" style="margin-left : 10px;">휴면계정</div>
+															</c:when>
+														</c:choose>
+																												
 													</div>
 												</div>
 											</div>
 											<div class="details mt-2 mt-md-0">
 												<div class="detail-col pr-3 mr-3">
 													<p style="color: white;">댓글 수</p>
-													<p style="color: white;">130</p>
+													<p style="color: white; text-align : right;">${writerCnt.reply_cnt }</p>
 												</div>
 												<div class="detail-col">
 													<p style="color: white;">글작성 수</p>
-													<p style="color: white;">130</p>
+													<p style="color: white; text-align : right;">${writerCnt.board_cnt }</p>
 												</div>
 											</div>
 										</div>

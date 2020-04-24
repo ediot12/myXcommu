@@ -15,7 +15,7 @@
 	<div class="row page-title-header">
 		<div class="col-12">
 			<div class="page-header">
-				<h4 class="page-title" style="font-weight: 1000;">자유게시판 - 게시글수정</h4>
+				
 			</div>
 		</div>
 
@@ -26,18 +26,19 @@
 
 		<div class="col-md-12 grid-margin stretch-card">
 			<div class="card">
+				<h4 class="page-title" style="font-size : 10pt; color : gray; font-weight: 1000; margin-left: 30px; margin-top: 20px; margin-bottom: -30px;">자유게시판 >> 게시글수정</h4>
 				<div class="card-body">
 					<form class="forms-sample" method="post" action="updateFreeBoard" enctype="multipart/form-data">
 						<div class="form-group">
-							<label for="freeSubject">제목</label> <input type="text" class="form-control" id="freeSubject" name="subject" value="${board.subject }" placeholder="제목을 적어주세요.">
+							<label for="freeSubject" style="margin-top : 20px;">제목</label> <input type="text" class="form-control" id="freeSubject" name="subject" value="${board.subject }" placeholder="제목을 적어주세요.">
 						</div>
 						<div class="form-group">
 							<label for="freeArea">내용</label>
 							<textarea class="form-control" name="content" id="freeArea" rows="2"></textarea>
 						</div>
 						<input type="hidden" name="boardSeq" value="${board.free_board_seq }"> <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }" />
-						<button type="submit" class="btn btn-success mr-2">등록</button>
-						<button type="button" class="btn btn-md btn-secondary" onclick="location.href='/free/main'">목록</button>
+						<button type="submit" class="btn btn-success mr-2"><i class="fa fa-pencil-square-o"></i>등록</button>
+						<button type="button" class="btn btn-md btn-secondary" onclick="location.href='/free/main'"><i class="fa fa-list"></i>목록</button>
 
 					</form>
 				</div>
