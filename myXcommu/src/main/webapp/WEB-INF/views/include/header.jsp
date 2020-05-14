@@ -152,10 +152,12 @@ body {
 						<form action="/allSearch" class="d-none d-sm-block">
 							<div class="input-group search-box">
 								<div class="input-group-prepend">
-									<span class="input-group-text"> <i class="mdi mdi mdi-magnify"></i>
+									<span class="input-group-text"> 
+										<i class="mdi mdi mdi-magnify" style="font-size: 15pt;"></i>
 									</span>
 								</div>
-								<input type="text" class="form-control" name="searchWord" placeholder="Type to search…"> <i class="mdi mdi mdi-close search-close"></i>
+								<input type="text" class="form-control" name="searchWord" placeholder="Search…" style="width : 300px; border : 1px solid lightgray; margin-top: 2px; margin-left: 10px;"> 
+								<i class="mdi mdi mdi-close search-close"></i>
 							</div>
 						</form>
 						<ul class="navbar-nav ml-auto">							

@@ -68,14 +68,14 @@ div.innerBoard:hover{
 									<fmt:formatDate value="${pictureList.regdate }" pattern="yyyy-MM-dd HH:mm" var="regiDate"/>
 									<div class="col-md-4 grid-margin stretch-card innerBoard" onclick="location.href='/picture/view/${pictureList.picture_seq}'">
 										<div class="card">
-											<img class="card-img-top" src="${pictureList.base64_code }" alt="card images" style="width : 350px; height : 215px;">
+											<img class="card-img-top" src="${pictureList.base64_code }" alt="card images" style="width : 100%; height : 215px;">
 											<div class="card-body pb-0">
-												<p class="text-muted" style="display : inline-block; margin-right: 5px;">
+												<div class="text-muted" style="display : inline-block; color : #6c757d; font-size : 0.875rem;">
 													${pictureList.subject }
 													<c:if test="${pictureList.reply_cnt != 0 }">
 														<div style="display: inline-block; color: green; font-weight: bold; font-size : 10pt;">[ ${pictureList.reply_cnt } ]</div>
 													</c:if>
-												</p>
+												</div>
 												<h5>${pictureList.convert_content }</h5>
 												<div class="d-flex align-items-center justify-content-between text-muted border-top py-3 mt-3">
 													<div style="margin-bottom: 0 !important; font-family: 'roboto', 'sans-serif'; font-size: 0.875rem; width: 45%; ">${pictureList.writer }</div>

@@ -15,10 +15,9 @@
 					<div class="wrapper pl-4">
 						<div class="wrapper d-flex align-items-center">
 							<h4 class="mb-0 font-weight-medium">${writerInfo.userid }</h4>
-							<div class="badge badge-secondary text-dark mt-2 ml-2">Pro</div>
 						</div>
 						<div class="wrapper d-flex align-items-center font-weight-medium text-muted">
-							<i class="mdi mdi-map-marker-outline mr-2"></i>
+							<i class="fa fa-user" style="margin-right: 5px;"></i>
 							<p class="mb-0 text-muted">
 								<c:if test='${writerInfo.auth eq "ROLE_ADMIN" }'>
 									관리자
@@ -27,21 +26,6 @@
 									일반회원
 								</c:if>
 							</p>
-						</div>
-						<div class="wrapper d-flex align-items-start pt-3">
-							<div class="badge badge-secondary text-dark mr-2">
-								<i class="mdi mdi-check-circle-outline icon-sm"></i>
-							</div>
-							<div class="badge badge-secondary text-dark mr-2">
-								<i class="mdi mdi-email-outline icon-sm"></i>
-							</div>
-							<div class="badge badge-secondary text-dark mr-2">
-								<i class="mdi mdi-format-list-bulleted icon-sm"></i>
-							</div>
-							<div class="wrapper pl-2">
-								<h6 class="mt-n1 mb-0 font-weight-medium">23455</h6>
-								<p class="text-muted">Viewers</p>
-							</div>
 						</div>
 					</div>
 				</div>

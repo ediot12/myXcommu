@@ -9,8 +9,14 @@
 <style>
 
 table.dataTable tbody td{
-	padding-left : 20px!important;
+	padding-left : 15px!important;
 }
+
+table.dataTable tbody td:nth-child(5) {
+	padding-right : 15px!important;
+    text-align: right;
+}
+
 </style>
 
 <link rel="stylesheet" type="text/css" href="/resources/assets/vendors/datatables.net-bs4/dataTables.bootstrap4.css">
@@ -44,7 +50,7 @@ table.dataTable tbody td{
 							</div>
 						</div>
 						
-						<table class="table table-hover" id="freeBoardTable">
+						<table class="table table-hover" id="freeBoardTable" style="width : 100%;">
 							<thead>
 								<tr>
 									<th>번호</th>

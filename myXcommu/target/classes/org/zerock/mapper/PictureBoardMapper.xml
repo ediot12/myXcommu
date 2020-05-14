@@ -51,6 +51,65 @@
 			by picture_seq desc
 	</select>
 	
+	<select id="getPictureBoardListLimit" resultType="org.zerock.domain.PictureBoardDTO">
+		<!-- select * from tbl_picture_board order by picture_seq desc -->
+		
+		 select *  from        
+          (
+		
+			select
+			    b.*,
+			     REGEXP_REPLACE( content,
+		    	<![CDATA[
+		    		'<[^>]*>|\&([^;])*;', '')
+		    	]]> as convert_content,
+			    nvl(a.cnt,0) as reply_cnt
+			from
+			(
+			select
+			    board_seq,
+			    count(*) as cnt
+			from    
+			    tbl_board_reply
+	        where
+	            board_type = 3
+			group by
+			    board_seq
+			    ) a
+			right outer join
+			(
+			    select
+			        a.*,
+			        nvl(b.cnt, 0) as recommand_cnt
+			    from    
+			        tbl_picture_board a
+			    left outer join
+			        (
+			            select
+			                board_seq,
+			                count(*) as cnt
+			            from
+			                tbl_board_recommand
+			            where
+			                board_type = 3
+			            group by
+			                board_seq
+			        ) b
+			    on 
+			        a.picture_seq = b.board_seq    
+			) b
+			on
+			    a.board_seq = b.picture_seq
+			order 
+				by picture_seq desc    
+        ) 
+        where 
+        	rownum <![CDATA[ 
+        		<
+        	]]> 4
+        	
+	</select>
+	
 	<select id="getPictureBoard" resultType="org.zerock.domain.PictureBoardDTO" parameterType="Integer">
 		select
 		    *

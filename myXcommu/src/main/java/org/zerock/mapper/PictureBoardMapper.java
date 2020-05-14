@@ -8,6 +8,7 @@ import org.zerock.domain.PictureBoardDTO;
 public interface PictureBoardMapper {
 
 	public ArrayList<PictureBoardDTO> getPictureBoardList();
+	public ArrayList<PictureBoardDTO> getPictureBoardListLimit();
 	public void registerPictureBoard( PictureBoardDTO dto );
 	public PictureBoardDTO getPictureBoard( int seq );
 	public PictureBoardDTO getPictureBoardBySeq( int seq );

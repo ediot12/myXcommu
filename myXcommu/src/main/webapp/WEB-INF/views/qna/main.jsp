@@ -12,7 +12,13 @@ body {
 }
 
 table.dataTable tbody td {
-	padding-left: 20px !important;
+	padding-left: 15px !important;
+}
+
+
+table.dataTable tbody td:nth-child(7),table.dataTable tbody td:nth-child(8)  {
+	padding-right : 15px!important;
+    text-align: right;
 }
 </style>
 
@@ -50,7 +56,7 @@ table.dataTable tbody td {
 						</div>
 					</div>
 
-					<table class="table table-hover" id="questionBoardTable">
+					<table class="table table-hover" id="questionBoardTable" style="width : 100%;">
 						<thead>
 							<tr>
 								<th>번호</th>

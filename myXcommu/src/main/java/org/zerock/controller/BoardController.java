@@ -81,7 +81,7 @@ public class BoardController {
 	public void listTest( Criteria cri, Model model ) {
 		
 		ArrayList<QuestionBoardDTO> questionList 	= qnaMapper.getQuestionBoardList();
-		ArrayList<PictureBoardDTO> 	pictureList 	= pictureMapper.getPictureBoardList();
+		ArrayList<PictureBoardDTO> 	pictureList 	= pictureMapper.getPictureBoardListLimit();
 		ArrayList<ProposalBoardDTO> proposalList 	= proposalMapper.getAllProposalBoard();
 		ArrayList<NoticeDTO>		noticeList		= noticeMapper.getAllNoticeList();
 		ArrayList<FreeBoardDTO>		freeBoardList	= freeMapper.getAllFreeBoardList();
@@ -94,6 +94,8 @@ public class BoardController {
 
 		}
 		 
+		
+		log.info("pictureList size :: " + pictureList.size() );
 		
 		model.addAttribute( "questionList"	, questionList );
 		model.addAttribute( "pictureList"	, pictureList  );

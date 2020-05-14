@@ -241,7 +241,7 @@
 												</c:otherwise>
 											</c:choose>
 										</td>
-										<td>${list.view_cnt }</td>
+										<td style="text-align: right; width: 20px;">${list.view_cnt }</td>
 									</tr>
 								</c:forEach>
 							</tbody>
@@ -311,13 +311,31 @@
 		
 	});	
 	
+	<sec:authorize access="hasRole('ROLE_ADMIN')" var="isAdmin" />
 	<sec:authorize access="isAuthenticated()">
 		<c:choose>
-			<c:when test="${pinfo.username eq board.writer}">		
+			<c:when test="${isAdmin}">
 				CKEDITOR.instances.contentArea.setData( '${board.content }' );
 			</c:when>
+			
 			<c:otherwise>
-				CKEDITOR.instances.contentArea.setData( '비밀글 입니다.' );
+
+				<c:if test="${pinfo.username eq board.writer}">		
+					CKEDITOR.instances.contentArea.setData( '${board.content }' );
+				</c:if>
+				<c:if test="${pinfo.username ne board.writer}">	
+					CKEDITOR.instances.contentArea.setData( '비밀글 입니다.' );
+					
+					swal("작성자 또는 운영자가 아니면 볼 수 없습니다.", {
+					      icon: "error",
+					});
+					
+				    setTimeout( function(){
+				    	history.go(-1);
+				    },  1800 );
+					
+				</c:if>
+				
 			</c:otherwise>
 		</c:choose>
 	</sec:authorize>

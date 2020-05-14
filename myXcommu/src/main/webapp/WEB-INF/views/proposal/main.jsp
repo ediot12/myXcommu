@@ -9,7 +9,12 @@
 <style>
 
 table.dataTable tbody td{
-	padding-left : 20px!important;
+	padding-left : 15px!important;
+}
+
+table.dataTable tbody td:nth-child(7) {
+	padding-right : 15px!important;
+    text-align: right;
 }
 </style>
 

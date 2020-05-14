@@ -233,8 +233,8 @@
 												</c:otherwise>
 										</c:choose>
 									</td>
-									<td>${list.view_cnt }</td>
-									<td>${list.recommand_cnt }</td>
+									<td style="text-align: right; width: 20px;">${list.view_cnt }</td>
+									<td style="text-align: right; width: 20px;">${list.recommand_cnt }</td>
 								</tr>
 							</c:forEach>
 						</tbody>

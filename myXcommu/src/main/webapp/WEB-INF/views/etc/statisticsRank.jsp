@@ -6,6 +6,20 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 
 <head>
+<style>
+table#userStatsTable tbody td:nth-child(4) {
+	padding-right : 35px!important;
+    text-align: right;
+}
+table#userStatsTable tbody td:nth-child(6) {
+	padding-right : 35px!important;
+    text-align: right;
+}
+table#userStatsTable tbody td:nth-child(7) {
+	padding-right : 35px!important;
+    text-align: right;
+}
+</style>
 
 <link rel="stylesheet" type="text/css" href="/resources/assets/vendors/datatables.net-bs4/dataTables.bootstrap4.css">
 <link rel="stylesheet"  href="/resources/assets/vendors/datatables.net-fixedcolumns-bs4/fixedColumns.bootstrap4.min.css">

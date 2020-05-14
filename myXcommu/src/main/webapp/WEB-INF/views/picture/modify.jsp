@@ -5,7 +5,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <head>
 
-<link rel="stylesheet" type="text/css" href="/resources/assets/js/dataTables/jquery.dataTables.css">
 <title>myXcommu</title>
 <!-- plugins:css -->
 
@@ -66,7 +65,7 @@
 
 
 
-<script type="text/javascript" charset="utf8" src="/resources/assets/js/jquery-1.12.4.min.js"></script>
+<!-- <script type="text/javascript" charset="utf8" src="/resources/assets/js/jquery-1.12.4.min.js"></script> -->
 <script type="text/javascript" src="/resources/assets/ckeditor/ckeditor.js"></script>
 <script>
 
@@ -82,9 +81,14 @@
 	
 	function submitForm(){
 		
-		var data = CKEDITOR.instances.pictureArea.getData();
+		alert('hihi');
+		var data = CKEDITOR.instances.contentArea.getData();
+		
+		console.log( data );
+		
+		
 		var patt = new RegExp("data:image");
-		var stringCount = CKEDITOR.instances.pictureArea.getData().length;
+		var stringCount = CKEDITOR.instances.contentArea.getData().length;
 		
 		if( stringCount > 2000000 ){
 			alert("이미지 용량이 크거나 글이 너무 깁니다.");
