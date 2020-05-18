@@ -54,7 +54,7 @@ table#userStatsTable tbody td:nth-child(7) {
 						<div class="card-body">
 							<div class="d-flex align-items-center justify-content-center flex-column flex-sm-row">
 								<!-- <i class="mdi mdi-checkbox-marked-circle-outline text-primary mr-0 mr-sm-4 icon-lg"></i> -->
-								<i class="text-primary fa fa-list-alt mr-0 mr-sm-4 icon-lg" style="font-size: 2.5rem;"></i>
+								<i class="text-primary fa fa-list-alt mr-0 mr-sm-4 icon-lg" style="font-size: 2.5rem; margin-top: 10px;"></i>
 								<div class="wrapper text-center text-sm-left">
 									<p class="card-text mb-0">게시물 수</p>
 									<div class="fluid-container">
@@ -68,7 +68,7 @@ table#userStatsTable tbody td:nth-child(7) {
 						<div class="card-body">
 							<div class="d-flex align-items-center justify-content-center flex-column flex-sm-row">
 								<!-- <i class="mdi mdi-trophy-outline text-primary mr-0 mr-sm-4 icon-lg"></i> -->
-								<i class="text-primary fa fa-comments mr-0 mr-sm-4 icon-lg" style="font-size: 2.5rem;"></i>
+								<i class="text-primary fa fa-comments mr-0 mr-sm-4 icon-lg" style="font-size: 2.5rem; margin-top: 10px;"></i>
 								<div class="wrapper text-center text-sm-left">
 									<p class="card-text mb-0">댓글 수</p>
 									<div class="fluid-container">
@@ -81,11 +81,11 @@ table#userStatsTable tbody td:nth-child(7) {
 					<div class="card-col col-xl-3 col-lg-3 col-md-3 col-6">
 						<div class="card-body">
 							<div class="d-flex align-items-center justify-content-center flex-column flex-sm-row">
-								<i class="mdi mdi-target text-primary mr-0 mr-sm-4 icon-lg"></i>
+								<i class="fa fa-minus-circle icon-lg mr-sm-4 text-primary icon-lg" style="font-size : 2.5rem; margin-top: 10px;"></i>
 								<div class="wrapper text-center text-sm-left">
-									<p class="card-text mb-0">Total Sales</p>
+									<p class="card-text mb-0">정지 계정 수</p>
 									<div class="fluid-container">
-										<h3 class="mb-0 font-weight-medium" style="text-align : right;">61,119</h3>
+										<h3 class="mb-0 font-weight-medium" style="text-align : right;">1</h3>
 									</div>
 								</div>
 							</div>

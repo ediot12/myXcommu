@@ -33,7 +33,7 @@ table.dataTable tbody td:nth-child(7) {
 		<!-- Page Title Header Ends-->
 		<div class="row">
 		
-			<div class="col-lg-12 grid-margin stretch-card">
+			<div class="col-lg-12 stretch-card">
 				
 				<div class="card">
 					<div class="card-body">
@@ -69,7 +69,7 @@ table.dataTable tbody td:nth-child(7) {
 									<tr>
 										<td>${list.proposal_seq }</td>
 										<td>
-											<c:if test='${list.division == "사이트기능"}'>
+											<%-- <c:if test='${list.division == "사이트기능"}'>
 												<label class="badge badge-primary">
 													${list.division}
 												</label>
@@ -88,7 +88,8 @@ table.dataTable tbody td:nth-child(7) {
 												<label class="badge badge-warning">
 													${list.division}
 												</label>
-											</c:if>
+											</c:if> --%>
+											[ ${list.division} ]
 										</td>
 										<td>
 											<c:if test="${list.status == 'N' }">
@@ -103,14 +104,27 @@ table.dataTable tbody td:nth-child(7) {
 											</c:if>
 										</td>
 										<td>
-											<a href="/proposal/view/${list.proposal_seq }">
-												<i class="fa fa-lock" style="margin-right : 5px;"></i>${list.subject }
-												<c:if test="${list.reply_cnt != 0 }">
-													<div style="display:inline-block; color: green; font-weight: bold;">
-														[ ${list.reply_cnt } ]
-													</div>
-												</c:if>
-											</a>
+											<c:if test="${list.status == 'N' }">
+												<a href="/proposal/view/${list.proposal_seq }">
+													<i class="fa fa-lock" style="margin-right : 5px;"></i>${list.subject }
+													<c:if test="${list.reply_cnt != 0 }">
+														<div style="display:inline-block; color: green; font-weight: bold;">
+															[ ${list.reply_cnt } ]
+														</div>
+													</c:if>
+												</a>
+											</c:if>
+											<c:if test="${list.status == 'Y' }">
+												<a href="/proposal/view/${list.proposal_seq }"  style="color : gray; text-decoration: line-through;">
+													<i class="fa fa-lock" style="margin-right : 5px;"></i>${list.subject }
+													<c:if test="${list.reply_cnt != 0 }">
+														<div style="display:inline-block; color: green; font-weight: bold;">
+															[ ${list.reply_cnt } ]
+														</div>
+													</c:if>
+												</a>
+											</c:if>
+											
 										</td>
 										<td>${list.writer }</td>
 										<td>
@@ -167,7 +181,8 @@ $(document).ready(function() {
 		    { "width": "5%" },
 		    { "width": "5%" }
 		    
-		  ]
+		  ],
+		  "dom": '<"top"l>rt<"bottom"ipf>'
 	});
 });
 </script>

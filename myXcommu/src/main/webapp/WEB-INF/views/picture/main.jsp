@@ -95,7 +95,7 @@ div.innerBoard:hover{
 								</c:forEach>
 					</div>
 					
-					<div class="row">
+					<div class="row" style="float : right;">
 						<button type="button" onclick="location.href='/picture/register'" class="btn btn-outline-primary btn-fw" style="float: right; margin-top: 10px;"><i class="fa fa-pencil"></i>글쓰기</button>
 					</div>
 				</div>

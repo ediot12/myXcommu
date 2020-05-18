@@ -17,7 +17,7 @@
 							<h4 class="mb-0 font-weight-medium">${writerInfo.userid }</h4>
 						</div>
 						<div class="wrapper d-flex align-items-center font-weight-medium text-muted">
-							<i class="fa fa-user" style="margin-right: 5px;"></i>
+							<!-- <i class="fa fa-user" style="margin-right: 5px;"></i> -->
 							<p class="mb-0 text-muted">
 								<c:if test='${writerInfo.auth eq "ROLE_ADMIN" }'>
 									관리자
@@ -30,14 +30,28 @@
 					</div>
 				</div>
 				<div class="col-md-5">
-					<div class="d-flex align-items-center w-100">
+					<!-- <div class="d-flex align-items-center w-100">
 						<p class="mb-0 mr-3 font-weight-semibold">Progress</p>
 						<div class="progress progress-md w-100">
 							<div class="progress-bar bg-success" role="progressbar" style="width: 67%" aria-valuenow="67" aria-valuemin="0" aria-valuemax="100"></div>
 						</div>
 						<p class="mb-0 ml-3 font-weight-semibold">67%</p>
-					</div>
-					<p class="text-muted mt-4">${writerInfo.profile_info }</p>
+					</div> -->
+						<div class="wrapper">
+	                          <h4 class="mb-3">
+	                         	 <i class="fa fa-user-circle-o mr-3"></i>
+	                          	자기소개
+	                          	</h4>
+	                          <p>
+	                          	<c:if test="${writerInfo.profile_info == null }">
+									자기소개가 없습니다.
+								</c:if>
+								<c:if test="${writerInfo.profile_info ne null}">
+									${writerInfo.profile_info}
+								</c:if>
+	                          </p>
+                        </div>
+						<%--  --%>
 				</div>
 				<div class="col-md-3">
 					<div class="wrapper d-flex justify-content-end">

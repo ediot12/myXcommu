@@ -15,7 +15,19 @@
 	max-height: 300px;
 }
 
+table.dataTable tbody td {
+	padding-left: 15px !important;
+}
+
+
+table.dataTable tbody td:nth-child(7),table.dataTable tbody td:nth-child(8)  {
+	padding-right : 15px!important;
+    text-align: right;
+}
+
 </style>
+<link rel="stylesheet" type="text/css" href="/resources/assets/vendors/datatables.net-bs4/dataTables.bootstrap4.css">
+<link rel="stylesheet" href="/resources/assets/vendors/datatables.net-fixedcolumns-bs4/fixedColumns.bootstrap4.min.css">
 <!-- plugins:css -->
 
 <%@ include file="../include/header.jsp"%>
@@ -198,12 +210,7 @@
 								<tr>
 									<td>${list.qna_board_seq }</td>
 									<td>
-										<c:if test='${list.division == "질문유형1"}'>
-											<label class="badge badge-danger"> 질문유형 1 </label>
-										</c:if>
-										<c:if test='${list.division == "질문유형2"}'>
-											<label class="badge badge-success"> 질문유형 2 </label>
-										</c:if>
+										[ ${list.division } ]
 									</td>
 									<td>
 										<c:if test="${list.status == 'N' }">
@@ -214,10 +221,40 @@
 										</c:if>
 									</td>
 									<td>
-										<a href="/qna/view/${list.qna_board_seq }"> ${list.subject } <c:if test="${list.reply_cnt != 0 }">
-												<div style="display: inline-block; color: green; font-weight: bold;">[ ${list.reply_cnt } ]</div>
-											</c:if>
-										</a>
+										<c:if test="${list.status == 'N' }">
+											<c:choose>
+												<c:when test="${list.report_cnt > 2 }">
+													<a href="/qna/view/${list.qna_board_seq }">
+													<i class="fa fa-exclamation-circle" style=" color: red;"></i>
+												</c:when>
+												<c:otherwise>
+													<a href="/qna/view/${list.qna_board_seq }">
+												</c:otherwise>
+											</c:choose>	
+												${list.subject } 
+												<c:if test="${list.reply_cnt != 0 }">
+													<div style="display: inline-block; color: green; font-weight: bold;">[ ${list.reply_cnt } ]</div>
+												</c:if>
+											</a>
+										</c:if>
+										<c:if test="${list.status == 'Y' }">
+											<c:choose>
+												<c:when test="${list.report_cnt > 2 }">
+													<a href="/qna/view/${list.qna_board_seq }" style="color : gray; text-decoration: line-through;">
+													<i class="fa fa-exclamation-circle" style=" color: red;"></i>
+												</c:when>
+												<c:otherwise>
+													<a href="/qna/view/${list.qna_board_seq }"  style="color : gray; text-decoration: line-through;">
+												</c:otherwise>
+											</c:choose>	
+											
+												${list.subject } 
+												<c:if test="${list.reply_cnt != 0 }">
+													<div style="display: inline-block; color: green; font-weight: bold;">[ ${list.reply_cnt } ]</div>
+												</c:if>
+											</a>
+										</c:if>
+										
 									</td>
 									<td>${list.writer }</td>
 									<td>
@@ -233,8 +270,8 @@
 												</c:otherwise>
 										</c:choose>
 									</td>
-									<td style="text-align: right; width: 20px;">${list.view_cnt }</td>
-									<td style="text-align: right; width: 20px;">${list.recommand_cnt }</td>
+									<td>${list.view_cnt }</td>
+									<td>${list.recommand_cnt }</td>
 								</tr>
 							</c:forEach>
 						</tbody>
@@ -252,7 +289,11 @@
 <%@ include file="../include/footer.jsp"%>
 
 
+<!-- <script type="text/javascript" charset="utf8" src="/resources/assets/js/shared/jquery-1.12.4.min.js"></script> -->
+<script type="text/javascript" charset="utf8" src="/resources/assets/vendors/datatables.net/jquery.dataTables.js"></script>
 
+<script src="/resources/assets/vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
+<script src="/resources/assets/vendors/datatables.net-fixedcolumns/dataTables.fixedColumns.min.js"></script>
 
 
 <script type="text/javascript" src="/resources/assets/ckeditor/ckeditor.js"></script>
@@ -290,6 +331,25 @@
 		}
 		
 		document.getElementById("replyCount").innerHTML = "댓글 ( ${fn:length(replyList)} )";
+		
+		$('#questionBoardTable').DataTable({
+			responsive : true,
+			searching : true,
+			ordering : false,
+			bInfo : false,
+			bLengthChange : false,
+			"columns": [
+			    { "width": "5%" },
+			    { "width": "5%" },
+			    { "width": "5%" },
+			    { "width": "65%" },
+			    { "width": "5%" },
+			    { "width": "5%" },
+			    { "width": "5%" },
+			    { "width": "5%" }			    
+			  ],
+			  "dom": '<"top"l>rt<"bottom"ipf>'
+		});
 		
 	});
 

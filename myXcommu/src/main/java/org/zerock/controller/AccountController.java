@@ -69,13 +69,11 @@ public class AccountController implements MailService {
 		log.warn("5: " + profile_image );
 		log.warn("6: " + uuid );
 
-		
-	  int count = service.registerAccount(userId, userPw, userEmail, profile_image,  profile_info, uuid );
-	  
-	  log.info("vo!!!! : " + vo); 
-	  log.info("into db !!! :: " + count);
-		 
-		
+		int count = service.registerAccount(userId, userPw, userEmail, profile_image, profile_info, uuid);
+
+		log.info("vo!!!! : " + vo);
+		log.info("into db !!! :: " + count);
+
 		send( userId, uuid.toString(), userEmail );
 
 		response.sendRedirect("/");
@@ -101,24 +99,18 @@ public class AccountController implements MailService {
 				"			<tr>\r\n" + 
 				"				<td style=\"padding: 50px;\">\r\n" + 
 				"					<table style=\"width: 550px; height: 100%; margin: 0 auto\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\">\r\n" + 
-				"						<tbody>\r\n" + 
-				"							<tr>\r\n" + 
-				"								<td style=\"padding-top: 20px;\">\r\n" + 
-				"									<img style=\"float: left; width : 200px; height : 80px;\" src=\"http://localhost:8080/resources/assets/images/myXcommu-logo.png\" alt=\"Logo\">									\r\n" + 
-				"								</td>\r\n" + 
-				"							</tr>\r\n" + 
+				"						<tbody>\r\n" +  
 				"							<tr>\r\n" + 
 				"								<td style=\"border-radius: 10px; background: #fff; padding: 30px 60px 20px 60px; margin-top: 10px; display: block;\">\r\n" + 
-				"									<p style=\"font-family: Roboto; font-size: 18px; font-weight: 500; font-style: normal; font-stretch: normal; line-height: 1.11; letter-spacing: normal; color: #2b80ff;\">Confirm Your E-Mail Address</p>\r\n" + 
-				"									<p style=\"font-family: Roboto; font-size: 14px; font-weight: 500; font-style: normal; font-stretch: normal; line-height: 1.71; letter-spacing: normal; color: #001737; margin-bottom: 10px;\">Hi Cole Mendoza,</p>\r\n" + 
-				"									<p style=\"font-family: Roboto; font-size: 14px; font-weight: normal; font-style: normal; font-stretch: normal; line-height: 1.71; letter-spacing: normal; color: #001737;\">Your account is now verified and you can purchase tokens for the staradmin. Also you can submit your documents for the KYC from my Account page.</p>\r\n" + 
-				"									<a heref=\"#\" style=\"height: 34px; background-color: #2b80ff; border: none; color: #fff; padding: 8px 20px; border-radius: 4px; display: inline-block; margin-left: 10px; margin-bottom: 20px;\">VERIFY EMAIL</a>\r\n" + 
+				"									<p style=\"font-family: Roboto; font-size: 18px; font-weight: 500; font-style: normal; font-stretch: normal; line-height: 1.11; letter-spacing: normal; color: #2b80ff;\">myXcommu 회원가입 이메일 확인 과정입니다.</p>\r\n" + 
+				"									<p style=\"font-family: Roboto; font-size: 14px; font-weight: 500; font-style: normal; font-stretch: normal; line-height: 1.71; letter-spacing: normal; color: #001737; margin-bottom: 10px;\">안녕하세요." + userId + "님</p>\r\n" + 
+				"									<p style=\"font-family: Roboto; font-size: 14px; font-weight: normal; font-style: normal; font-stretch: normal; line-height: 1.71; letter-spacing: normal; color: #001737;\">myXcommu에 회원가입 처리가 되었지만, 이메일 인증을 하지않으면 로그인이 제한됩니다. 하단의 버튼 또는 링크를 클릭하여 인증을 완료하세요.</p>\r\n" + 
+				"									<a heref=\"#\" style=\"height: 34px; background-color: #2b80ff; border: none; color: #fff; padding: 8px 20px; border-radius: 4px; display: inline-block; margin-left: 10px; margin-bottom: 20px; margin-top: 20px;\">이메일 인증</a>\r\n" + 
 				"									<p style=\"font-family: Roboto; font-size: 14px; font-weight: normal; font-style: normal; font-stretch: normal; line-height: 1.71; letter-spacing: normal; color: #001737;\">\r\n" + 
-				"										<b style=\"font-size: 20px; margin-right: 10px;\">OR</b>Follow this link to verify your email address.\r\n" + 
+				"										<b style=\"font-size: 20px; margin-right: 10px;\">또는</b>아래 링크를 클릭하여 인증을 완료하세요.\r\n" + 
 				"									</p>\r\n" + 
-				"									<a href=\"http://localhost:8080/userJoinValidation?userId=\" + userId + \"&validCode=\" + uuid + \"\" style=\"display: block; font-family: Roboto; font-size: 14px; font-weight: 500; font-style: normal; font-stretch: normal; line-height: 1.71; letter-spacing: normal; color: #2b80ff; margin-bottom: 15px;\">http://localhost:8080/userJoinValidation?userId=" + userId + "&validCode=" + uuid + "</a>\r\n" + 
-				"									<p style=\"font-family: Roboto; font-size: 14px; font-weight: normal; font-style: normal; font-stretch: normal; line-height: 1.71; letter-spacing: normal; color: #001737; margin-bottom: 0px;\">Good luck! Hope it works.</p>\r\n" + 
-				"									<p style=\"font-family: Roboto; font-size: 14px; font-weight: 500; font-style: normal; font-stretch: normal; line-height: 2.5; letter-spacing: normal; color: #001737; margin-bottom: 0px;\">Staradmin team</p>\r\n" + 
+				"									<a href=\"http://localhost:8080/userJoinValidation?userId=\" + userId + \"&validCode=\" + uuid + \"\" style=\"display: block; font-family: Roboto; font-size: 14px; font-weight: 500; font-style: normal; font-stretch: normal; line-height: 1.71; letter-spacing: normal; color: #2b80ff; margin-bottom: 15px;\">http://localhost:8080/userJoinValidation?userId=" + userId + "&validCode=" + uuid + "</a>\r\n" +
+				"									<p style=\"font-family: Roboto; font-size: 14px; font-weight: 500; font-style: normal; font-stretch: normal; line-height: 2.5; letter-spacing: normal; color: #001737; margin-bottom: 0px;\">myXcommu Admin</p>\r\n" + 
 				"								</td>\r\n" + 
 				"							</tr>\r\n" + 
 				"						</tbody>\r\n" + 
@@ -127,12 +119,7 @@ public class AccountController implements MailService {
 				"					<table style=\"margin: 20px auto 10px auto;\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\">\r\n" + 
 				"						<tbody>\r\n" + 
 				"							<tr>\r\n" + 
-				"								<td style=\"font-family: Roboto; font-size: 14px; font-weight: normal; font-style: normal; font-stretch: normal; line-height: normal; letter-spacing: normal; color: #001737;\">Copyright © 2019 Bootstrapdash. All rights reserved.</td>\r\n" + 
-				"							</tr>\r\n" + 
-				"							<tr>\r\n" + 
-				"								<td style=\"font-family: Roboto; font-size: 14px; font-weight: normal; font-style: normal; font-stretch: normal; line-height: normal; letter-spacing: normal; color: #bbb; text-align: center; padding-top: 15px;\">\r\n" + 
-				"									Don't like these emails? <a style=\"color: inherit;\" href=\"#\">Unsubscribe</a>\r\n" + 
-				"								</td>\r\n" + 
+				"								<td style=\"font-family: Roboto; font-size: 14px; font-weight: normal; font-style: normal; font-stretch: normal; line-height: normal; letter-spacing: normal; color: #001737;\">Copyright © 2020 myXcommu. All rights reserved.</td>\r\n" + 
 				"							</tr>\r\n" + 
 				"						</tbody>\r\n" + 
 				"					</table>\r\n" + 
@@ -143,7 +130,7 @@ public class AccountController implements MailService {
 		try {
 			// org.springframework.mail.javamail.MimeMessageHelper
 			MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
-			helper.setSubject("안녕하세요? myXcommu 가입 인증 이메일입니다. 야발련아");
+			helper.setSubject("안녕하세요? myXcommu 가입 인증 이메일입니다.");
 			helper.setText( emailText , true);
 			helper.setFrom("admin@myXcommu.com");
 			helper.setTo( targetEmail );

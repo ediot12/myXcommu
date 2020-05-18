@@ -136,7 +136,8 @@ table.dataTable tbody td:nth-child(5) {
 			    { "width": "5%" },
 			    { "width": "5%" },
 			    { "width": "5%" }			    
-			  ]
+			  ],
+			  "dom": '<"top"l>rt<"bottom"ipf>'
 		});
 	});
 </script>

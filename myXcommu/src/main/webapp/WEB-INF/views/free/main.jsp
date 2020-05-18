@@ -131,7 +131,8 @@ $(document).ready(function() {
 		    { "width": "5%" },
 		    { "width": "5%" },
 		    { "width": "5%" }		    
-		  ]
+		  ],
+		  "dom": '<"top"l>rt<"bottom"ipf>'
 	});
 });
 </script>

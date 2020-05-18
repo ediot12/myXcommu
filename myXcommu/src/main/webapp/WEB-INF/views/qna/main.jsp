@@ -52,7 +52,8 @@ table.dataTable tbody td:nth-child(7),table.dataTable tbody td:nth-child(8)  {
 
 					<div class="col-12">
 						<div class="alert alert-success" role="alert">
-							<strong>알림!</strong> 질문과 답변을 위한 게시판입니다.
+							<strong>알림!</strong> 질문과 답변을 위한 게시판입니다.<br/>
+							주제와 어긋나는 글은 신고 또는 예고없이 삭제 될 수 있습니다.
 						</div>
 					</div>
 
@@ -74,12 +75,7 @@ table.dataTable tbody td:nth-child(7),table.dataTable tbody td:nth-child(8)  {
 								<tr>
 									<td>${list.qna_board_seq }</td>
 									<td>
-										<c:if test='${list.division == "질문유형1"}'>
-											<label class="badge badge-primary"> 질문유형 1 </label>
-										</c:if>
-										<c:if test='${list.division == "질문유형2"}'>
-											<label class="badge badge-info"> 질문유형 2 </label>
-										</c:if>
+										[ ${list.division } ]
 									</td>
 									<td>
 										<c:if test="${list.status == 'N' }">
@@ -179,7 +175,8 @@ table.dataTable tbody td:nth-child(7),table.dataTable tbody td:nth-child(8)  {
 			    { "width": "5%" },
 			    { "width": "5%" },
 			    { "width": "5%" }			    
-			  ]
+			  ],
+			  "dom": '<"top"l>rt<"bottom"ipf>'
 		});
 	});
 </script>

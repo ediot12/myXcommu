@@ -26,7 +26,7 @@
 <link rel="shortcut icon" href="/resources/assets/images/favicon.png" />
 </head>
 <body>
-	<div class="container-scroller">
+	<div class="container-scroller" style="overflow : hidden;">
 		<div class="container-fluid page-body-wrapper full-page-wrapper">
 			<div class="content-wrapper auth p-0 theme-two">
 				<div class="row d-flex align-items-stretch">
@@ -36,13 +36,13 @@
 					<div class="col-12 col-md-8 h-100 card">
 						<div class="auto-form-wrapper d-flex align-items-center justify-content-center flex-column">
 							<div class="nav-get-started">
-								<p>Already have an account?</p>
-								<a class="btn get-started-btn" href="/">SIGN IN</a>
+								<p>이미 계정이 있으신가요?</p>
+								<a class="btn get-started-btn" href="/">로그인</a>
 							</div>
 								
 							<form action="/insertAccount" name="registerForm" role='form' method="post">
-								<h3 class="mr-auto">Register</h3>
-								<p class="mb-5 mr-auto">Enter your details below.</p>
+								<h3 class="mr-auto">회원가입</h3>
+								<p class="mb-5 mr-auto">하단의 필수사항을 입력해 주세요.</p>
 								<div class="form-group">
 									<div class="input-group">
 										<div class="input-group-prepend">
@@ -101,11 +101,11 @@
 								</div>
 								<div class="form-group" style="display : inline-table; margin-bottom : 175px;">
 									<div class="input-group">
-										<div class="input-group-prepend" style="width : 57px;">
+										<div class="input-group-prepend" style="width : 10%;">
 											<span class="input-group-text"> <i class="ti-image"></i>
 											</span>
 										</div>
-										<div id="dzUpload" class="dropzone" style="width : 80%;"></div>
+										<div id="dzUpload" class="dropzone" style="width : 90%;"></div>
 										<input type="hidden" name="profile_image">
 										<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }" />
 									</div>

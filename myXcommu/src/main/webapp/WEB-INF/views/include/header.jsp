@@ -77,6 +77,11 @@ table>thead>tr>th {
 body {
 	font-family: 'NanumGothic', 'serif';
 }
+
+div.dataTables_filter{
+	float: left;
+    margin-top: -35px;
+}
 </style>
 <script>
 	function commonReport( text ){
